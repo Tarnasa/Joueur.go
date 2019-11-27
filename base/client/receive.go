@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -38,6 +39,9 @@ func waitForEvents() {
 			continue
 		}
 
+		sent = sent[:bytesSent] // cut off bytes not sent as they are junk 0's
+		fmt.Println("read", bytesSent, sent)
+
 		if instance.printIO {
 			color.Magenta("FROM SERVER <-- " + string(sent))
 		}
@@ -65,7 +69,7 @@ func waitForEvents() {
 	}
 }
 
-func WaitForEvent(eventName string, destination *interface{}) {
+func WaitForEvent(eventName string, destination interface{}) []byte {
 	for {
 		waitForEvents()
 
@@ -89,21 +93,23 @@ func WaitForEvent(eventName string, destination *interface{}) {
 			}
 
 			if baseEvent.EventName == eventName {
-				err := json.Unmarshal(eventBytes, &destination)
+				if destination != nil {
+					err := json.Unmarshal(eventBytes, destination)
 
-				if destination == nil {
-					err = errors.New("No destination data")
+					if destination == nil {
+						err = errors.New("No destination data")
+					}
+
+					if err != nil {
+						errorhandler.HandleError(
+							errorhandler.MalformedJSON,
+							err,
+							"Error occurred while waiting for "+eventName,
+						)
+					}
 				}
 
-				if err != nil {
-					errorhandler.HandleError(
-						errorhandler.MalformedJSON,
-						err,
-						"Error occurred while waiting for "+eventName,
-					)
-				}
-
-				return // destination should not be populated for them to deal with
+				return eventBytes // destination should not be populated for them to deal with
 			} else { // attempt to auto handle the event
 				switch baseEvent.EventName {
 				case "fatal":

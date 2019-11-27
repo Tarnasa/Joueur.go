@@ -24,7 +24,7 @@ var errorCodeToNames = map[int]string{
 }
 
 func printErr(str string, a ...interface{}) {
-	os.Stderr.WriteString(color.RedString(str, a...))
+	os.Stderr.WriteString(color.RedString(str+"\n", a...))
 }
 
 var errorHandler = func() {}
@@ -35,17 +35,15 @@ func RegisterErrorHandler(handler func()) {
 
 func HandleError(errorCode int, err error, messages ...string) {
 	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
-		printErr("---\nError: ")
-		printErr(errorCodeName)
-		printErr("\n---\n")
+		printErr("---\nError: "+ errorCodeName)
 	}
 
 	for _, message := range messages {
-		printErr(message)
+		printErr("---\n" + message)
 	}
 
 	if err != nil {
-		printErr(err.Error())
+		printErr("---\n" + err.Error())
 	}
 
 	printErr("---")

@@ -8,12 +8,7 @@ var server = net.createServer(function (stream) {
   });
   stream.on("data", function (data) {
     console.log(`got: '${data}'`);
-  	console.log("> echoing to " + clients.length + " clients.");
-  	for(i = 0; i < clients.length; i++){
-  		if(clients[i] != stream){
-  			clients[i].write(data + "\0");
-  		}
-  	}
+  	stream.write(data);
   });
   stream.on("end", function () {
     stream.end();

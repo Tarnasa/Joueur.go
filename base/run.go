@@ -61,6 +61,8 @@ func Run(args RunArgs) {
 	}
 
 	client.SendEventAlias(args.GameName)
+	gameName := client.WaitForEventNamed()
+	fmt.Println("gameName", string(gameName))
 	// const gameName = client.WaitForEventNamed()
 
 	/*
