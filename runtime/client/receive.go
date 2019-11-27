@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"joueur/base/errorhandler"
+	"joueur/runtime/errorhandler"
 
 	"github.com/fatih/color"
 )

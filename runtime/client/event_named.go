@@ -2,7 +2,7 @@ package client
 
 type EventNamed struct {
 	Event string `json:"event"`
-	Data string `json:"data"`
+	Data  string `json:"data"`
 }
 
 func WaitForEventNamed() string {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"joueur/base"
+	"joueur/runtime"
 	"os"
 
 	"github.com/JacobFischer/argparse"
@@ -63,7 +63,7 @@ func main() {
 		fmt.Print(parser.Usage(err))
 	} else {
 		// Finally print the collected string
-		base.Run(base.RunArgs{
+		runtime.Run(runtime.RunArgs{
 			Server:       *server,
 			Port:         *port,
 			GameName:     (*gameNameArray)[0],

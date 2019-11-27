@@ -3,7 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
-	"joueur/base/errorhandler"
+	"joueur/runtime/errorhandler"
 	"time"
 
 	"github.com/fatih/color"

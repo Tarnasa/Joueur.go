@@ -1,11 +1,13 @@
 // Package base
 // A pretty cool package
-package base
+package runtime
 
 import (
+	"errors"
 	"fmt"
-	"joueur/base/client"
-	"joueur/base/errorhandler"
+	"joueur/games"
+	"joueur/runtime/client"
+	"joueur/runtime/errorhandler"
 	"strings"
 )
 
@@ -31,7 +33,7 @@ type RunArgs struct {
  * playing with the AI and game objects
  * @param args the command line args already parsed into a key/value dict
  */
-func Run(args RunArgs) {
+func Run(args RunArgs) error {
 	fmt.Println(args)
 
 	splitServer := strings.Split(args.Server, ":")
@@ -60,27 +62,31 @@ func Run(args RunArgs) {
 		)
 	}
 
-	client.SendEventAlias(args.GameName)
-	gameName := client.WaitForEventNamed()
+	// client.SendEventAlias(args.GameName)
+	// gameName := client.WaitForEventNamed()
+	gameName := "Chess"
 	fmt.Println("gameName", string(gameName))
-	// const gameName = client.WaitForEventNamed()
+
+	gameStructs, err := games.Get(gameName)
+	if err != nil {
+		return errorhandler.HandleError(
+			errorhandler.GameNotFound,
+			err,
+			"Cannot find Game "+gameName,
+		)
+	}
+
+	gameType, ok := gameStructs["Game"]
+	if !ok {
+		return errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Cannot find Game type in "+gameName),
+		)
+	}
+
+	fmt.Println("game type", gameType)
 
 	/*
-			client.send("alias", args.game);
-			const gameName = await client.waitForEvent("named");
-
-			let imported: any;
-			try {
-				// the game directory should export 1 variable `namespace`s
-				imported = await import(`../games/${kebabCase(gameName)}`);
-			} catch (err) {
-				return handleError(
-					ErrorCode.GAME_NOT_FOUND,
-					err,
-					`Cannot find Game '${gameName}'.`,
-				);
-			}
-
 			const gameNamespace: IGameNamespace | undefined = imported.namespace;
 
 			if (!gameNamespace) {
@@ -195,4 +201,6 @@ func Run(args RunArgs) {
 	client.Disconnect()
 
 	fmt.Println("done!")
+
+	return nil
 }

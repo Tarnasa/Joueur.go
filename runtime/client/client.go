@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"joueur/base/errorhandler"
+	"joueur/runtime/errorhandler"
 	"net"
 	"sync"
 )

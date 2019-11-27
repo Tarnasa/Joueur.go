@@ -33,9 +33,9 @@ func RegisterErrorHandler(handler func()) {
 	errorHandler = handler
 }
 
-func HandleError(errorCode int, err error, messages ...string) {
+func HandleError(errorCode int, err error, messages ...string) error {
 	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
-		printErr("---\nError: "+ errorCodeName)
+		printErr("---\nError: " + errorCodeName)
 	}
 
 	for _, message := range messages {
@@ -53,4 +53,6 @@ func HandleError(errorCode int, err error, messages ...string) {
 	}
 
 	os.Exit(errorCode)
+
+	return err // will never happen, makes compiler happy
 }

@@ -2,7 +2,7 @@ package client
 
 import (
 	"errors"
-	"joueur/base/errorhandler"
+	"joueur/runtime/errorhandler"
 )
 
 func autoHandleEventFatal(eventBytes []byte) {
