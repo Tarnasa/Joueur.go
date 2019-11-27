@@ -1,7 +1,6 @@
-package base
+package errorhandler
 
 import (
-	"joueur/base/client"
 	"os"
 
 	"github.com/fatih/color"
@@ -28,6 +27,12 @@ func printErr(str string, a ...interface{}) {
 	os.Stderr.WriteString(color.RedString(str, a...))
 }
 
+var errorHandler = func() {}
+
+func RegisterErrorHandler(handler func()) {
+	errorHandler = handler
+}
+
 func HandleError(errorCode int, err error, messages ...string) {
 	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
 		printErr("---\nError: ")
@@ -45,7 +50,9 @@ func HandleError(errorCode int, err error, messages ...string) {
 
 	printErr("---")
 
-	client.Disconnect()
+	if errorHandler != nil {
+		errorHandler()
+	}
 
 	os.Exit(errorCode)
 }

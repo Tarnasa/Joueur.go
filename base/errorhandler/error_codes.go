@@ -1,4 +1,4 @@
-package errorcodes
+package errorhandler
 
 const (
 	None                     = 0

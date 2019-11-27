@@ -1,5 +1,9 @@
 package client
 
 func SendEventAlias(gameName string) {
-	// instance
+	SendEventDataString("alias", gameName)
+}
+
+func WaitForEventNamed() string {
+	return "lololol"
 }

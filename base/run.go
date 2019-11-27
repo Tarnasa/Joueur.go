@@ -4,8 +4,8 @@ package base
 
 import (
 	"fmt"
-	"joueur/base/client""
-	"joueur/base/errorcodes"
+	"joueur/base/client"
+	"joueur/base/errorhandler"
 	"strings"
 )
 
@@ -48,18 +48,20 @@ func Run(args RunArgs) {
 		args.Server = "localhost"
 	}
 
-	client.Setup()
+	client.Setup(args.PrintIO)
 
-	err := clientConnection.Connect(args.Server, args.Port)
+	address := args.Server + ":" + args.Port
+	err := client.Connect(address)
 	if err != nil {
-		HandleError(
-			errorcodes.CouldNotConnect,
+		errorhandler.HandleError(
+			errorhandler.CouldNotConnect,
 			err,
-			"Error connecting to "+args.Server+":"+string(args.Port),
+			"Error connecting to "+address,
 		)
 	}
 
-	clientConnection.Disconnect()
+	client.SendEventAlias(args.GameName)
+	// const gameName = client.WaitForEventNamed()
 
 	/*
 			client.send("alias", args.game);
@@ -187,4 +189,8 @@ func Run(args RunArgs) {
 			// The client will now wait for order(s) asynchronously.
 			// The process will exit when "end" is sent from the game server.
 	*/
+
+	client.Disconnect()
+
+	fmt.Println("done!")
 }
