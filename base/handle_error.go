@@ -1,6 +1,7 @@
 package base
 
 import (
+	"joueur/base/client"
 	"os"
 
 	"github.com/fatih/color"
@@ -44,7 +45,7 @@ func HandleError(errorCode int, err error, messages ...string) {
 
 	printErr("---")
 
-	GetClient().Disconnect()
+	client.Disconnect()
 
 	os.Exit(errorCode)
 }

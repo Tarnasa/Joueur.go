@@ -4,6 +4,7 @@ package base
 
 import (
 	"fmt"
+	"joueur/base/client""
 	"joueur/base/errorcodes"
 	"strings"
 )
@@ -47,9 +48,9 @@ func Run(args RunArgs) {
 		args.Server = "localhost"
 	}
 
-	client := GetClient()
+	client.Setup()
 
-	err := client.Connect(args.Server, args.Port)
+	err := clientConnection.Connect(args.Server, args.Port)
 	if err != nil {
 		HandleError(
 			errorcodes.CouldNotConnect,
@@ -58,21 +59,9 @@ func Run(args RunArgs) {
 		)
 	}
 
-	client.Disconnect()
+	clientConnection.Disconnect()
 
 	/*
-			try {
-				await client.connect(args.server, Number(args.port), {
-					printIO: args.printIO,
-				});
-			} catch (err) {
-				return handleError(
-					ErrorCode.COULD_NOT_CONNECT,
-					err,
-					`Error connecting to ${args.server}:${args.port}.`,
-				);
-			}
-
 			client.send("alias", args.game);
 			const gameName = await client.waitForEvent("named");
 

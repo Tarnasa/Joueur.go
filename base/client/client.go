@@ -1,11 +1,13 @@
 package base
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"joueur/base/errorcodes"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -19,7 +21,7 @@ type Client struct {
 var instance *Client
 var once sync.Once
 
-func GetClient() *Client {
+func Setup() *Client {
 	once.Do(func() {
 		instance = &Client{
 			Coolbeans: "lololol",
@@ -28,7 +30,7 @@ func GetClient() *Client {
 	return instance
 }
 
-func (client Client) Connect(server string, port string) error {
+func Connect(server string, port string) error {
 	address := server + ":" + port
 	fmt.Println("gonna connect to", address)
 	conn, err := net.Dial("tcp", address)
@@ -37,31 +39,39 @@ func (client Client) Connect(server string, port string) error {
 		return err
 	}
 
-	client.conn = conn
+	instance.conn = conn
 
 	return nil
 }
 
-func (client Client) Disconnect() {
-	if client.conn != nil {
-		client.conn.Close()
+func Disconnect() {
+	if instance.conn != nil {
+		instance.conn.Close()
 	}
 }
 
-func (client Client) sendRaw(bytes []byte) error {
+func SendEventDataString(event string, data) {
+	json.Marshal(interface{
+		event: event,
+		data: data,
+		sentTime: time.Now(),
+	})
+}
+
+func sendRaw(bytes []byte) error {
 	/**
 	 * Sends a raw string to the game server
 	 * @param str The string to send.
 	 */
-	if client.conn == nil {
+	if instance.conn == nil {
 		return errors.New("Cannot write to socket that has not been initialized")
 	}
 
-	if client.printIO {
+	if instance.printIO {
 		color.Magenta("TO SERVER <-- " + string(bytes))
 	}
 
-	_, err := client.conn.Write((bytes))
+	_, err := instance.conn.Write((bytes))
 	if err != nil {
 		HandleError(
 			errorcodes.DisconnectedUnexpectedly,
