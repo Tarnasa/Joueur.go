@@ -12,4 +12,4 @@
 *.out
 
 # build outputs
-Joueur.go*
+joueur*

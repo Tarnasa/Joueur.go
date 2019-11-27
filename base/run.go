@@ -4,14 +4,14 @@ package base
 
 import (
 	"fmt"
-	"strconv"
+	"joueur/base/errorcodes"
 	"strings"
 )
 
 // hio
 type RunArgs struct {
 	Server string
-	Port   int
+	Port   string
 
 	GameName string
 
@@ -36,13 +36,11 @@ func Run(args RunArgs) {
 	splitServer := strings.Split(args.Server, ":")
 	args.Server = splitServer[0]
 	if len(splitServer) == 2 {
-		if port, err := strconv.Atoi(splitServer[1]); err == nil {
-			args.Port = port
-		}
+		args.Port = splitServer[1]
 	}
 
-	if args.Port == 0 {
-		args.Port = 3000
+	if args.Port == "" {
+		args.Port = "3000"
 	}
 
 	if args.Server == "" {
@@ -51,7 +49,16 @@ func Run(args RunArgs) {
 
 	client := GetClient()
 
-	client.Connect(args.Server, args.Port)
+	err := client.Connect(args.Server, args.Port)
+	if err != nil {
+		HandleError(
+			errorcodes.CouldNotConnect,
+			err,
+			"Error connecting to "+args.Server+":"+string(args.Port),
+		)
+	}
+
+	client.Disconnect()
 
 	/*
 			try {

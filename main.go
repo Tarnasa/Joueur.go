@@ -23,7 +23,7 @@ func main() {
 		Help: "The hostname or the server you want to connect to e.g. locahost:3000",
 	})
 
-	port := parser.Int("p", "port", &argparse.Options{
+	port := parser.String("p", "port", &argparse.Options{
 		Help: "The port to connect to on the server. Can be defined on the server arg via server:port",
 	})
 
