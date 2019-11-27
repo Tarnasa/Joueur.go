@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"joueur/base"
 	"os"
 
 	"github.com/JacobFischer/argparse"
@@ -50,7 +51,7 @@ func main() {
 		Help: "Any settings for the AI. Delimit pairs by an ampersand (key=value&otherKey=otherValue)",
 	})
 
-	printoIO := parser.Flag("", "printIO", &argparse.Options{
+	printIO := parser.Flag("", "printIO", &argparse.Options{
 		Help: "(debugging) print IO through the TCP socket to the terminal",
 	})
 
@@ -62,6 +63,17 @@ func main() {
 		fmt.Print(parser.Usage(err))
 	} else {
 		// Finally print the collected string
-		fmt.Println((*gameNameArray)[0], *server, *port, *playerName, *index, *password, *session, *gameSettings, *aiSettings, *printoIO)
+		base.Run(base.RunArgs{
+			Server:       *server,
+			Port:         *port,
+			GameName:     (*gameNameArray)[0],
+			AISettings:   *aiSettings,
+			PlayerName:   *playerName,
+			Password:     *password,
+			Session:      *session,
+			Index:        index,
+			GameSettings: *gameSettings,
+			PrintIO:      *printIO,
+		})
 	}
 }
