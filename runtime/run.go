@@ -69,6 +69,10 @@ func Run(args RunArgs) error {
 	fmt.Println("gameName", string(gameName))
 
 	gameNamespace, err := games.Get(gameName)
+	if gameNamespace == nil {
+		err = errors.New("No GameNamespace for " + gameName)
+	}
+
 	if err != nil {
 		return errorhandler.HandleError(
 			errorhandler.GameNotFound,
@@ -77,14 +81,7 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	gameType, ok := (*gameNamespace).Structs["Game"]
-	if !ok {
-		return errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			errors.New("Cannot find Game type in "+gameName),
-		)
-	}
-
+	gameType := (*gameNamespace).Types.Game
 	val := reflect.New(gameType)
 	fmt.Println("game type:", val)
 

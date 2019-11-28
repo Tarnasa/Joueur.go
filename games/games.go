@@ -5,9 +5,14 @@ import (
 	"reflect"
 )
 
+type GameNamesapceTypes struct {
+	Game reflect.Type
+	// AI reflect.Type
+}
+
 type GameNamespace struct {
 	Version string
-	Structs map[string]reflect.Type
+	Types   GameNamesapceTypes
 }
 
 var gamesRegistry = make(map[string]*GameNamespace)

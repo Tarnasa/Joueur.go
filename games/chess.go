@@ -8,8 +8,8 @@ import (
 func init() {
 	Register("Chess", &GameNamespace{
 		Version: "version hash will go here",
-		Structs: map[string]reflect.Type{
-			"Game": reflect.TypeOf((*chess.Game)(nil)).Elem(),
+		Types: GameNamesapceTypes{
+			Game: reflect.TypeOf((*chess.Game)(nil)).Elem(),
 		},
 	})
 }
