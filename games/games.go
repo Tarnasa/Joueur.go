@@ -5,17 +5,20 @@ import (
 	"reflect"
 )
 
-type GameStructs = map[string]reflect.Type
-
-var gamesRegistry = make(map[string]GameStructs)
-
-func Register(gameName string, structs GameStructs) {
-	gamesRegistry[gameName] = structs
+type GameNamespace struct {
+	Version string
+	Structs map[string]reflect.Type
 }
 
-func Get(gameName string) (GameStructs, error) {
-	if structs, ok := gamesRegistry[gameName]; ok {
-		return structs, nil
+var gamesRegistry = make(map[string]*GameNamespace)
+
+func Register(gameName string, namespace *GameNamespace) {
+	gamesRegistry[gameName] = namespace
+}
+
+func Get(gameName string) (*GameNamespace, error) {
+	if namespace, ok := gamesRegistry[gameName]; ok {
+		return namespace, nil
 	} else {
 		return nil, errors.New("Cannot get game " + gameName)
 	}

@@ -8,6 +8,7 @@ import (
 	"joueur/games"
 	"joueur/runtime/client"
 	"joueur/runtime/errorhandler"
+	"reflect"
 	"strings"
 )
 
@@ -67,7 +68,7 @@ func Run(args RunArgs) error {
 	gameName := "Chess"
 	fmt.Println("gameName", string(gameName))
 
-	gameStructs, err := games.Get(gameName)
+	gameNamespace, err := games.Get(gameName)
 	if err != nil {
 		return errorhandler.HandleError(
 			errorhandler.GameNotFound,
@@ -76,7 +77,7 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	gameType, ok := gameStructs["Game"]
+	gameType, ok := (*gameNamespace).Structs["Game"]
 	if !ok {
 		return errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
@@ -84,7 +85,8 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	fmt.Println("game type", gameType)
+	val := reflect.New(gameType)
+	fmt.Println("game type:", val)
 
 	/*
 			const gameNamespace: IGameNamespace | undefined = imported.namespace;
