@@ -9,14 +9,14 @@ import (
 	"github.com/fatih/color"
 )
 
-type SendEventDataStringShape struct {
-	Event    string `json:"event"`
-	SentTime int64  `json:"sentTime"`
-	Data     string `json:"data"`
+type SendEventData struct {
+	Event    string      `json:"event"`
+	SentTime int64       `json:"sentTime"`
+	Data     interface{} `json:"data"`
 }
 
-func SendEventDataString(event string, data string) {
-	bytes, err := json.Marshal(SendEventDataStringShape{
+func SendEvent(event string, data interface{}) {
+	bytes, err := json.Marshal(SendEventData{
 		Event:    event,
 		Data:     data,
 		SentTime: time.Now().Unix(),

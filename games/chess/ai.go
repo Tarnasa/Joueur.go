@@ -28,7 +28,7 @@ func (ai AI) Start() {
 
 // This is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
-func (ai AI) GameUpdated()  {
+func (ai AI) GameUpdated() {
 	// <<-- Creer-Merge: game-updated -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// pass
 	// <<-- /Creer-Merge: game-updated -->>
@@ -47,7 +47,7 @@ func (ai AI) Ended(won bool, reason string) {
 // Chess specific AI actions
 
 // This is called every time it is this AI.player's turn to make a move.
-func (ai AI) MakeMove() string{
+func (ai AI) MakeMove() string {
 	// <<-- Creer-Merge: makeMove -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// Put your game logic here for makeMove
 	return ""

@@ -6,6 +6,6 @@ type BaseGameObject struct {
 	Id string
 }
 
-func (gameObject BaseGameObject) RunOnServer(name string) {
+func (gameObject BaseGameObject) runOnServer(name string) {
 	// TODO: do
 }

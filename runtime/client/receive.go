@@ -1,17 +1,18 @@
 package client
 
 import (
-	"fmt"
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"joueur/runtime/errorhandler"
 
 	"github.com/fatih/color"
 )
 
 type BaseEvent struct {
-	EventName string `json:"event"`
+	EventName string      `json:"event"`
+	Data      interface{} `json:"data"`
 }
 
 const readSize = 1024
@@ -40,7 +41,7 @@ func waitForEvents() {
 		}
 
 		sent = sent[:bytesSent] // cut off bytes not sent as they are junk 0's
-		fmt.Println("read", bytesSent, sent)
+		fmt.Println("read", string(sent))
 
 		if instance.printIO {
 			color.Magenta("FROM SERVER <-- " + string(sent))
@@ -69,7 +70,7 @@ func waitForEvents() {
 	}
 }
 
-func WaitForEvent(eventName string, destination interface{}) []byte {
+func WaitForEvent(eventName string, dataDestination interface{}) {
 	for {
 		waitForEvents()
 
@@ -93,23 +94,26 @@ func WaitForEvent(eventName string, destination interface{}) []byte {
 			}
 
 			if baseEvent.EventName == eventName {
-				if destination != nil {
-					err := json.Unmarshal(eventBytes, destination)
+				destination := &BaseEvent{
+					EventName: eventName,
+					Data:      dataDestination,
+				}
+				fmt.Println("------->", *destination)
+				err := json.Unmarshal(eventBytes, destination)
 
-					if destination == nil {
-						err = errors.New("No destination data")
-					}
-
-					if err != nil {
-						errorhandler.HandleError(
-							errorhandler.MalformedJSON,
-							err,
-							"Error occurred while waiting for "+eventName,
-						)
-					}
+				if dataDestination == nil {
+					err = errors.New("No destination data to unmarshal data into")
 				}
 
-				return eventBytes // destination should not be populated for them to deal with
+				if err != nil {
+					errorhandler.HandleError(
+						errorhandler.MalformedJSON,
+						err,
+						"Error occurred while waiting for "+eventName,
+					)
+				}
+
+				return
 			} else { // attempt to auto handle the event
 				switch baseEvent.EventName {
 				case "fatal":

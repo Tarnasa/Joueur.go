@@ -5,11 +5,14 @@ package runtime
 import (
 	"errors"
 	"fmt"
+	"joueur/base"
 	"joueur/games"
 	"joueur/runtime/client"
 	"joueur/runtime/errorhandler"
 	"reflect"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 // hio
@@ -35,8 +38,6 @@ type RunArgs struct {
  * @param args the command line args already parsed into a key/value dict
  */
 func Run(args RunArgs) error {
-	fmt.Println(args)
-
 	splitServer := strings.Split(args.Server, ":")
 	args.Server = splitServer[0]
 	if len(splitServer) == 2 {
@@ -53,22 +54,19 @@ func Run(args RunArgs) error {
 
 	client.Setup(args.PrintIO)
 
-	/*
-		address := args.Server + ":" + args.Port
-		err := client.Connect(address)
-		if err != nil {
-			errorhandler.HandleError(
-				errorhandler.CouldNotConnect,
-				err,
-				"Error connecting to "+address,
-			)
-		}
-	*/
+	address := args.Server + ":" + args.Port
+	color.Cyan("Connecting to: " + address)
+	err := client.Connect(address)
+	if err != nil {
+		errorhandler.HandleError(
+			errorhandler.CouldNotConnect,
+			err,
+			"Error connecting to "+address,
+		)
+	}
 
-	// client.SendEventAlias(args.GameName)
-	// gameName := client.WaitForEventNamed()
-	gameName := "Chess"
-	fmt.Println("gameName", string(gameName))
+	client.SendEventAlias(args.GameName)
+	gameName := client.WaitForEventNamed()
 
 	gameNamespace, err := games.Get(gameName)
 	if gameNamespace == nil {
@@ -83,26 +81,36 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	aiType := (*gameNamespace).AIType
-	fmt.Println("ai type:", aiType)
-	val := reflect.New(aiType)
-	getNamer := val.MethodByName("GetPlayerName")
-	fmt.Println("method?", getNamer)
-	playerName := getNamer.Call([]reflect.Value{})
-	fmt.Println("playerName", playerName)
+	aiType := gameNamespace.AIType
+	ai := reflect.New(aiType)
+	if !ai.IsValid() {
+		return errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Could not create AI struct via reflect"),
+		)
+	}
+	bai := ai.Elem().Interface().(base.InterfaceAI)
 
-	fmt.Println("let's print some stuff")
-	testClean := &RunArgs{}
-	testA := &RunArgs{}
-	testA.PrintIO = true
-	fmt.Println("testA:", testA, &testA, *testA)
-	testB := testA
-	testA.GameName = "Google?"
-	fmt.Println("testB:", testB, &testB, *testB)
-	fmt.Println(fmt.Printf("%p\n", testB))
-	fmt.Println("testA:", testA, &testA, *testA)
-	fmt.Println(fmt.Printf("%p\n", testA))
-	fmt.Println("testClean", testClean, &testClean, *testClean)
+	playerName := bai.GetPlayerName()
+	if playerName == "" {
+		playerName = "Go Player"
+	}
+
+	if args.PlayerName != "" {
+		playerName = args.PlayerName
+	}
+
+	client.SendEventPlay(client.EventPlay{
+		ClientType:       "Go",
+		GameName:         gameName,
+		GameSettings:     args.GameSettings,
+		Password:         args.Password,
+		PlayerIndex:      *args.Index,
+		PlayerName:       playerName,
+		RequestedSession: args.Session,
+	})
+	lobbiedData := client.WaitForEventLobbied()
+	color.Cyan("In lobby for game " + lobbiedData.GameName + " in session " + lobbiedData.GameSession)
 
 	/*
 			if (!gameNamespace.AI

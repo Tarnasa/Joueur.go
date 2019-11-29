@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"joueur/runtime/errorhandler"
 	"net"
 	"sync"
@@ -32,7 +31,6 @@ func Setup(printIO bool) *Client {
 }
 
 func Connect(address string) error {
-	fmt.Println("gonna connect to", address)
 	conn, err := net.Dial("tcp", address)
 
 	if err != nil {
