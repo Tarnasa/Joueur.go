@@ -53,15 +53,17 @@ func Run(args RunArgs) error {
 
 	client.Setup(args.PrintIO)
 
-	address := args.Server + ":" + args.Port
-	err := client.Connect(address)
-	if err != nil {
-		errorhandler.HandleError(
-			errorhandler.CouldNotConnect,
-			err,
-			"Error connecting to "+address,
-		)
-	}
+	/*
+		address := args.Server + ":" + args.Port
+		err := client.Connect(address)
+		if err != nil {
+			errorhandler.HandleError(
+				errorhandler.CouldNotConnect,
+				err,
+				"Error connecting to "+address,
+			)
+		}
+	*/
 
 	// client.SendEventAlias(args.GameName)
 	// gameName := client.WaitForEventNamed()
@@ -81,20 +83,15 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	gameType := (*gameNamespace).GameType
-	val := reflect.New(gameType)
-	fmt.Println("game type:", val)
+	aiType := (*gameNamespace).AIType
+	fmt.Println("ai type:", aiType)
+	val := reflect.New(aiType)
+	getNamer := val.MethodByName("GetPlayerName")
+	fmt.Println("method?", getNamer)
+	playerName := getNamer.Call([]reflect.Value{})
+	fmt.Println("playerName", playerName)
 
 	/*
-			const gameNamespace: IGameNamespace | undefined = imported.namespace;
-
-			if (!gameNamespace) {
-				return handleError(
-					ErrorCode.GAME_NOT_FOUND,
-					`Game namespace for '${gameName}' is empty.`,
-				);
-			}
-
 			if (!gameNamespace.AI
 				|| !gameNamespace.Game
 				|| !gameNamespace.GameObjectClasses

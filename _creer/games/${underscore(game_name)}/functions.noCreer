@@ -55,12 +55,14 @@ if not 'go' in shared:
         else:
             strs.append(function_name)
 
-        strs.append('(\n')
-        for arg in function_params['arguments']:
-            strs.extend([
-                '\t// ', arg['description'], '\n',
-                '\t', arg['name'], ' ', go_type(arg['type']), ',\n'
-            ])
+        strs.append('(')
+        if len(function_params['arguments']) > 0:
+            strs.append('\n') # each argument will get it's own line
+            for arg in function_params['arguments']:
+                strs.extend([
+                    '\t// ', arg['description'], '\n',
+                    '\t', arg['name'], ' ', go_type(arg['type']), ',\n'
+                ])
         strs.append(') ')
         if 'returns' in function_params and function_params['returns']:
             strs.append(go_type(function_params['returns']['type']))
