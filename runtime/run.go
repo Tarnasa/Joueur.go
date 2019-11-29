@@ -81,7 +81,7 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	gameType := (*gameNamespace).Types.Game
+	gameType := (*gameNamespace).GameType
 	val := reflect.New(gameType)
 	fmt.Println("game type:", val)
 

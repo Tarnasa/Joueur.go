@@ -2,7 +2,7 @@ package chess
 
 // A player in this game. Every AI controls one player.
 type Player struct {
-	Player
+	GameObject
 
 	// The reference to the Game instance this Player is in.
 	game Game

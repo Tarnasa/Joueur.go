@@ -1,4 +1,8 @@
-package ${lowercase_first(game_name)}<%include file='functions.noCreer' />
+package ${lowercase_first(game_name)}
+<%include file='functions.noCreer' /><%
+	parent_classes = obj['parentClasses']
+	print('hi you there', obj_key, parent_classes)
+%>
 % if obj_key in ['GameObject', 'Game']:
 import "joueur/base"
 
@@ -7,9 +11,10 @@ import "joueur/base"
 type ${obj_key} struct {
 % if obj_key in ['GameObject', 'Game']:
 	base.Base${obj_key}
-% else:
-	${obj_key}
 % endif
+% for parent_class in parent_classes:
+	${parent_class}
+% endfor
 % if obj_key != 'Game':
 
 	// The reference to the Game instance this ${obj_key} is in.

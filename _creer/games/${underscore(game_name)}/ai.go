@@ -24,7 +24,7 @@ ${merge(
 func (ai AI) start() {
 ${merge(
 	'// ', 'start',
-	'	pass'
+	'	// pass'
 )}
 }
 
@@ -33,7 +33,7 @@ ${merge(
 func (ai AI) gameUpdated()  {
 ${merge(
 	'// ', 'game-updated',
-	'	pass'
+	'	// pass'
 )}
 }
 
@@ -44,7 +44,7 @@ ${merge(
 func (ai AI) ended(won bool, reason string) {
 ${merge(
 	'// ', 'ended',
-	'	pass'
+	'	// pass'
 )}
 }
 

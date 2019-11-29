@@ -8,9 +8,11 @@ import (
 func init() {
 	Register("${game_name}", &GameNamespace{
 		Version: "${game_version}",
-		Types: GameNamesapceTypes{
+		GameType: reflect.TypeOf((*${underscore(game_name)}.Game)(nil)).Elem(),
+		AIType: reflect.TypeOf((*${underscore(game_name)}.AI)(nil)).Elem(),
+		GameObjectTypes: map[string]reflect.Type{
 % for game_obj_name in (['AI'] + game_obj_names):
-			${game_obj_name}: reflect.TypeOf((*chess.${game_obj_name})(nil)).Elem(),
+			"${game_obj_name}": reflect.TypeOf((*${underscore(game_name)}.${game_obj_name})(nil)).Elem(),
 % endfor
 		},
 	})

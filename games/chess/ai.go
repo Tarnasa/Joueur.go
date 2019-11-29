@@ -1,6 +1,5 @@
 package chess
 
-
 import "joueur/base"
 
 type AI struct {
@@ -23,7 +22,7 @@ func (ai AI) getPlayerName() string {
 // You can initialize your AI here.
 func (ai AI) start() {
 // <<-- Creer-Merge: start -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
-	pass
+	// pass
 // <<-- /Creer-Merge: start -->>
 }
 
@@ -31,7 +30,7 @@ func (ai AI) start() {
 // so if you are tracking anything you can update it here.
 func (ai AI) gameUpdated()  {
 // <<-- Creer-Merge: game-updated -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
-	pass
+	// pass
 // <<-- /Creer-Merge: game-updated -->>
 }
 
@@ -41,7 +40,7 @@ func (ai AI) gameUpdated()  {
 // @param reason The human readable string explaining why you won or lost.
 func (ai AI) ended(won bool, reason string) {
 // <<-- Creer-Merge: ended -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
-	pass
+	// pass
 // <<-- /Creer-Merge: ended -->>
 }
 
