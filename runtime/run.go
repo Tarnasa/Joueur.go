@@ -91,6 +91,19 @@ func Run(args RunArgs) error {
 	playerName := getNamer.Call([]reflect.Value{})
 	fmt.Println("playerName", playerName)
 
+	fmt.Println("let's print some stuff")
+	testClean := &RunArgs{}
+	testA := &RunArgs{}
+	testA.PrintIO = true
+	fmt.Println("testA:", testA, &testA, *testA)
+	testB := testA
+	testA.GameName = "Google?"
+	fmt.Println("testB:", testB, &testB, *testB)
+	fmt.Println(fmt.Printf("%p\n", testB))
+	fmt.Println("testA:", testA, &testA, *testA)
+	fmt.Println(fmt.Printf("%p\n", testA))
+	fmt.Println("testClean", testClean, &testClean, *testClean)
+
 	/*
 			if (!gameNamespace.AI
 				|| !gameNamespace.Game
