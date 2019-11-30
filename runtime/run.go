@@ -112,6 +112,29 @@ func Run(args RunArgs) error {
 	lobbiedData := client.WaitForEventLobbied()
 	color.Cyan("In lobby for game " + lobbiedData.GameName + " in session " + lobbiedData.GameSession)
 
+	if lobbiedData.GameVersion == (*gameNamespace).Version {
+		color.Yellow(
+			`WARNING: Game versions do not match.
+-> Your local game version is:     %s
+-> Game Server's game version is:  %s
+
+Version mismatch means that unexpected crashes may happen due to differing game structures!`,
+			(*gameNamespace).Version[:8],
+			lobbiedData.GameVersion[:8],
+		)
+	}
+
+	gameManager := GameManager{
+		ServerConstants: lobbiedData.Constants,
+		GameNamespace: gameNamespace,
+		InterfaceAI: &bai,
+		ReflectAI: &ai,
+	}
+
+	gameManager.init()
+
+	fmt.Println(gameManager)
+
 	/*
 			if (!gameNamespace.AI
 				|| !gameNamespace.Game
