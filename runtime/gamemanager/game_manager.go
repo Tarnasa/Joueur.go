@@ -1,4 +1,4 @@
-package runtime
+package gamemanager
 
 import (
 	"joueur/base"
@@ -19,7 +19,7 @@ type GameManager struct {
 	reflectGame *reflect.Value
 }
 
-func (gameManager GameManager) init() {
+func New(gameManager *GameManager) *GameManager {
 	reflectGame := reflect.New((*gameManager.GameNamespace).GameType)
 	gameManager.reflectGame = &reflectGame
 
@@ -29,4 +29,10 @@ func (gameManager GameManager) init() {
 			errors.New("Could not create Game instance for "+(*(gameManager.GameNamespace)).Name),
 		)
 	}
+
+	return gameManager
+}
+
+func (gameManager GameManager) Start(playerID string) {
+	// TODO: set player in ai by this ID
 }

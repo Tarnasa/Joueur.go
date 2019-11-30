@@ -9,6 +9,7 @@ import (
 	"joueur/games"
 	"joueur/runtime/client"
 	"joueur/runtime/errorhandler"
+	"joueur/runtime/gamemanager"
 	"reflect"
 	"strings"
 
@@ -124,55 +125,20 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 		)
 	}
 
-	gameManager := GameManager{
+	gameManager := gamemanager.New(&gamemanager.GameManager{
 		ServerConstants: lobbiedData.Constants,
 		GameNamespace: gameNamespace,
 		InterfaceAI: &bai,
 		ReflectAI: &ai,
-	}
+	})
 
-	gameManager.init()
+	startData := client.WaitForEventStart()
 
-	fmt.Println(gameManager)
+	(*gameManager).Start(startData.PlayerID)
+
+	color.Green("Game is starting.")
 
 	/*
-			if (!gameNamespace.AI
-				|| !gameNamespace.Game
-				|| !gameNamespace.GameObjectClasses
-			) {
-				return handleError(
-					ErrorCode.GAME_NOT_FOUND,
-					`Game namespace malformed for '${gameName}'.`,
-				);
-			}
-
-			let game: BaseGame | undefined;
-			try {
-				game = new gameNamespace.Game();
-			} catch (err) {
-				return handleError(
-					ErrorCode.REFLECTION_FAILED,
-					err,
-					`Error constructing the Game for '${gameName}'.`,
-				);
-			}
-
-			let ai: BaseAI | undefined;
-			try {
-				ai = new gameNamespace.AI(game);
-			} catch (err) {
-				return handleError(
-					ErrorCode.REFLECTION_FAILED,
-					err,
-					`Error constructing the AI for '${gameName}'.`,
-				);
-			}
-
-			const gameManager = new BaseGameManager(
-				game,
-				gameNamespace.GameObjectClasses,
-			);
-
 			client.setup(ai, game, gameManager);
 
 			setAISettings(ai, args.aiSettings || "");

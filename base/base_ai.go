@@ -5,8 +5,9 @@ import (
 )
 
 type BaseAI struct {
-	game   BaseGame
-	player BasePlayer
+	game     BaseGame
+	player   BasePlayer
+	settings map[string]string
 }
 
 type InterfaceAI interface {
