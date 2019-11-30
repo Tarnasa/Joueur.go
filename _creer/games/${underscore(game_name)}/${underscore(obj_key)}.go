@@ -18,7 +18,7 @@ type ${obj_key} struct {
 % if obj_key != 'Game':
 
 	// The reference to the Game instance this ${obj_key} is in.
-	game Game
+	game *Game
 % endif
 % for attr_name in obj['attribute_names']:
 <% attr = obj['attributes'][attr_name] %>

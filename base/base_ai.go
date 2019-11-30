@@ -5,8 +5,8 @@ import (
 )
 
 type BaseAI struct {
-	Game   BaseGame
-	Player BasePlayer
+	Game   *BaseGame
+	Player *BasePlayer
 
 	Settings map[string]([]string)
 }

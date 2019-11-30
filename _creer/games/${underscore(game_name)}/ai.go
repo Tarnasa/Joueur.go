@@ -6,10 +6,10 @@ type AI struct {
 	base.BaseAI
 
 	// The reference to the Game instance this AI is playing.
-	game Game
+	Game *Game
 
 	// The reference to the Player this AI controls in the Game.
-	player Player
+	player *Player
 }
 
 func (ai AI) GetPlayerName() string {

@@ -7,7 +7,7 @@ type GameObject struct {
 	base.BaseGameObject
 
 	// The reference to the Game instance this GameObject is in.
-	game Game
+	game *Game
 
 	// String representing the top level Class that this game object is an instance of. Used for reflection to create new instances on clients, but exposed for convenience should AIs want this data.
 	GameObjectName string

@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"joueur/runtime/errorhandler"
 	"net"
 	"sync"
@@ -44,6 +45,7 @@ func Connect(address string) error {
 
 func Disconnect() {
 	if instance.conn != nil {
+		fmt.Println("disconnecting...")
 		instance.conn.Close()
 	}
 }

@@ -5,7 +5,7 @@ type Player struct {
 	GameObject
 
 	// The reference to the Game instance this Player is in.
-	game Game
+	game *Game
 
 	// What type of client this is, e.g. 'Python', 'JavaScript', or some other language. For potential data mining purposes.
 	ClientType string
