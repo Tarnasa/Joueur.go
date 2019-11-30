@@ -2,19 +2,20 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type EventDelta struct {
-	event string
-	data map[string]interface{}
+	Data map[string]interface{} `json:"data"`
 }
 
 func autoHandleEventDelta(eventBytes []byte) {
-	deltaEvent := EventDelta{
-		event: "delta",
-		data: make(map[string]interface{}),
-	}
-	json.Unmarshal(eventBytes, &deltaEvent)
+	fmt.Println("auto hanlding delta...")
 
-	eventDeltaHandler(deltaEvent.data)
+	var parsed EventDelta
+
+	err := json.Unmarshal(eventBytes, &parsed)
+	fmt.Println("auto handled the delta and got...", parsed, string(eventBytes), err)
+
+	eventDeltaHandler(parsed.Data)
 }

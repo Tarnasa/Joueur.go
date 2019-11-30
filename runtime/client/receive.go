@@ -93,12 +93,13 @@ func WaitForEvent(eventName string, dataDestination interface{}) {
 				)
 			}
 
+			fmt.Println("------->", baseEvent.EventName)
 			if baseEvent.EventName == eventName {
 				destination := &BaseEvent{
 					EventName: eventName,
 					Data:      dataDestination,
 				}
-				fmt.Println("------->", *destination)
+
 				err := json.Unmarshal(eventBytes, destination)
 
 				if dataDestination == nil {

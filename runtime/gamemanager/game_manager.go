@@ -1,6 +1,7 @@
 package gamemanager
 
 import (
+	"fmt"
 	"joueur/base"
 	"joueur/games"
 	"joueur/runtime/client"
@@ -47,6 +48,11 @@ func New(gameManager *GameManager, aiSettings string) *GameManager {
 	rai := (*gameManager.ReflectAI).Elem()
 	rai.FieldByName("Settings").Set(reflect.ValueOf(settings))
 	rai.FieldByName("Game").Set(reflectGame)
+
+	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
+		fmt.Println("registered delta thing do a thing", delta)
+		gameManager.applyDeltaState(delta)
+	})
 
 	return gameManager
 }

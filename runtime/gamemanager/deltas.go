@@ -2,21 +2,29 @@ package gamemanager
 
 import (
 	"errors"
+	"fmt"
 	"joueur/runtime/errorhandler"
 	"reflect"
 )
 
 func (gameManager GameManager) applyDeltaState(delta map[string]interface{}) {
+	fmt.Println(">>len of base delta", len(delta))
 	gameObjects, ok := delta["gameObjects"]
+	for key, value := range delta {
+		fmt.Println(">>apply delta, what's in it?", key, value)
+	}
 	if ok {
-		gameManager.initGameObjects(gameObjects.(map[string](map[string]interface{})))
+		fmt.Println(">>going to attempt to merge gameObjects", gameObjects)
+		gameManager.initGameObjects(gameObjects.(map[string]interface{}))
 	}
 }
 
-func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string](map[string]interface{})) {
-	reflectedGameObjects := (*gameManager.reflectGame).FieldByName("GameObjects")
+func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string]interface{}) {
+	reflectedGameObjects := (*gameManager.reflectGame).Elem().FieldByName("GameObjects")
 	for key, gameObjectDelta := range gameObjectDeltas {
-		rawGameObjectID, idOK := gameObjectDelta["id"]
+		fmt.Println("Attemping to initialize game object", key, gameObjectDelta)
+		godAsMap := gameObjectDelta.(map[string]interface{})
+		rawGameObjectID, idOK := godAsMap["id"]
 		if !idOK {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
@@ -28,16 +36,16 @@ func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string](map[
 		if id != key {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot create new game object for mismatched ids: " + key + " and " + id),
+				errors.New("Cannot create new game object for mismatched ids: "+key+" and "+id),
 			)
 		}
 
-		rawGameObjectName, gameObjectNameOK := gameObjectDelta["gameObjectName"]
+		rawGameObjectName, gameObjectNameOK := godAsMap["gameObjectName"]
 		gameObjectName := rawGameObjectName.(string)
 		if gameObjectName == "" || !gameObjectNameOK {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot get game object name from game object #" + id),
+				errors.New("Cannot get game object name from game object #"+id),
 			)
 		}
 
@@ -45,7 +53,7 @@ func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string](map[
 		if !gameObjectTypeOK {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot get type for gameObjectName " + gameObjectName),
+				errors.New("Cannot get type for gameObjectName "+gameObjectName),
 			)
 		}
 
@@ -53,9 +61,12 @@ func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string](map[
 		if !reflectedGameObject.IsValid() {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Could not create valid instance for " + gameObjectName + " #" + id),
+				errors.New("Could not create valid instance for "+gameObjectName+" #"+id),
 			)
 		}
-		reflectedGameObjects.SetMapIndex(reflect.ValueOf(id), reflectedGameObject.Addr())
+		fmt.Println(">>Oh boy this shit is gonna be bananas", reflectedGameObjects.Kind(), reflectedGameObjects.Type())
+		reflectedGameObjects.SetMapIndex(reflect.ValueOf(id), reflectedGameObject)
+		fmt.Println(">>hohoho")
+		reflectedGameObject.FieldByName("Game").Set(*gameManager.reflectGame)
 	}
 }
