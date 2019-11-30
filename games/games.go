@@ -6,6 +6,7 @@ import (
 )
 
 type GameNamespace struct {
+	Name            string
 	Version         string
 	GameType        reflect.Type
 	AIType          reflect.Type

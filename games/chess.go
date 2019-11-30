@@ -7,6 +7,7 @@ import (
 
 func init() {
 	Register("Chess", &GameNamespace{
+		Name: "Chess",
 		Version: "cfa5f5c1685087ce2899229c04c26e39f231e897ecc8fe036b44bc22103ef801",
 		GameType: reflect.TypeOf((*chess.Game)(nil)).Elem(),
 		AIType: reflect.TypeOf((*chess.AI)(nil)).Elem(),

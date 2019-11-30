@@ -30,7 +30,7 @@ ${merge(
 
 // This is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
-func (ai AI) GameUpdated()  {
+func (ai AI) GameUpdated() {
 ${merge(
 	'\t// ', 'game-updated',
 	'\t// pass'

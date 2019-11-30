@@ -7,6 +7,7 @@ import (
 
 func init() {
 	Register("${game_name}", &GameNamespace{
+		Name: "${game_name}",
 		Version: "${game_version}",
 		GameType: reflect.TypeOf((*${underscore(game_name)}.Game)(nil)).Elem(),
 		AIType: reflect.TypeOf((*${underscore(game_name)}.AI)(nil)).Elem(),

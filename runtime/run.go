@@ -112,7 +112,7 @@ func Run(args RunArgs) error {
 	lobbiedData := client.WaitForEventLobbied()
 	color.Cyan("In lobby for game " + lobbiedData.GameName + " in session " + lobbiedData.GameSession)
 
-	if lobbiedData.GameVersion == (*gameNamespace).Version {
+	if lobbiedData.GameVersion != (*gameNamespace).Version {
 		color.Yellow(
 			`WARNING: Game versions do not match.
 -> Your local game version is:     %s
