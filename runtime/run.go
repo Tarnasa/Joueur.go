@@ -153,51 +153,6 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 	color.Green("Game is starting.")
 
 	/*
-			client.setup(ai, game, gameManager);
-
-			setAISettings(ai, args.aiSettings || "");
-
-			client.send("play", {
-				clientType: "TypeScript",
-				gameName,
-				gameSettings: args.gameSettings,
-				password: args.password,
-				playerIndex: args.index,
-				playerName: args.playerName
-					|| ai.getName()
-					|| "TypeScript Player",
-				requestedSession: args.session,
-			});
-
-			const lobbyData = await client.waitForEvent("lobbied");
-
-			if (lobbyData.gameVersion !== gameNamespace.gameVersion) {
-				// tslint:disable-next-line:no-console
-				console.warn(chalk.yellow(
-		`WARNING: Game versions do not match.
-		-> Your local game version is:	 ${gameNamespace.gameVersion.substr(0, 8)}
-		-> Game Server's game version is:  ${lobbyData.gameVersion.substr(0, 8)}
-
-		Version mismatch means that unexpected crashes may happen due to differing game structures!`));
-			}
-
-			// tslint:disable-next-line:no-console
-			console.log(chalk.cyan(
-				`In lobby for game '${lobbyData.gameName}' in`
-				+ ` session '${lobbyData.gameSession}'.`,
-			));
-
-			gameManager.serverConstants = lobbyData.constants;
-
-			// NOTE: if we try to use async/await syntax here it does NOT work
-			// instead the order will execute before control is returned after this
-			// waitForEvent("start") to resolve... for some reason...
-
-			const startData = await client.waitForEvent("start");
-
-			// tslint:disable-next-line:no-console
-			console.log(chalk.green(`Game is starting.`));
-
 			// player is readonly but that's so competitors don't change it,
 			// so cast to any here so we can set it
 			(ai as any).player = game.gameObjects[startData.playerID];

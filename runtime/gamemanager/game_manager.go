@@ -1,7 +1,6 @@
 package gamemanager
 
 import (
-	"fmt"
 	"joueur/base"
 	"joueur/games"
 	"joueur/runtime/client"
@@ -47,7 +46,7 @@ func New(gameManager *GameManager, aiSettings string) *GameManager {
 
 	rai := (*gameManager.ReflectAI).Elem()
 	rai.FieldByName("Settings").Set(reflect.ValueOf(settings))
-	fmt.Print(rai.Type(), rai.FieldByName("Game").Type())
+	rai.FieldByName("Game").Set(reflectGame)
 
 	return gameManager
 }

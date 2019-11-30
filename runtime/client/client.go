@@ -18,6 +18,17 @@ const eotChar = byte(4)
 var instance *Client
 var once sync.Once
 
+var eventDeltaHandler = func(map[string]interface{}) {}
+var eventOverHandler = func() {}
+
+func RegisterEventDeltaHandler(handler func(map[string]interface{})) {
+	eventDeltaHandler = handler
+}
+
+func RegisterEventOverHandler(handler func()) {
+	eventOverHandler = handler
+}
+
 func Setup(printIO bool) *Client {
 	once.Do(func() {
 		instance = &Client{

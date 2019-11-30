@@ -116,6 +116,8 @@ func WaitForEvent(eventName string, dataDestination interface{}) {
 				return
 			} else { // attempt to auto handle the event
 				switch baseEvent.EventName {
+				case "delta":
+					autoHandleEventDelta(eventBytes)
 				case "fatal":
 					autoHandleEventFatal(eventBytes)
 				default:
