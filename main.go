@@ -31,7 +31,7 @@ func main() {
 		Help: "The name you want to use as your AI\"s player name",
 	})
 
-	index := parser.Int("i", "index", &argparse.Options{
+	index := parser.String("i", "index", &argparse.Options{
 		Help: "The player number you want to be, with 0 being the first player",
 	})
 
@@ -71,7 +71,7 @@ func main() {
 			PlayerName:   *playerName,
 			Password:     *password,
 			Session:      *session,
-			Index:        index,
+			Index:        *index,
 			GameSettings: *gameSettings,
 			PrintIO:      *printIO,
 		})

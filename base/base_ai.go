@@ -5,9 +5,10 @@ import (
 )
 
 type BaseAI struct {
-	game     BaseGame
-	player   BasePlayer
-	settings map[string]string
+	Game   BaseGame
+	Player BasePlayer
+
+	Settings map[string]([]string)
 }
 
 type InterfaceAI interface {
@@ -36,4 +37,9 @@ func (ai BaseAI) GameUpdated() {
 
 func (ai BaseAI) Invalid(message string) {
 	color.Yellow("Invalid: " + message)
+}
+
+func (ai BaseAI) GetSetting(key string) ([]string, bool) {
+	setting, ok := ai.Settings[key]
+	return setting, ok
 }

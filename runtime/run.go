@@ -11,6 +11,7 @@ import (
 	"joueur/runtime/errorhandler"
 	"joueur/runtime/gamemanager"
 	"reflect"
+	"strconv"
 	"strings"
 
 	"github.com/fatih/color"
@@ -27,7 +28,7 @@ type RunArgs struct {
 	PlayerName   string
 	Password     string
 	Session      string
-	Index        *int
+	Index        string
 	GameSettings string
 
 	PrintIO bool
@@ -54,6 +55,19 @@ func Run(args RunArgs) error {
 	}
 
 	client.Setup(args.PrintIO)
+
+	playerIndex := -1
+	if args.Index != "" {
+		i, err := strconv.Atoi(args.Index)
+		if err == nil {
+			errorhandler.HandleError(
+				errorhandler.InvalidArgs,
+				err,
+				"Cannot convert "+args.Index+" for a number for player index.",
+			)
+		}
+		playerIndex = i
+	}
 
 	address := args.Server + ":" + args.Port
 	color.Cyan("Connecting to: " + address)
@@ -106,7 +120,7 @@ func Run(args RunArgs) error {
 		GameName:         gameName,
 		GameSettings:     args.GameSettings,
 		Password:         args.Password,
-		PlayerIndex:      *args.Index,
+		PlayerIndex:      playerIndex,
 		PlayerName:       playerName,
 		RequestedSession: args.Session,
 	})
@@ -127,10 +141,10 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 
 	gameManager := gamemanager.New(&gamemanager.GameManager{
 		ServerConstants: lobbiedData.Constants,
-		GameNamespace: gameNamespace,
-		InterfaceAI: &bai,
-		ReflectAI: &ai,
-	})
+		GameNamespace:   gameNamespace,
+		InterfaceAI:     &bai,
+		ReflectAI:       &ai,
+	}, args.AISettings)
 
 	startData := client.WaitForEventStart()
 
