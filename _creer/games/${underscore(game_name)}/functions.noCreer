@@ -70,4 +70,55 @@ if not 'go' in shared:
 
         return ''.join(strs)
     shared['go']['function_top'] = go_function_top
+
+    def go_interface_for(obj_name, obj):
+        is_base = obj_name in ['Game', 'GameObject']
+        strs = ['// ', obj['description'], '\ntype ', obj_name, ' interface {\n']
+
+        parents = list(obj['parentClasses'] if 'parentClasses' in obj else [])
+        if is_base:
+            parents.append('base.Base' + obj_name)
+
+        if parents:
+            strs.extend(['\t// Parent interfaces\n'])
+            for parent in parents:
+                strs.extend(['\t', parent, '\n'])
+
+        if 'attributes' in obj and obj['attributes']:
+            strs.append('\t// Attributes\n\n')
+            for attr_name in obj['attribute_names']:
+                attr = obj['attributes'][attr_name]
+                strs.extend([
+                    '\t// ', attr['description'], '\n',
+                    '\t', upcase_first(attr_name), '() ', go_type(attr['type']), '\n\n'])
+
+        if 'functions' in obj and obj['functions']:
+            strs.append('\t// Methods\n\n')
+            for func_name in obj['function_names']:
+                func = obj['functions'][func_name]
+                strs.extend([
+                    '\t// ', func['description'], '\n',
+                    '\t', upcase_first(func_name), '(', ', '.join(
+                        [go_type(a['type']) for a in func['arguments']]
+                    ), ')', ((' ' + go_type(func['returns']['type'])) if func['returns'] else ''), '\n\n'])
+        strs.append('}\n')
+        return ''.join(strs)
+    shared['go']['interface_for'] = go_interface_for
+
+    def go_format_imports(imports):
+        if not imports:
+            return ''
+        if len(imports) == 1:
+            return 'import "{}"\n\n'.format(imports[0])
+        # else must be 2+ imports, so multiline it
+        lines = ['\t"{}"'.format(line) for line in imports]
+        return 'import ({}\n)\n\n'.format('\n'.join(lines))
+    shared['go']['format_imports'] = go_format_imports
+
+    def go_imports_for(obj_name):
+        is_base = obj_name in ['Game', 'GameObject']
+        imports = ['joueur/base'] if is_base else []
+        return go_format_imports(imports)
+    shared['go']['imports_for'] = go_imports_for
+
 %>

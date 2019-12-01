@@ -1,36 +1,36 @@
 package chess
 
 // A player in this game. Every AI controls one player.
-type Player struct {
+type Player interface {
+	// Parent interfaces
 	GameObject
-
-	// The reference to the Game instance this Player is in.
-	game *Game
+	// Attributes
 
 	// What type of client this is, e.g. 'Python', 'JavaScript', or some other language. For potential data mining purposes.
-	ClientType string
+	ClientType() string
 
 	// The color (side) of this player. Either 'white' or 'black', with the 'white' player having the first move.
-	Color string
+	Color() string
 
 	// If the player lost the game or not.
-	Lost bool
+	Lost() bool
 
 	// The name of the player.
-	Name string
+	Name() string
 
 	// This player's opponent in the game.
-	Opponent *Player
+	Opponent() *Player
 
 	// The reason why the player lost the game.
-	ReasonLost string
+	ReasonLost() string
 
 	// The reason why the player won the game.
-	ReasonWon string
+	ReasonWon() string
 
 	// The amount of time (in ns) remaining for this AI to send commands.
-	TimeRemaining float64
+	TimeRemaining() float64
 
 	// If the player won the game or not.
-	Won bool
+	Won() bool
+
 }
