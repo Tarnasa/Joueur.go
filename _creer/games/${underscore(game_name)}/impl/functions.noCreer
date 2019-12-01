@@ -2,21 +2,23 @@
 if not 'go' in shared:
     shared['go'] = {}
 
-    def go_type(type_obj):
+    def go_type(type_obj, package=''):
         base_type = type_obj['name']
 
         if base_type == 'dictionary':
             return 'map[{}]{}'.format(
-                go_type(type_obj['keyType']),
-                go_type(type_obj['valueType'])
+                go_type(type_obj['keyType'], package),
+                go_type(type_obj['valueType'], package)
             )
         elif base_type == 'list':
-            return '[]' + go_type(type_obj['valueType'])
+            return '[]' + go_type(type_obj['valueType'], package)
         elif base_type == 'int':
             return 'int64'
         elif  base_type == 'float':
             return 'float64'
         elif type_obj['is_game_object']:
+            if package:
+                return '*({}.{})'.format(package, base_type)
             return '*' + base_type
         elif base_type == 'boolean':
             return 'bool'

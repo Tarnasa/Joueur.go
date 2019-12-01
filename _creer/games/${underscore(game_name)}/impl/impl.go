@@ -1,21 +1,27 @@
 // This package contains all the structs, methods, and the AI required as
 // a client to play the ${game_name} with a game server.
 // To start coding your AI open ./ai.go
-package ${lowercase_first(game_name)}
-<%include file='functions.noCreer' />
+package impl
+<%include file='functions.noCreer' /><%
+	package_name = underscore(game_name)
+	ptype = lambda t : shared['go']['type'](t, package_name)
+%>
 import (
 	"errors"
 	"joueur/base"
+	"joueur/games/${underscore(game_name)}"
 )
-% for obj_name in game_obj_names:
+% for obj_name in (['Game'] + game_obj_names):
 <%
-	obj = game_objs[obj_name]
+	obj = game if obj_name == 'Game' else game_objs[obj_name]
 	parents = list()
 	if 'parentClasses' in obj:
 		parents.extend(obj['parentClasses'])
 	if obj_name in ['Game', 'GameObject']:
 		parents.append('base.Base' + obj_name + "Impl")
 %>
+// -- ${obj_name} -- ${'\\\\'}
+
 type ${obj_name}Impl struct {
 %	for parent in parents:
 	${parent}
@@ -23,18 +29,23 @@ type ${obj_name}Impl struct {
 %	if obj_name == 'GameObject':
 	game *Game
 %   endif
+%	if obj_name == 'Game':
+	GameObjects map[string]*${package_name}.GameObject
+% 	endif
 	data map[string]interface{}
 }
 %   if obj_name == 'GameObject':
 
-func (this GameObjectImpl) Game() *Game {
+func (this GameObjectImpl) Game() *${package_name}.Game {
 	return this.game
 }
 %   endif
 %   for attr_name in obj['attribute_names']:
 <%
 		attr = obj['attributes'][attr_name]
-		ret_type = shared['go']['type'](attr['type'])
+		ret_type = ptype(attr['type'])
+		if obj_name == 'Game' and attr_name == 'gameObjects':
+			continue
 %>
 func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 	return this.data["${attr_name}"].(${ret_type})
@@ -43,8 +54,8 @@ func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 %   for func_name in obj['function_names']:
 <%
 		func = obj['functions'][func_name]
-		ret_type = shared['go']['type'](func['returns']['type']) if func['returns'] else ''
-		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
+		ret_type = ptype(func['returns']['type']) if func['returns'] else ''
+		argify = lambda a : '{} {}'.format(a['name'], ptype(a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
 func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
@@ -59,7 +70,7 @@ func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type
 
 // Factory functions
 
-func CreateGameObject(gameObjectName string) (*GameObject, error) {
+func CreateGameObject(gameObjectName string) (*${package_name}.GameObject, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
@@ -67,4 +78,12 @@ func CreateGameObject(gameObjectName string) (*GameObject, error) {
 % endfor
 	}
 	return nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
+}
+
+func CreateGame() *${package_name}.Game {
+	return &(GameImpl{})
+}
+
+func CreateAI() *${package_name}.AI {
+	return &(${package_name}.AI{})
 }

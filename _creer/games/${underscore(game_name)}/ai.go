@@ -1,5 +1,5 @@
 package ${lowercase_first(game_name)}
-<%include file='functions.noCreer' />
+<%include file='impl/functions.noCreer' />
 import "joueur/base"
 
 type AI struct {

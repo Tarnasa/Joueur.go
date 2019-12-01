@@ -1,12 +1,39 @@
 // This package contains all the structs, methods, and the AI required as
 // a client to play the Chess with a game server.
 // To start coding your AI open ./ai.go
-package chess
+package impl
 
 import (
 	"errors"
 	"joueur/base"
+	"joueur/games/chess"
 )
+
+// -- Game -- \\
+
+type GameImpl struct {
+	base.BaseGameImpl
+	GameObjects map[string]*chess.GameObject
+	data map[string]interface{}
+}
+
+func (this GameImpl) Fen() string {
+	return this.data["fen"].(string)
+}
+
+func (this GameImpl) History() []string {
+	return this.data["history"].([]string)
+}
+
+func (this GameImpl) Players() []*(chess.Player) {
+	return this.data["players"].([]*(chess.Player))
+}
+
+func (this GameImpl) Session() string {
+	return this.data["session"].(string)
+}
+
+// -- GameObject -- \\
 
 type GameObjectImpl struct {
 	base.BaseGameObjectImpl
@@ -14,7 +41,7 @@ type GameObjectImpl struct {
 	data map[string]interface{}
 }
 
-func (this GameObjectImpl) Game() *Game {
+func (this GameObjectImpl) Game() *chess.Game {
 	return this.game
 }
 
@@ -35,6 +62,8 @@ func (this GameObjectImpl) Log(message string) {
 		"message": message,
 	}))
 }
+
+// -- Player -- \\
 
 type PlayerImpl struct {
 	GameObject
@@ -57,8 +86,8 @@ func (this PlayerImpl) Name() string {
 	return this.data["name"].(string)
 }
 
-func (this PlayerImpl) Opponent() *Player {
-	return this.data["opponent"].(*Player)
+func (this PlayerImpl) Opponent() *(chess.Player) {
+	return this.data["opponent"].(*(chess.Player))
 }
 
 func (this PlayerImpl) ReasonLost() string {
@@ -79,7 +108,7 @@ func (this PlayerImpl) Won() bool {
 
 // Factory functions
 
-func CreateGameObject(gameObjectName string) (*GameObject, error) {
+func CreateGameObject(gameObjectName string) (*chess.GameObject, error) {
 	switch (gameObjectName) {
 	case "GameObject":
 		return &(GameObjectImpl{}), nil
@@ -87,4 +116,12 @@ func CreateGameObject(gameObjectName string) (*GameObject, error) {
 		return &(PlayerImpl{}), nil
 	}
 	return nil, errors.New("No game object named " + gameObjectName + " for game Chess")
+}
+
+func CreateGame() *chess.Game {
+	return &(GameImpl{})
+}
+
+func CreateAI() *chess.AI {
+	return &(chess.AI{})
 }
