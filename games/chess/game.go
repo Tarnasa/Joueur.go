@@ -6,7 +6,7 @@ import "joueur/base"
 type Game interface {
 	// Parent interfaces
 	base.BaseGame
-	// Attributes
+	// -- Attributes -- \\
 
 	// Forsyth-Edwards Notation (fen), a notation that describes the game board state.
 	Fen() string

@@ -85,7 +85,7 @@ if not 'go' in shared:
                 strs.extend(['\t', parent, '\n'])
 
         if 'attributes' in obj and obj['attributes']:
-            strs.append('\t// Attributes\n\n')
+            strs.append('\t// -- Attributes -- \\\\\n\n')
             for attr_name in obj['attribute_names']:
                 attr = obj['attributes'][attr_name]
                 strs.extend([
@@ -93,7 +93,7 @@ if not 'go' in shared:
                     '\t', upcase_first(attr_name), '() ', go_type(attr['type']), '\n\n'])
 
         if 'functions' in obj and obj['functions']:
-            strs.append('\t// Methods\n\n')
+            strs.append('\t// -- Methods -- \\\\\n\n')
             for func_name in obj['function_names']:
                 func = obj['functions'][func_name]
                 strs.extend([
