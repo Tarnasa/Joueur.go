@@ -8,7 +8,7 @@ import (
 )
 
 type Client struct {
-	conn    net.Conn
+	conn    *net.Conn
 	printIO bool
 }
 
@@ -49,7 +49,7 @@ func Connect(address string) error {
 		return err
 	}
 
-	instance.conn = conn
+	instance.conn = &conn
 
 	return nil
 }
@@ -57,6 +57,6 @@ func Connect(address string) error {
 func Disconnect() {
 	if instance.conn != nil {
 		fmt.Println("disconnecting...")
-		instance.conn.Close()
+		(*instance.conn).Close()
 	}
 }
