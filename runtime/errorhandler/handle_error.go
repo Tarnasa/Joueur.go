@@ -28,13 +28,22 @@ func printErr(str string, a ...interface{}) {
 }
 
 var errorHandler = func() {}
+var handlingErrors = true
 
 func RegisterErrorHandler(handler func()) {
 	errorHandler = handler
 }
 
+func StopHandlingErrors() {
+	handlingErrors = false
+}
+
 func HandleError(errorCode int, err error, messages ...string) error {
-	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
+	if !handlingErrors {
+		return err
+	}
+
+ 	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
 		printErr("---\nError: " + errorCodeName)
 	}
 
