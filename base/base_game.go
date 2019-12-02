@@ -5,4 +5,7 @@ type BaseGameImpl struct {
 	GameObjects map[string]*BaseGameObject
 }
 
+func (_ BaseGameImpl) RunOnServer(functionName string, args map[string]interface{}) interface{} {
+}
+
 type BaseGame interface{}

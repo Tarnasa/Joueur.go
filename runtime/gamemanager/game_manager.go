@@ -7,30 +7,21 @@ import (
 	"joueur/runtime/client"
 	"joueur/runtime/errorhandler"
 
-	"errors"
 	"net/url"
-	"reflect"
 )
 
 type GameManager struct {
 	ServerConstants client.ServerConstants
 	GameNamespace   *games.GameNamespace
 	InterfaceAI     *base.InterfaceAI
-	ReflectAI       *reflect.Value
-
-	reflectGame *reflect.Value
+	Game            *base.BaseGame
+	AI              *base.BaseAI
 }
 
 func New(gameManager *GameManager, aiSettings string) *GameManager {
-	reflectGame := reflect.New((*gameManager.GameNamespace).GameType)
-	gameManager.reflectGame = &reflectGame
+	game := (*gameManager.GameNamespace).CreateGame()
+	gameManager.Game = game
 
-	if !reflectGame.IsValid() {
-		errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			errors.New("Could not create Game instance for "+(*(gameManager.GameNamespace)).Name),
-		)
-	}
 	settings := make(map[string]([]string))
 	parsedSettings, parseErr := url.ParseQuery(aiSettings)
 	if parseErr != nil {
@@ -45,9 +36,13 @@ func New(gameManager *GameManager, aiSettings string) *GameManager {
 		settings[key] = value
 	}
 
-	rai := (*gameManager.ReflectAI).Elem()
-	rai.FieldByName("Settings").Set(reflect.ValueOf(settings))
-	rai.FieldByName("Game").Set(reflectGame)
+	ai := (*gameManager.GameNamespace).CreateAI()
+
+	gameManager.AI = ai
+	// hack-y, dont' like
+	base.AISettings = settings
+
+	(*ai).Game = game
 
 	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
 		fmt.Println("registered delta thing do a thing", delta)
@@ -57,6 +52,11 @@ func New(gameManager *GameManager, aiSettings string) *GameManager {
 	return gameManager
 }
 
-func (gameManager GameManager) Start(playerID string) {
+func (this GameManager) Start(playerID string) {
 	// TODO: set player in ai by this ID
+	if playerGameObject, ok := (*this.Game).GameObjects[playerID]; ok {
+		(*this.AI).Player = playerGameObject
+	} else {
+		// handle error
+	}
 }

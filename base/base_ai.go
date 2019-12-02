@@ -4,11 +4,13 @@ import (
 	"github.com/fatih/color"
 )
 
+// kind of hacky, basically exposing a global for all AI structs,
+// however only 1 AI should ever be constructed per game so should be an ok assumption
+var AISettings map[string]([]string)
+
 type BaseAI struct {
 	Game   *BaseGame
 	Player *BasePlayer
-
-	Settings map[string]([]string)
 }
 
 type InterfaceAI interface {
@@ -40,6 +42,6 @@ func (ai BaseAI) Invalid(message string) {
 }
 
 func (ai BaseAI) GetSetting(key string) ([]string, bool) {
-	setting, ok := ai.Settings[key]
+	setting, ok := AISettings[key]
 	return setting, ok
 }

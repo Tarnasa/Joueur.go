@@ -18,16 +18,16 @@ import (
 	if 'parentClasses' in obj:
 		parents.extend(obj['parentClasses'])
 	if obj_name in ['Game', 'GameObject']:
-		parents.append('base.Base' + obj_name + "Impl")
+		parents.append('base.Base' + obj_name)
 %>
 // -- ${obj_name} -- ${'\\\\'}
 
 type ${obj_name}Impl struct {
 %	for parent in parents:
-	${parent}
+	${parent}Impl
 %	endfor
 %	if obj_name == 'GameObject':
-	game *Game
+	game *${package_name}.Game
 %   endif
 %	if obj_name == 'Game':
 	GameObjects map[string]*${package_name}.GameObject
@@ -59,18 +59,32 @@ func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
 func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
-	${'return ' if ret_type else ''}this.RunOnServer(make(map[string]interface{
+	args := make(map[string]interface{})
 %		for arg in func['arguments']:
-		"${arg['name']}": ${arg['name']},
+	args["${arg['name']}"] = ${arg['name']}
 %		endfor
-	}))${('.('+ret_type+')') if ret_type else ''}
+	${'return ' if ret_type else ''}this.RunOnServer("${func_name}", args)${('.('+ret_type+')') if ret_type else ''}
 }
 %   endfor
 % endfor
 
-// Factory functions
+// -- Namespace -- \\
+<% ns = game_name + 'Namespace' %>
+type ${ns} struct {}
 
-func CreateGameObject(gameObjectName string) (*${package_name}.GameObject, error) {
+func (_ ${ns}) Name() string {
+	return "${game_name}"
+}
+
+func (_ ${ns}) Version() string {
+	return "${game_version}"
+}
+
+func (_ ${ns}) PlayerName() string {
+	return ${package_name}.PlayerName()
+}
+
+func (_ ${ns}) CreateGameObject(gameObjectName string) (*${package_name}.GameObject, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
@@ -80,10 +94,10 @@ func CreateGameObject(gameObjectName string) (*${package_name}.GameObject, error
 	return nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
 }
 
-func CreateGame() *${package_name}.Game {
+func (_ ${ns}) CreateGame() *${package_name}.Game {
 	return &(GameImpl{})
 }
 
-func CreateAI() *${package_name}.AI {
+func (_ ${ns}) CreateAI() *${package_name}.AI {
 	return &(${package_name}.AI{})
 }

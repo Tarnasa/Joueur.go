@@ -14,7 +14,7 @@ import (
 type GameImpl struct {
 	base.BaseGameImpl
 	GameObjects map[string]*chess.GameObject
-	data map[string]interface{}
+	data        map[string]interface{}
 }
 
 func (this GameImpl) Fen() string {
@@ -37,7 +37,7 @@ func (this GameImpl) Session() string {
 
 type GameObjectImpl struct {
 	base.BaseGameObjectImpl
-	game *Game
+	game *chess.Game
 	data map[string]interface{}
 }
 
@@ -58,15 +58,15 @@ func (this GameObjectImpl) Logs() []string {
 }
 
 func (this GameObjectImpl) Log(message string) {
-	this.RunOnServer(make(map[string]interface{
-		"message": message,
-	}))
+	args := make(map[string]interface{})
+	args["message"] = message
+	this.RunOnServer("log", args)
 }
 
 // -- Player -- \\
 
 type PlayerImpl struct {
-	GameObject
+	GameObjectImpl
 	data map[string]interface{}
 }
 
@@ -106,10 +106,23 @@ func (this PlayerImpl) Won() bool {
 	return this.data["won"].(bool)
 }
 
-// Factory functions
+// -- Namespace -- \
+type ChessNamespace struct{}
 
-func CreateGameObject(gameObjectName string) (*chess.GameObject, error) {
-	switch (gameObjectName) {
+func (_ ChessNamespace) Name() string {
+	return "Chess"
+}
+
+func (_ ChessNamespace) Version() string {
+	return "cfa5f5c1685087ce2899229c04c26e39f231e897ecc8fe036b44bc22103ef801"
+}
+
+func (_ ChessNamespace) PlayerName() string {
+	return chess.PlayerName()
+}
+
+func (_ ChessNamespace) CreateGameObject(gameObjectName string) (*chess.GameObject, error) {
+	switch gameObjectName {
 	case "GameObject":
 		return &(GameObjectImpl{}), nil
 	case "Player":
@@ -118,10 +131,10 @@ func CreateGameObject(gameObjectName string) (*chess.GameObject, error) {
 	return nil, errors.New("No game object named " + gameObjectName + " for game Chess")
 }
 
-func CreateGame() *chess.Game {
-	return &(GameImpl{})
+func (_ ChessNamespace) CreateGame() chess.Game {
+	return (GameImpl{})
 }
 
-func CreateAI() *chess.AI {
+func (_ ChessNamespace) CreateAI() *chess.AI {
 	return &(chess.AI{})
 }
