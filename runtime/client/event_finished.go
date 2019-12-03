@@ -5,6 +5,6 @@ type EventFinishedData struct {
 	returned   interface{} `json:"returned"`
 }
 
-func SendEventPlay(data EventFinishedData) {
+func SendEventFinished(data EventFinishedData) {
 	SendEvent("finished", data)
 }

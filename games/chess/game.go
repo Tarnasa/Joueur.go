@@ -12,13 +12,13 @@ type Game interface {
 	Fen() string
 
 	// A mapping of every game object's ID to the actual game object. Primarily used by the server and client to easily refer to the game objects via ID.
-	GameObjects() map[string]*GameObject
+	GameObjects() map[string]GameObject
 
 	// The list of [known] moves that have occurred in the game, in Standard Algebraic Notation (SAN) format. The first element is the first move, with the last being the most recent.
 	History() []string
 
 	// List of all the players in the game.
-	Players() []*Player
+	Players() []Player
 
 	// A unique identifier for the game instance that is being played.
 	Session() string

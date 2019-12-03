@@ -19,7 +19,7 @@ type Player interface {
 	Name() string
 
 	// This player's opponent in the game.
-	Opponent() *Player
+	Opponent() Player
 
 	// The reason why the player lost the game.
 	ReasonLost() string

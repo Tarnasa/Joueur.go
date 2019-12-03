@@ -29,10 +29,6 @@ type ${obj_name}Impl struct {
 %	if obj_name == 'GameObject':
 	game *${package_name}.Game
 %   endif
-%	if obj_name == 'Game':
-	GameObjects map[string]*${package_name}.GameObject
-% 	endif
-	data map[string]interface{}
 }
 %   if obj_name == 'GameObject':
 
@@ -44,13 +40,9 @@ func (this GameObjectImpl) Game() *${package_name}.Game {
 <%
 		attr = obj['attributes'][attr_name]
 		ret_type = ptype(attr['type'])
-		if obj_name == 'Game' and attr_name == 'gameObjects':
-			continue
-		if obj_name == 'GameObject' and attr_name in ['id', 'gameObjectName']:
-			continue
 %>
 func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
-	return this.data["${attr_name}"].(${ret_type})
+	return (*this.InternalDataMap)["${attr_name}"].(${ret_type})
 }
 %   endfor
 %   for func_name in obj['function_names']:
@@ -68,6 +60,23 @@ func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type
 	${'return ' if ret_type else ''}this.RunOnServer("${func_name}", args)${('.('+ret_type+')') if ret_type else ''}
 }
 %   endfor
+
+func defaultInernalDataMapFor${obj_name}() *map[string]interface{} {
+	data := make(map[string]interface{})
+%	if 'parentClasses' in obj:
+%		for i, parent in enumerate(obj['parentClasses']):
+	parentData${i} := defaultInernalDataMapFor${parent}()
+	for key, value := range *parentData${i} {
+		data[key] = value
+	}
+%		endfor
+%	endif
+%   for attr_name in obj['attribute_names']:
+	data["${attr_name}"] = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'], package_name)}
+%   endfor
+
+	return &data
+}
 % endfor
 
 // -- Namespace -- \\
@@ -86,25 +95,27 @@ func (_ ${ns}) PlayerName() string {
 	return ${package_name}.PlayerName()
 }
 
-func (_ ${ns}) CreateGameObject(gameObjectName string) (*${package_name}.GameObject, error) {
+func (_ ${ns}) CreateGameObject(gameObjectName string) (${package_name}.GameObject, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
-		return &(${game_obj_name}Impl{}), nil
+		new${game_obj_name} := ${game_obj_name}Impl{}
+		new${game_obj_name}.InternalDataMap = defaultInernalDataMapFor${game_obj_name}()
+		return &new${game_obj_name}, nil
 % endfor
 	}
 	return nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
 }
 
-func (_ ${ns}) CreateGame() *${package_name}.Game {
-	return &(GameImpl{})
+func (_ ${ns}) CreateGame() ${package_name}.Game {
+	return &GameImpl{}
 }
 
-func (_ ${ns}) CreateAI() *${package_name}.AI {
-	return &(${package_name}.AI{})
+func (_ ${ns}) CreateAI() ${package_name}.AI {
+	return &${package_name}.AI{}
 }
 
-func (_ ${ns}) OrderAI(ai *${package_name}AI, functionName string, args []interface{}) (interface{}, error) {
+func (_ ${ns}) OrderAI(ai *${package_name}.AI, functionName string, args []interface{}) (interface{}, error) {
 	switch (functionName) {
 % for func_name in ai['function_names']:
 <% func = ai['functions'][func_name]

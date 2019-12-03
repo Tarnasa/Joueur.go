@@ -18,8 +18,8 @@ if not 'go' in shared:
             return 'float64'
         elif type_obj['is_game_object']:
             if package:
-                return '*({}.{})'.format(package, base_type)
-            return '*' + base_type
+                return '({}.{})'.format(package, base_type)
+            return base_type
         elif base_type == 'boolean':
             return 'bool'
         else: # should only be string
@@ -27,14 +27,14 @@ if not 'go' in shared:
     shared['go']['type'] = go_type
 
 
-    def go_default_value(type_obj):
+    def go_default_value(type_obj, package=''):
         base_type = type_obj['name']
         if base_type == "string":
             return '""'
         elif base_type == "dictionary":
-            return 'map[{}]{}'.format(go_default_value(type_obj['keyType']), go_default_value(type_obj['valueType']))
+            return 'make(map[{}]{})'.format(go_type(type_obj['keyType'], package), go_type(type_obj['valueType'], package))
         elif base_type == "list":
-            return '[]'
+            return 'make([]{}, 0)'.format(go_type(type_obj['valueType'], package))
         elif base_type == "int" or base_type == "float":
             return '0'
         elif base_type == "boolean":

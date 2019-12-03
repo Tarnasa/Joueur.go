@@ -6,24 +6,52 @@ import (
 	"strconv"
 )
 
-func (this GameManager) mapToGameObjectReference(data *map[string]interface{}) *base.BaseGameObject {
-	if len(*data) == 1 {
-		if id, idFound := (*data)["id"]; idFound {
-			if gameObjectId, isString := id.(string); isString {
-				// at this point it MUST be a map of only id -> string, is it MUST be a game object reference
-				if gameObject, found := *this.Game).GameObjects()[gameObjectId]; found {
-					return gameObject
-				} else {
-					errorhandler.HandleError(
-						errorhandler.ReflectionFailed,
-						errors.new("Could not deSerialize game object reference with id: " + gameObjectId)
-					)
-				}
-			}
-		}
+func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGameObject {
+	deltaMap, isMap := data.(map[string]interface{})
+	if !isMap {
+		return nil
 	}
 
-	return nil
+	if len(deltaMap) != 1 {
+		return nil
+	}
+
+	id, idFound := (*data)["id"]
+	if !isFound {
+		return nil
+	}
+
+	gameObjectId, isIdString := id.(string)
+	if !isIdString {
+		return nil
+	}
+
+	// at this point it MUST be a map of only { id string }, is it MUST be a game object reference
+	gameObjectsRaw, hasGameObjects := *this.Game().InteralDataMap["gameObjects"]
+	if !hasGameObjects {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.new("Game has no game objects for game object: #" + gameObjectId)
+		)
+	}
+
+	gameObjects, gameObjectsAreMap := gameObjectsRaw.(map[string]base.BaseGameObject)
+	if !gameObjectsAreMap {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.new("Game's game objects could not be cast to proper type #" + gameObjectId)
+		)
+	}
+
+	gameObject, found := gameObjects[gameObjectId]
+	if !found {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.new("could not find game object #" + gameObjectId)
+		)
+	}
+
+	return gameObject
 }
 
 func (this GameManager) serialize(data interface{}) interface{} {
@@ -61,7 +89,7 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 		// - a game object reference
 		// - a list of more data
 		// - a dictionary of strings to more data
-		if gameObject := this.mapToGameObjectReference(&asMap); gameObject != nil {
+		if gameObject := this.getIfGameObjectReference(&asMap); gameObject != nil {
 			return gameObject
 		}
 

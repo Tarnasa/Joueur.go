@@ -8,13 +8,15 @@ import (
 var RunOnServerCallback *func(BaseGameObject, string, map[string]interface{}) interface{}
 
 type BaseGameObject interface {
-	// A unique ID (unique to the game instance) of the game object.
-	// Will never change, and IDs are never re-used.
-	Id() string
+	/*
+		// A unique ID (unique to the game instance) of the game object.
+		// Will never change, and IDs are never re-used.
+		Id() string
 
-	GameObjectName() string
+		GameObjectName() string
 
-	Game() BaseGame
+		Game() BaseGame
+	*/
 }
 
 type BaseGameObjectImpl struct {
@@ -34,6 +36,7 @@ func (this BaseGameObjectImpl) RunOnServer(functionName string, args map[string]
 	return (*RunOnServerCallback)(&this, functionName, args)
 }
 
+/*
 func (this BaseGameObjectImpl) Id() string {
 	return this.Data["id"].(string)
 }
@@ -45,3 +48,4 @@ func (this BaseGameObjectImpl) GameObjectName() string {
 func (this BaseGameObjectImpl) Game() BaseGame {
 	return this.Game
 }
+*/
