@@ -13,6 +13,7 @@ type GameNamespace interface {
 	CreateAI() *base.BaseAI
 	CreateGame() *base.BaseGame
 	CreateGameObject() (*base.BaseGameObject, error)
+	OrderAI(*base.BaseAI, string, []interface{}) (interface{}, error)
 }
 
 var gamesNamespaceTypes = make(map[string](reflect.Type))

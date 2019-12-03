@@ -14,7 +14,7 @@ import (
 type GameImpl struct {
 	base.BaseGameImpl
 	GameObjects map[string]*chess.GameObject
-	data        map[string]interface{}
+	data map[string]interface{}
 }
 
 func (this GameImpl) Fen() string {
@@ -43,14 +43,6 @@ type GameObjectImpl struct {
 
 func (this GameObjectImpl) Game() *chess.Game {
 	return this.game
-}
-
-func (this GameObjectImpl) GameObjectName() string {
-	return this.data["gameObjectName"].(string)
-}
-
-func (this GameObjectImpl) Id() string {
-	return this.data["id"].(string)
 }
 
 func (this GameObjectImpl) Logs() []string {
@@ -107,7 +99,7 @@ func (this PlayerImpl) Won() bool {
 }
 
 // -- Namespace -- \
-type ChessNamespace struct{}
+type ChessNamespace struct {}
 
 func (_ ChessNamespace) Name() string {
 	return "Chess"
@@ -122,7 +114,7 @@ func (_ ChessNamespace) PlayerName() string {
 }
 
 func (_ ChessNamespace) CreateGameObject(gameObjectName string) (*chess.GameObject, error) {
-	switch gameObjectName {
+	switch (gameObjectName) {
 	case "GameObject":
 		return &(GameObjectImpl{}), nil
 	case "Player":
@@ -131,10 +123,19 @@ func (_ ChessNamespace) CreateGameObject(gameObjectName string) (*chess.GameObje
 	return nil, errors.New("No game object named " + gameObjectName + " for game Chess")
 }
 
-func (_ ChessNamespace) CreateGame() chess.Game {
-	return (GameImpl{})
+func (_ ChessNamespace) CreateGame() *chess.Game {
+	return &(GameImpl{})
 }
 
 func (_ ChessNamespace) CreateAI() *chess.AI {
 	return &(chess.AI{})
+}
+
+func (_ ChessNamespace) OrderAI(ai *chessAI, functionName string, args []interface{}) (interface{}, error) {
+	switch (functionName) {
+	case "makeMove":
+		return (*ai).MakeMove(), nil
+	}
+
+	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
 }

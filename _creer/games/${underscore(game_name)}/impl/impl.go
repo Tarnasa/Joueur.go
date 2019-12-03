@@ -46,6 +46,8 @@ func (this GameObjectImpl) Game() *${package_name}.Game {
 		ret_type = ptype(attr['type'])
 		if obj_name == 'Game' and attr_name == 'gameObjects':
 			continue
+		if obj_name == 'GameObject' and attr_name in ['id', 'gameObjectName']:
+			continue
 %>
 func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 	return this.data["${attr_name}"].(${ret_type})
@@ -100,4 +102,19 @@ func (_ ${ns}) CreateGame() *${package_name}.Game {
 
 func (_ ${ns}) CreateAI() *${package_name}.AI {
 	return &(${package_name}.AI{})
+}
+
+func (_ ${ns}) OrderAI(ai *${package_name}AI, functionName string, args []interface{}) (interface{}, error) {
+	switch (functionName) {
+% for func_name in ai['function_names']:
+<% func = ai['functions'][func_name]
+%>	case "${func_name}":
+%	for i, arg in enumerate(func['arguments']):
+		arg${i} := args[${i}].(ptype(arg['type']))
+%	endfor
+		return (*ai).${upcase_first(func_name)}(${', '.join('arg{}'.format(i) for i in range(len(func['arguments'])))}), nil
+% endfor
+	}
+
+	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
 }

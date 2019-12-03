@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-func (gameManager GameManager) applyDeltaState(delta map[string]interface{}) {
+func (this GameManager) applyDeltaState(delta map[string]interface{}) {
 	fmt.Println(">>len of base delta", len(delta))
 	gameObjects, ok := delta["gameObjects"]
 	for key, value := range delta {
@@ -15,8 +15,10 @@ func (gameManager GameManager) applyDeltaState(delta map[string]interface{}) {
 	}
 	if ok {
 		fmt.Println(">>going to attempt to merge gameObjects", gameObjects)
-		gameManager.initGameObjects(gameObjects.(map[string]interface{}))
+		this.initGameObjects(gameObjects.(map[string]interface{}))
 	}
+
+	// TODO: now delta merge
 }
 
 func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string]interface{}) {
@@ -68,5 +70,24 @@ func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string]inter
 		reflectedGameObjects.SetMapIndex(reflect.ValueOf(id), reflectedGameObject)
 		fmt.Println(">>hohoho")
 		reflectedGameObject.FieldByName("Game").Set(*gameManager.reflectGame)
+	}
+}
+
+func (this GameManager) isDeltaPrimitive(delta interface{}) bool {
+	if delta == this.ServerConstants.DeltaRemoved {
+		return false
+	}
+
+	_, isBool := delta.(bool)
+	_, isInt := delta.(int64)
+	_, isFloat := delta.(float64)
+	_, isString := delta.(string)
+
+	return isBool || isInt || isFloat || isString
+}
+
+func (this GameManager) deltaMerge(delta interface{}) interface{} {
+	if isDeltaPrimitive(delta) {
+		return delta
 	}
 }
