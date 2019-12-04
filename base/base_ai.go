@@ -4,44 +4,43 @@ import (
 	"github.com/fatih/color"
 )
 
-// kind of hacky, basically exposing a global for all AI structs,
+// AISettings - kind of hacky, basically exposing a global for all AI structs,
 // however only 1 AI should ever be constructed per game so should be an ok assumption
 var AISettings map[string]([]string)
 
-type BaseAI struct {
-	Game   *BaseGame
-	Player *BasePlayer
+type BaseAIImpl struct {
+	Game   BaseGame
+	Player BasePlayer
 }
 
-type InterfaceAI interface {
-	GetPlayerName() string
+type BaseAI interface {
 	Start()
 	Ended(bool, string)
 	GameUpdated()
 	// Invalid()
 }
 
-func (ai BaseAI) GetPlayerName() string {
+func (ai BaseAIImpl) GetPlayerName() string {
 	return "Go Player"
 }
 
-func (ai BaseAI) Start() {
+func (ai BaseAIImpl) Start() {
 	// pass
 }
 
-func (ai BaseAI) Ended(won bool, reason string) {
+func (ai BaseAIImpl) Ended(won bool, reason string) {
 	// pass
 }
 
-func (ai BaseAI) GameUpdated() {
+func (ai BaseAIImpl) GameUpdated() {
 	// pass
 }
 
-func (ai BaseAI) Invalid(message string) {
+func (ai BaseAIImpl) Invalid(message string) {
 	color.Yellow("Invalid: " + message)
 }
 
-func (ai BaseAI) GetSetting(key string) ([]string, bool) {
+func (ai BaseAIImpl) GetSetting(key string) ([]string, bool) {
 	setting, ok := AISettings[key]
 	return setting, ok
 }

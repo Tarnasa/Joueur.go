@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"joueur/runtime/errorhandler"
-	"reflect"
 	"strconv"
 )
 
@@ -22,55 +21,44 @@ func (this GameManager) applyDeltaState(delta map[string]interface{}) {
 	// TODO: now delta merge
 }
 
-func (gameManager GameManager) initGameObjects(gameObjectDeltas map[string]interface{}) {
-	reflectedGameObjects := (*gameManager.reflectGame).Elem().FieldByName("GameObjects")
-	for key, gameObjectDelta := range gameObjectDeltas {
-		fmt.Println("Attemping to initialize game object", key, gameObjectDelta)
-		godAsMap := gameObjectDelta.(map[string]interface{})
-		rawGameObjectID, idOK := godAsMap["id"]
-		if !idOK {
+func (this GameManager) initGameObjects(gameObjectDeltas map[string]interface{}) {
+	for id, gameObjectDelta := range gameObjectDeltas {
+		gameObjectDeltaAsMap, isMap := gameObjectDelta.(map[string]interface{})
+		if !isMap {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot find id for "+key),
+				errors.New("Cannot initialize new game object with id #"+id),
 			)
 		}
 
-		id := rawGameObjectID.(string)
-		if id != key {
+		rawGameObjectName, rawNameOk := gameObjectDeltaAsMap["gameObjectName"]
+		gameObjectName, nameIsString := rawGameObjectName.(string)
+		if !rawNameOk || !nameIsString || gameObjectName == "" {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot create new game object for mismatched ids: "+key+" and "+id),
+				errors.New("field 'gameObjectName' not a string on new game object #"+id),
 			)
 		}
 
-		rawGameObjectName, gameObjectNameOK := godAsMap["gameObjectName"]
-		gameObjectName := rawGameObjectName.(string)
-		if gameObjectName == "" || !gameObjectNameOK {
+		newGameObject, newGameObjectImpl, creationError := this.GameNamespace.CreateGameObject(gameObjectName)
+		if creationError != nil {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot get game object name from game object #"+id),
+				errors.New("Creation error on new game object "+gameObjectName+" #"+id),
 			)
 		}
 
-		gameObjectType, gameObjectTypeOK := (*gameManager.GameNamespace).GameObjectTypes[gameObjectName]
-		if !gameObjectTypeOK {
-			errorhandler.HandleError(
-				errorhandler.DeltaMergeFailure,
-				errors.New("Cannot get type for gameObjectName "+gameObjectName),
-			)
-		}
+		this.gameObjectImpls[id] = newGameObjectImpl
 
-		reflectedGameObject := reflect.New(gameObjectType)
-		if !reflectedGameObject.IsValid() {
+		internalGameObjectsRaw, ok := (*this.gameImpl).InternalDataMap["gameObjects"]
+		internalGameObjectsMap, okConversion := internalGameObjectsRaw.(map[string]interface{})
+		if !ok || !okConversion {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("Could not create valid instance for "+gameObjectName+" #"+id),
+				errors.New("Cannot find internal 'gameObjects' map on GameImpls's InternalDataMap"),
 			)
 		}
-		fmt.Println(">>Oh boy this shit is gonna be bananas", reflectedGameObjects.Kind(), reflectedGameObjects.Type())
-		reflectedGameObjects.SetMapIndex(reflect.ValueOf(id), reflectedGameObject)
-		fmt.Println(">>hohoho")
-		reflectedGameObject.FieldByName("Game").Set(*gameManager.reflectGame)
+		internalGameObjectsMap[id] = newGameObject
 	}
 }
 
@@ -92,7 +80,8 @@ func (this GameManager) mergeDelta(state interface{}, delta interface{}) interfa
 		return delta
 	}
 
-	if gameObject, isGameObject := getIfGameObjectReference(delta); isGameObject {
+	gameObject := this.getIfGameObjectReference(delta)
+	if gameObject != nil {
 		return gameObject
 	}
 
@@ -101,21 +90,21 @@ func (this GameManager) mergeDelta(state interface{}, delta interface{}) interfa
 	if !isDeltaMap {
 		errorhandler.HandleError(
 			errorhandler.DeltaMergeFailure,
-			errors.New("Cannot merge non primitive and non map delta!")
+			errors.New("Cannot merge non primitive and non map delta!"),
 		)
 	}
-	deltaLengthValue, hasDeltaLength := deltaMap[this.ServerConstants.DeltaListLength];
+	deltaLengthValue, hasDeltaLength := deltaMap[this.ServerConstants.DeltaListLengthKey]
 
 	if hasDeltaLength {
 		// Then this part in the state is an array
 		deltaLength, deltaLengthIsInt := deltaLengthValue.(int64)
 		// We don't want to copy this key/value over to the state, it was just to signify the delta is an array
-		delete(deltaMap, this.ServerConstants.DeltaListLength)
+		delete(deltaMap, this.ServerConstants.DeltaListLengthKey)
 
 		if !deltaLengthIsInt {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("DeltaListLength key present without being a number!")
+				errors.New("DeltaListLength key present without being a number!"),
 			)
 		}
 
@@ -123,10 +112,17 @@ func (this GameManager) mergeDelta(state interface{}, delta interface{}) interfa
 			state = make([]interface{}, deltaLength)
 		}
 
-		state = state[:deltaLength]
+		stateList, isList := state.([]interface{})
+		if !isList {
+			errorhandler.HandleError(
+				errorhandler.DeltaMergeFailure,
+				errors.New("delta merging is not a slice! Cannot resize"),
+			)
+		}
+		stateList = stateList[:deltaLength]
 	}
 
-	if !state {
+	if state == nil {
 		state = make(map[string]interface{})
 	}
 
@@ -136,7 +132,7 @@ func (this GameManager) mergeDelta(state interface{}, delta interface{}) interfa
 	for key, deltaValue := range deltaMap {
 		keyAsIndex := 0
 		if isList {
-			keyAsIndex, err = strconv.Atoi(key)
+			keyAsIndex, err := strconv.Atoi(key)
 			if err != nil || len(stateList) >= keyAsIndex || keyAsIndex < 0 {
 				if err == nil {
 					err = errors.New("key index " + key + "out out of range")
@@ -144,22 +140,20 @@ func (this GameManager) mergeDelta(state interface{}, delta interface{}) interfa
 				errorhandler.HandleError(
 					errorhandler.DeltaMergeFailure,
 					err,
-					"Cannot merge into list with key index " + key,
+					"Cannot merge into list with key index "+key,
 				)
 			}
 		}
 
-		if d == this.ServerConstants.DeltaRemoved && !isArray {
-			delete(state, key)
+		if deltaValue == this.ServerConstants.DeltaRemoved && !isList {
+			delete(stateMap, key)
 		} else {
 			if isList {
-				stateList[keyAsIndex] = this.mergeDelta(&stateList[keyAsIndex], &delta[key])
-			}
-			else if isMap {
-				stateMap[key] = this.mergeDelta(&stateMap[keyAsIndex], &delta[key])
+				stateList[keyAsIndex] = this.mergeDelta(stateList[keyAsIndex], deltaMap[key])
+			} else if isMap {
+				stateMap[key] = this.mergeDelta(stateMap[key], deltaMap[key])
 			}
 		}
-
-		return state
 	}
+	return state
 }

@@ -16,26 +16,26 @@ type GameImpl struct {
 }
 
 func (this GameImpl) Fen() string {
-	return (*this.InternalDataMap)["fen"].(string)
+	return this.InternalDataMap["fen"].(string)
 }
 
 func (this GameImpl) GameObjects() map[string](chess.GameObject) {
-	return (*this.InternalDataMap)["gameObjects"].(map[string](chess.GameObject))
+	return this.InternalDataMap["gameObjects"].(map[string](chess.GameObject))
 }
 
 func (this GameImpl) History() []string {
-	return (*this.InternalDataMap)["history"].([]string)
+	return this.InternalDataMap["history"].([]string)
 }
 
 func (this GameImpl) Players() [](chess.Player) {
-	return (*this.InternalDataMap)["players"].([](chess.Player))
+	return this.InternalDataMap["players"].([](chess.Player))
 }
 
 func (this GameImpl) Session() string {
-	return (*this.InternalDataMap)["session"].(string)
+	return this.InternalDataMap["session"].(string)
 }
 
-func defaultInernalDataMapForGame() *map[string]interface{} {
+func defaultInternalDataMapForGame() map[string]interface{} {
 	data := make(map[string]interface{})
 	data["fen"] = ""
 	data["gameObjects"] = make(map[string](chess.GameObject))
@@ -43,7 +43,7 @@ func defaultInernalDataMapForGame() *map[string]interface{} {
 	data["players"] = make([](chess.Player), 0)
 	data["session"] = ""
 
-	return &data
+	return data
 }
 
 // -- GameObject -- \\
@@ -58,15 +58,15 @@ func (this GameObjectImpl) Game() *chess.Game {
 }
 
 func (this GameObjectImpl) GameObjectName() string {
-	return (*this.InternalDataMap)["gameObjectName"].(string)
+	return this.InternalDataMap["gameObjectName"].(string)
 }
 
 func (this GameObjectImpl) Id() string {
-	return (*this.InternalDataMap)["id"].(string)
+	return this.InternalDataMap["id"].(string)
 }
 
 func (this GameObjectImpl) Logs() []string {
-	return (*this.InternalDataMap)["logs"].([]string)
+	return this.InternalDataMap["logs"].([]string)
 }
 
 func (this GameObjectImpl) Log(message string) {
@@ -75,13 +75,13 @@ func (this GameObjectImpl) Log(message string) {
 	this.RunOnServer("log", args)
 }
 
-func defaultInernalDataMapForGameObject() *map[string]interface{} {
+func defaultInternalDataMapForGameObject() map[string]interface{} {
 	data := make(map[string]interface{})
 	data["gameObjectName"] = ""
 	data["id"] = ""
 	data["logs"] = make([]string, 0)
 
-	return &data
+	return data
 }
 
 // -- Player -- \\
@@ -91,45 +91,45 @@ type PlayerImpl struct {
 }
 
 func (this PlayerImpl) ClientType() string {
-	return (*this.InternalDataMap)["clientType"].(string)
+	return this.InternalDataMap["clientType"].(string)
 }
 
 func (this PlayerImpl) Color() string {
-	return (*this.InternalDataMap)["color"].(string)
+	return this.InternalDataMap["color"].(string)
 }
 
 func (this PlayerImpl) Lost() bool {
-	return (*this.InternalDataMap)["lost"].(bool)
+	return this.InternalDataMap["lost"].(bool)
 }
 
 func (this PlayerImpl) Name() string {
-	return (*this.InternalDataMap)["name"].(string)
+	return this.InternalDataMap["name"].(string)
 }
 
 func (this PlayerImpl) Opponent() (chess.Player) {
-	return (*this.InternalDataMap)["opponent"].((chess.Player))
+	return this.InternalDataMap["opponent"].((chess.Player))
 }
 
 func (this PlayerImpl) ReasonLost() string {
-	return (*this.InternalDataMap)["reasonLost"].(string)
+	return this.InternalDataMap["reasonLost"].(string)
 }
 
 func (this PlayerImpl) ReasonWon() string {
-	return (*this.InternalDataMap)["reasonWon"].(string)
+	return this.InternalDataMap["reasonWon"].(string)
 }
 
 func (this PlayerImpl) TimeRemaining() float64 {
-	return (*this.InternalDataMap)["timeRemaining"].(float64)
+	return this.InternalDataMap["timeRemaining"].(float64)
 }
 
 func (this PlayerImpl) Won() bool {
-	return (*this.InternalDataMap)["won"].(bool)
+	return this.InternalDataMap["won"].(bool)
 }
 
-func defaultInernalDataMapForPlayer() *map[string]interface{} {
+func defaultInternalDataMapForPlayer() map[string]interface{} {
 	data := make(map[string]interface{})
-	parentData0 := defaultInernalDataMapForGameObject()
-	for key, value := range *parentData0 {
+	parentData0 := defaultInternalDataMapForGameObject()
+	for key, value := range parentData0 {
 		data[key] = value
 	}
 	data["clientType"] = ""
@@ -142,7 +142,7 @@ func defaultInernalDataMapForPlayer() *map[string]interface{} {
 	data["timeRemaining"] = 0
 	data["won"] = false
 
-	return &data
+	return data
 }
 
 // -- Namespace -- \
@@ -160,29 +160,35 @@ func (_ ChessNamespace) PlayerName() string {
 	return chess.PlayerName()
 }
 
-func (_ ChessNamespace) CreateGameObject(gameObjectName string) (chess.GameObject, error) {
+func (_ ChessNamespace) CreateGameObject(gameObjectName string) (base.BaseGameObject, *base.BaseDeltaMergeableImpl, error) {
 	switch (gameObjectName) {
 	case "GameObject":
 		newGameObject := GameObjectImpl{}
-		newGameObject.InternalDataMap = defaultInernalDataMapForGameObject()
-		return &newGameObject, nil
+		newGameObject.InternalDataMap = defaultInternalDataMapForGameObject()
+		return &newGameObject, &(newGameObject.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
 	case "Player":
 		newPlayer := PlayerImpl{}
-		newPlayer.InternalDataMap = defaultInernalDataMapForPlayer()
-		return &newPlayer, nil
+		newPlayer.InternalDataMap = defaultInternalDataMapForPlayer()
+		return &newPlayer, &(newPlayer.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
 	}
-	return nil, errors.New("No game object named " + gameObjectName + " for game Chess")
+	return nil, nil, errors.New("No game object named " + gameObjectName + " for game Chess")
 }
 
-func (_ ChessNamespace) CreateGame() chess.Game {
-	return &GameImpl{}
+func (_ ChessNamespace) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
+	game := GameImpl{}
+	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
 }
 
-func (_ ChessNamespace) CreateAI() chess.AI {
-	return &chess.AI{}
+func (_ ChessNamespace) CreateAI() (base.BaseAI, *base.BaseAIImpl) {
+	ai := chess.AI{}
+	return &ai, &ai.BaseAIImpl
 }
 
-func (_ ChessNamespace) OrderAI(ai *chess.AI, functionName string, args []interface{}) (interface{}, error) {
+func (_ ChessNamespace) OrderAI(baseAI base.BaseAI, functionName string, args []interface{}) (interface{}, error) {
+	ai, validAI := baseAI.(*chess.AI)
+	if !validAI {
+		return nil, errors.New("AI is not a valid chess.AI to order!")
+	}
 	switch (functionName) {
 	case "makeMove":
 		return (*ai).MakeMove(), nil

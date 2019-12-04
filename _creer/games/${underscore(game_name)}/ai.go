@@ -10,13 +10,13 @@ ${merge(
 }
 
 type AI struct {
-	base.BaseAI
+	base.BaseAIImpl
 
 	// The reference to the Game instance this AI is playing.
-	Game *Game
+	Game Game
 
 	// The reference to the Player this AI controls in the Game.
-	player *Player
+	Player Player
 }
 
 // This is called once the game starts and your AI knows its playerID and game.

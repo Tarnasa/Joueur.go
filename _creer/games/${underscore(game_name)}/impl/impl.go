@@ -42,7 +42,7 @@ func (this GameObjectImpl) Game() *${package_name}.Game {
 		ret_type = ptype(attr['type'])
 %>
 func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
-	return (*this.InternalDataMap)["${attr_name}"].(${ret_type})
+	return this.InternalDataMap["${attr_name}"].(${ret_type})
 }
 %   endfor
 %   for func_name in obj['function_names']:
@@ -61,12 +61,12 @@ func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type
 }
 %   endfor
 
-func defaultInernalDataMapFor${obj_name}() *map[string]interface{} {
+func defaultInternalDataMapFor${obj_name}() map[string]interface{} {
 	data := make(map[string]interface{})
 %	if 'parentClasses' in obj:
 %		for i, parent in enumerate(obj['parentClasses']):
-	parentData${i} := defaultInernalDataMapFor${parent}()
-	for key, value := range *parentData${i} {
+	parentData${i} := defaultInternalDataMapFor${parent}()
+	for key, value := range parentData${i} {
 		data[key] = value
 	}
 %		endfor
@@ -75,7 +75,7 @@ func defaultInernalDataMapFor${obj_name}() *map[string]interface{} {
 	data["${attr_name}"] = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'], package_name)}
 %   endfor
 
-	return &data
+	return data
 }
 % endfor
 
@@ -95,27 +95,33 @@ func (_ ${ns}) PlayerName() string {
 	return ${package_name}.PlayerName()
 }
 
-func (_ ${ns}) CreateGameObject(gameObjectName string) (${package_name}.GameObject, error) {
+func (_ ${ns}) CreateGameObject(gameObjectName string) (base.BaseGameObject, *base.BaseDeltaMergeableImpl, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
 		new${game_obj_name} := ${game_obj_name}Impl{}
-		new${game_obj_name}.InternalDataMap = defaultInernalDataMapFor${game_obj_name}()
-		return &new${game_obj_name}, nil
+		new${game_obj_name}.InternalDataMap = defaultInternalDataMapFor${game_obj_name}()
+		return &new${game_obj_name}, &(new${game_obj_name}.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
 % endfor
 	}
-	return nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
+	return nil, nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
 }
 
-func (_ ${ns}) CreateGame() ${package_name}.Game {
-	return &GameImpl{}
+func (_ ${ns}) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
+	game := GameImpl{}
+	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
 }
 
-func (_ ${ns}) CreateAI() ${package_name}.AI {
-	return &${package_name}.AI{}
+func (_ ${ns}) CreateAI() (base.BaseAI, *base.BaseAIImpl) {
+	ai := ${package_name}.AI{}
+	return &ai, &ai.BaseAIImpl
 }
 
-func (_ ${ns}) OrderAI(ai *${package_name}.AI, functionName string, args []interface{}) (interface{}, error) {
+func (_ ${ns}) OrderAI(baseAI base.BaseAI, functionName string, args []interface{}) (interface{}, error) {
+	ai, validAI := baseAI.(*chess.AI)
+	if !validAI {
+		return nil, errors.New("AI is not a valid chess.AI to order!")
+	}
 	switch (functionName) {
 % for func_name in ai['function_names']:
 <% func = ai['functions'][func_name]

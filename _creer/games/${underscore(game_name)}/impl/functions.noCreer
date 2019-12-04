@@ -89,6 +89,8 @@ if not 'go' in shared:
         if 'attributes' in obj and obj['attributes']:
             strs.append('\t// -- Attributes -- \\\\\n\n')
             for attr_name in obj['attribute_names']:
+                if obj_name == 'GameObject' and attr_name in ['id', 'gameObjectName']:
+                    continue
                 attr = obj['attributes'][attr_name]
                 strs.extend([
                     '\t// ', attr['description'], '\n',

@@ -2,6 +2,7 @@ package gamemanager
 
 import (
 	"errors"
+	"joueur/base"
 	"joueur/runtime/errorhandler"
 	"strconv"
 )
@@ -16,8 +17,8 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 		return nil
 	}
 
-	id, idFound := (*data)["id"]
-	if !isFound {
+	id, idFound := deltaMap["id"]
+	if !idFound {
 		return nil
 	}
 
@@ -27,11 +28,11 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 	}
 
 	// at this point it MUST be a map of only { id string }, is it MUST be a game object reference
-	gameObjectsRaw, hasGameObjects := *this.Game().InteralDataMap["gameObjects"]
+	gameObjectsRaw, hasGameObjects := (*this.gameImpl).InternalDataMap["gameObjects"]
 	if !hasGameObjects {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.new("Game has no game objects for game object: #" + gameObjectId)
+			errors.New("Game has no game objects for game object: #"+gameObjectId),
 		)
 	}
 
@@ -39,7 +40,7 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 	if !gameObjectsAreMap {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.new("Game's game objects could not be cast to proper type #" + gameObjectId)
+			errors.New("Game's game objects could not be cast to proper type #"+gameObjectId),
 		)
 	}
 
@@ -47,7 +48,7 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 	if !found {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.new("could not find game object #" + gameObjectId)
+			errors.New("could not find game object #"+gameObjectId),
 		)
 	}
 
@@ -56,32 +57,32 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 
 func (this GameManager) serialize(data interface{}) interface{} {
 	if asGameObject, isGameObject := data.(base.BaseGameObject); isGameObject {
-		gameObjectReference = make(map[string]string)
+		gameObjectReference := make(map[string]string)
 		gameObjectReference["id"] = asGameObject.ID()
 		return gameObjectReference
 	}
 	if asMap, isMap := data.(map[string]interface{}); isMap {
-		serializedMap = make(map[string]interface{})
+		serializedMap := make(map[string]interface{})
 		for key, value := range asMap {
-			serializedMap[key] = serialize(value)
+			serializedMap[key] = this.serialize(value)
 		}
 		return serializedMap
 	}
 	if asSlice, isSlice := data.([]interface{}); isSlice {
-		serializedSlice = make([]interface{}, len(asSlice))
-		for i, element := range asMap {
-			serializedSlice[i] = serialize(element)
+		serializedSlice := make([]interface{}, len(asSlice))
+		for i, element := range asSlice {
+			serializedSlice[i] = this.serialize(element)
 		}
 		return serializedSlice
 	}
 	return data // should be int, float, string, or boolean
 }
 
-func (this GameManager) deSerialize(data interface{}) interface{}
-	if asSlice, isSlice := data.([]interface{}) {
-		deSerializedSlice = make([]interface{}, len(asSlice))
+func (this GameManager) deSerialize(data interface{}) interface{} {
+	if asSlice, isSlice := data.([]interface{}); isSlice {
+		deSerializedSlice := make([]interface{}, len(asSlice))
 		for i, element := range asSlice {
-			deSerializedSlice[i] = deSerialize(element)
+			deSerializedSlice[i] = this.deSerialize(element)
 		}
 		return deSerializedSlice
 	} else if asMap, ok := data.(map[string]interface{}); ok {
@@ -93,8 +94,8 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 			return gameObject
 		}
 
-		if deltaLen, lenExists := asMap[this.ServerConstants.DeltaListLength]; lenExists {
-			length, lenToIntErr = strconv.Atoi(deltaLen.(string))
+		if deltaLen, lenExists := asMap[this.ServerConstants.DeltaListLengthKey]; lenExists {
+			length, lenToIntErr := strconv.Atoi(deltaLen.(string))
 			if lenToIntErr != nil {
 				errorhandler.HandleError(
 					errorhandler.DeltaMergeFailure,
@@ -104,7 +105,7 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 			}
 			deSerializedSlice := make([]interface{}, length)
 			for indexAsString, element := range asMap {
-				if indexAsString == this.ServerConstants.DeltaListLength {
+				if indexAsString == this.ServerConstants.DeltaListLengthKey {
 					continue
 				}
 
@@ -113,10 +114,10 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 					errorhandler.HandleError(
 						errorhandler.DeltaMergeFailure,
 						indexErr,
-						"Could not delta list index " + indexAsString,
+						"Could not delta list index "+indexAsString,
 					)
 				}
-				deSerializedSlice[index] = deSerialize(element)
+				deSerializedSlice[index] = this.deSerialize(element)
 			}
 			return deSerializedSlice
 		}
@@ -124,19 +125,19 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 		// else assume a dictionary
 		deSerializedMap := make(map[string]interface{})
 		for key, value := range asMap {
-			deSerializedMap[key] = deSerialize(value)
+			deSerializedMap[key] = this.deSerialize(value)
 		}
 		return deSerializedMap
 	} else {
-		_, isString = data.(string)
-		_, isInt = data.(int64)
-		_, isFloat = data.(float64)
-		_, isBool = data.(bool
+		_, isString := data.(string)
+		_, isInt := data.(int64)
+		_, isFloat := data.(float64)
+		_, isBool := data.(bool)
 
 		if !isString && !isInt && !isFloat && !isBool {
 			errorhandler.HandleError(
 				errorhandler.ReflectionFailed,
-				errors.New("Could no deSerialize", data)
+				errors.New("Could no deSerialize data"),
 			)
 		}
 
@@ -145,8 +146,8 @@ func (this GameManager) deSerialize(data interface{}) interface{}
 
 	errorhandler.HandleError(
 		errorhandler.ReflectionFailed,
-		errors.New("Unknown type to deSerialize from", data)
+		errors.New("Unknown type to deSerialize from data"),
 	)
 
 	return nil
-)
+}

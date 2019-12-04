@@ -5,18 +5,14 @@ import (
 	"joueur/runtime/errorhandler"
 )
 
-var RunOnServerCallback *func(BaseGameObject, string, map[string]interface{}) interface{}
+var RunOnServerCallback func(BaseGameObject, string, map[string]interface{}) interface{}
 
 type BaseGameObject interface {
-	/*
-		// A unique ID (unique to the game instance) of the game object.
-		// Will never change, and IDs are never re-used.
-		Id() string
+	// A unique ID (unique to the game instance) of the game object.
+	// Will never change, and IDs are never re-used.
+	ID() string
 
-		GameObjectName() string
-
-		Game() BaseGame
-	*/
+	GameObjectName() string
 }
 
 type BaseGameObjectImpl struct {
@@ -33,18 +29,18 @@ func (this BaseGameObjectImpl) RunOnServer(functionName string, args map[string]
 		)
 	}
 
-	return (*RunOnServerCallback)(&this, functionName, args)
+	return RunOnServerCallback(&this, functionName, args)
 }
 
-/*
-func (this BaseGameObjectImpl) Id() string {
-	return this.Data["id"].(string)
+func (this BaseGameObjectImpl) ID() string {
+	return this.InternalDataMap["id"].(string)
 }
 
 func (this BaseGameObjectImpl) GameObjectName() string {
-	return this.Data["gameObjectName"].(string)
+	return this.InternalDataMap["gameObjectName"].(string)
 }
 
+/*
 func (this BaseGameObjectImpl) Game() BaseGame {
 	return this.Game
 }

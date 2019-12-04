@@ -114,7 +114,7 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	playerName := (*gameNamespace).PlayerName()
+	playerName := gameNamespace.PlayerName()
 	if playerName == "" {
 		playerName = "Go Player"
 	}
@@ -127,7 +127,7 @@ func Run(args RunArgs) error {
 	if gameManager == nil {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.New("Could not create GameManager for game " + gameName)
+			errors.New("Could not create GameManager for game "+gameName),
 		)
 	}
 
@@ -143,7 +143,7 @@ func Run(args RunArgs) error {
 	lobbiedData := client.WaitForEventLobbied()
 	color.Cyan("In lobby for game " + lobbiedData.GameName + " in session " + lobbiedData.GameSession)
 
-	ourGameVersion := (*gameNamespace).Version()
+	ourGameVersion := gameNamespace.Version()
 	if lobbiedData.GameVersion != ourGameVersion {
 		color.Yellow(
 			`WARNING: Game versions do not match.
@@ -156,34 +156,32 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 		)
 	}
 
-	(*gameManager.ServerConstants) = lobbiedData.Constants
+	gameManager.ServerConstants = lobbiedData.Constants
 
 	startData := client.WaitForEventStart()
 
-	(*gameManager).Start(startData.PlayerID)
-
 	color.Green("Game is starting.")
 
-	gameManager.Start()
+	gameManager.Start(startData.PlayerID)
 
 	// The client will now wait for order(s) asynchronously.
 	// The process will exit when "over" is sent from the game server.
 
 	overData := client.WaitForEventOver()
 
-	won := gameManager.AI.Player.Won()
-	reason := gameManager.AI.Player.ReasonWon()
+	won := gameManager.Player.Won()
+	reason := gameManager.Player.ReasonWon()
 	didWin := "I Won!"
 	if !won {
 		reason = gameManager.Player.ReasonLost()
 		didWin = "I Lost :("
 	}
-	color.green("Game is over. "+didWin" because: "+reason);
+	color.Green("Game is over. " + didWin + " because: " + reason)
 
-	gameManager.AI.Ended()
+	gameManager.AI.Ended(won, reason)
 
 	if overData.Message != "" {
-		color.Cyan(strings.Replace(overData.Message, "__HOSTNAME__", args.Server))
+		color.Cyan(strings.Replace(overData.Message, "__HOSTNAME__", args.Server, 1))
 	}
 
 	client.Disconnect()

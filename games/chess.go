@@ -1,10 +1,10 @@
 package games
 
-import (
-	"joueur/games/chess/impl"
-	"reflect"
-)
+// This file registers the game.
+// Removing/modifying it means your AI may not work correctly as the game won't exist!
+
+import "joueur/games/chess/impl"
 
 func init() {
-	Register("Chess", reflect.TypeOf((*(impl.ChessNamespace))(nil)).Elem(),)
+	Register("Chess", &impl.ChessNamespace{})
 }
