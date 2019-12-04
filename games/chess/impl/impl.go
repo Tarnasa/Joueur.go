@@ -176,6 +176,7 @@ func (_ ChessNamespace) CreateGameObject(gameObjectName string) (base.BaseGameOb
 
 func (_ ChessNamespace) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
 	game := GameImpl{}
+	game.InternalDataMap = defaultInternalDataMapForGame()
 	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
 }
 

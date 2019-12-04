@@ -8,17 +8,52 @@ import (
 )
 
 func (this GameManager) applyDeltaState(delta map[string]interface{}) {
-	fmt.Println(">>len of base delta", len(delta))
-	gameObjects, ok := delta["gameObjects"]
-	for key, value := range delta {
-		fmt.Println(">>apply delta, what's in it?", key, value)
-	}
-	if ok {
-		fmt.Println(">>going to attempt to merge gameObjects", gameObjects)
-		this.initGameObjects(gameObjects.(map[string]interface{}))
+	fmt.Println(">> Merging delta start", delta)
+	gameObjectsRaw, gameObjectsExist := delta["gameObjects"]
+	gameObjectsDelta, gameObjectsAreMap := gameObjectsRaw.(map[string]interface{})
+	if !gameObjectsAreMap {
+		errorhandler.HandleError(
+			errorhandler.DeltaMergeFailure,
+			errors.New("Cannot merge delta when 'gameObjects' property is not a map!"),
+		)
 	}
 
-	// TODO: now delta merge
+	if gameObjectsExist {
+		fmt.Println(">> init game objects", gameObjectsDelta)
+		this.initGameObjects(gameObjectsDelta)
+	}
+	fmt.Println(">> game objects should be init'd")
+
+	// now all new game objects should be initialize so we can delta merge as normal
+	if gameObjectsExist {
+		for id, gameObjectDelta := range gameObjectsDelta {
+			gameObjectImpl, implExists := this.gameObjectImpls[id]
+			if !implExists {
+				errorhandler.HandleError(
+					errorhandler.DeltaMergeFailure,
+					errors.New("Attemping to merge delta state of game object #"+id+" with no Impl state!"),
+				)
+			}
+			fmt.Println(">> delta merge game object", gameObjectDelta)
+			this.mergeDelta(gameObjectImpl, &gameObjectDelta)
+		}
+	}
+	// now all game objects should be delta merged, only thing remaining is the game itself's delta state
+	for deltaKey, deltaValue := range delta {
+		if deltaKey == "gameObjects" {
+			continue // we already updated gameObject above
+		}
+		implValue, implValueExists := (*this.gameImpl).InternalDataMap[deltaKey]
+		if !implValueExists {
+			errorhandler.HandleError(
+				errorhandler.DeltaMergeFailure,
+				errors.New("Attemping to merge delta key "+deltaKey+" into game impl which does not exist!"),
+			)
+		}
+
+		fmt.Println(">> delta merge into game", deltaKey, deltaValue)
+		(*this.gameImpl).InternalDataMap[deltaKey] = this.mergeDelta(&implValue, &deltaValue)
+	}
 }
 
 func (this GameManager) initGameObjects(gameObjectDeltas map[string]interface{}) {

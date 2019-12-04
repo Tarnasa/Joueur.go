@@ -109,6 +109,7 @@ func (_ ${ns}) CreateGameObject(gameObjectName string) (base.BaseGameObject, *ba
 
 func (_ ${ns}) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
 	game := GameImpl{}
+	game.InternalDataMap = defaultInternalDataMapForGame()
 	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
 }
 
