@@ -18,11 +18,12 @@ type GameManager struct {
 	AI              base.BaseAI
 	Player          base.BasePlayer
 
-	started         bool
-	backOrders      []client.EventOrderData
-	gameImpl        *base.BaseDeltaMergeableImpl
-	gameObjectImpls map[string]*base.BaseDeltaMergeableImpl
-	AIImpl          *base.BaseAIImpl
+	started             bool
+	backOrders          []client.EventOrderData
+	gameImpl            *base.BaseDeltaMergeableImpl
+	gameObjectImpls     map[string]*base.BaseDeltaMergeableImpl
+	gamesGameObjectsMap map[string]interface{}
+	AIImpl              *base.BaseAIImpl
 }
 
 func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
@@ -32,6 +33,17 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager.Game, gameManager.gameImpl = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.AIImpl = gameNamespace.CreateAI()
 	gameManager.AIImpl.Game = gameManager.Game
+
+	gameGameObjectsRaw, gameGameObjectsRawFound := gameManager.gameImpl.InternalDataMap["gameObjects"]
+	gameGameObjectsMap, gameGameObjectsRawIsMap := gameGameObjectsRaw.(map[string]interface{})
+	if !gameGameObjectsRawFound || !gameGameObjectsRawIsMap || gameGameObjectsMap == nil {
+		fmt.Println(gameGameObjectsRaw)
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Cannot find game's field 'gameObjects' as a map in the internal structure"),
+		)
+	}
+	gameManager.gamesGameObjectsMap = gameGameObjectsMap
 
 	gameManager.started = false // normal default but we want to be clear
 	gameManager.backOrders = make([]client.EventOrderData, 0)
