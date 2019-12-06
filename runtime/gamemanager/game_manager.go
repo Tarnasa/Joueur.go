@@ -14,18 +14,20 @@ import (
 type GameManager struct {
 	GameNamespace   games.GameNamespace
 	ServerConstants client.ServerConstants
-	Game            base.BaseGame
-	AI              base.BaseAI
-	Player          base.BasePlayer
+	Game            base.Game
+	AI              base.AI
+	Player          base.Player
 
 	started             bool
 	backOrders          []client.EventOrderData
-	gameImpl            *base.BaseDeltaMergeableImpl
-	gameObjectImpls     map[string]*base.BaseDeltaMergeableImpl
+	gameImpl            *base.DeltaMergeableImpl
+	gameObjectImpls     map[string]*base.DeltaMergeableImpl
 	gamesGameObjectsMap map[string]interface{}
-	AIImpl              *base.BaseAIImpl
+	AIImpl              *base.AIImpl
 }
 
+// New creates a new instance of a GameManager for a given namespace.
+// This should be the only factory/way to create GameManagers.
 func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager := GameManager{}
 
@@ -58,7 +60,7 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	}
 
 	base.RunOnServerCallback = func(
-		caller base.BaseGameObject,
+		caller base.GameObject,
 		functionName string,
 		args map[string]interface{},
 	) interface{} {
@@ -68,7 +70,7 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	return &gameManager
 }
 
-func (this GameManager) parseAISettings(aiSettings string) {
+func (gameManager GameManager) parseAISettings(aiSettings string) {
 	settings := make(map[string]([]string))
 	parsedSettings, parseErr := url.ParseQuery(aiSettings)
 	if parseErr != nil {
@@ -83,23 +85,24 @@ func (this GameManager) parseAISettings(aiSettings string) {
 		settings[key] = value
 	}
 
-	// hack-y, dont' like
+	// hack-y, look into a cleaner way?
 	base.AISettings = settings
 }
 
-func (this GameManager) Start(playerID string) {
-	this.started = true
+// Start should be invoked when the ame starts and our playerID is known
+func (gameManager GameManager) Start(playerID string) {
+	gameManager.started = true
 	// TODO: set player in ai by this ID
-	if playerGameObject, ok := this.Game.GetGameObject(playerID); ok {
-		player, isPlayer := playerGameObject.(base.BasePlayer)
+	if playerGameObject, ok := gameManager.Game.GetGameObject(playerID); ok {
+		player, isPlayer := playerGameObject.(base.Player)
 		if !isPlayer {
 			errorhandler.HandleError(
 				errorhandler.ReflectionFailed,
 				errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
 			)
 		}
-		this.AIImpl.Player = player
-		this.Player = player
+		gameManager.AIImpl.Player = player
+		gameManager.Player = player
 	} else {
 		// handle error
 		errorhandler.HandleError(
@@ -108,21 +111,23 @@ func (this GameManager) Start(playerID string) {
 		)
 	}
 
-	this.AI.GameUpdated()
+	gameManager.AI.GameUpdated()
 	// do back orders
-	for _, order := range this.backOrders {
-		this.handleOrder(order)
+	for _, order := range gameManager.backOrders {
+		gameManager.handleOrder(order)
 	}
 
 	// game should now be started
 }
 
-func (this GameManager) RunOnServer(
-	caller base.BaseGameObject,
+// RunOnServer should be invoked by GameObjects when they want some function
+// and args to be ran on the game server on their behalf.
+func (gameManager GameManager) RunOnServer(
+	caller base.GameObject,
 	functionName string,
 	args map[string]interface{},
 ) interface{} {
-	serializedArgs := this.serialize(args)
+	serializedArgs := gameManager.serialize(args)
 	serializedArgsMap, isMap := serializedArgs.(map[string]interface{})
 	if !isMap {
 		errorhandler.HandleError(
@@ -138,16 +143,17 @@ func (this GameManager) RunOnServer(
 
 	returned := client.WaitForEventRan()
 
-	return this.deSerialize(returned)
+	return gameManager.deSerialize(returned)
 }
 
-func (this GameManager) handleOrder(order client.EventOrderData) {
-	if !this.started {
-		this.backOrders = append(this.backOrders, order)
+// handlerOrder is automatically invoked when an  event comes from the server.
+func (gameManager GameManager) handleOrder(order client.EventOrderData) {
+	if !gameManager.started {
+		gameManager.backOrders = append(gameManager.backOrders, order)
 		return
 	}
 
-	args := this.deSerialize(order.Args)
+	args := gameManager.deSerialize(order.Args)
 	argsList, isList := args.([]interface{})
 	if !isList {
 		errorhandler.HandleError(
@@ -155,7 +161,7 @@ func (this GameManager) handleOrder(order client.EventOrderData) {
 			errors.New("Cannot handle order "+order.Name+" because the args are not a slice"),
 		)
 	}
-	returned, err := this.GameNamespace.OrderAI(this.AI, order.Name, argsList)
+	returned, err := gameManager.GameNamespace.OrderAI(gameManager.AI, order.Name, argsList)
 	if err != nil {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,

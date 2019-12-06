@@ -10,7 +10,7 @@ ${merge(
 }
 
 type AI struct {
-	base.BaseAIImpl
+	base.AIImpl
 
 	// The reference to the Game instance this AI is playing.
 	Game Game

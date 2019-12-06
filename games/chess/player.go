@@ -4,6 +4,7 @@ package chess
 type Player interface {
 	// Parent interfaces
 	GameObject
+
 	// -- Attributes -- \\
 
 	// What type of client this is, e.g. 'Python', 'JavaScript', or some other language. For potential data mining purposes.

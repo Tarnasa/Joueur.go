@@ -5,7 +5,8 @@ import "joueur/base"
 // An object in the game. The most basic class that all game classes should inherit from automatically.
 type GameObject interface {
 	// Parent interfaces
-	base.BaseGameObject
+	base.GameObject
+
 	// -- Attributes -- \\
 
 	// Any strings logged will be stored here. Intended for debugging.

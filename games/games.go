@@ -9,10 +9,10 @@ type GameNamespace interface {
 	Name() string
 	Version() string
 	PlayerName() string
-	CreateAI() (base.BaseAI, *base.BaseAIImpl)
-	CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl)
-	CreateGameObject(string) (base.BaseGameObject, *base.BaseDeltaMergeableImpl, error)
-	OrderAI(base.BaseAI, string, []interface{}) (interface{}, error)
+	CreateAI() (base.AI, *base.AIImpl)
+	CreateGame() (base.Game, *base.DeltaMergeableImpl)
+	CreateGameObject(string) (base.GameObject, *base.DeltaMergeableImpl, error)
+	OrderAI(base.AI, string, []interface{}) (interface{}, error)
 }
 
 var gamesNamespaceTypes = make(map[string]GameNamespace)

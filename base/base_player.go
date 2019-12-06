@@ -1,7 +1,8 @@
 package base
 
-type BasePlayer interface {
-	BaseGameObject
+// Player is the base interface all Player GameObjects within the game must implement.
+type Player interface {
+	GameObject
 
 	/** If the player won the game or not. */
 	Won() bool

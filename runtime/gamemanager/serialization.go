@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGameObject {
+func (this GameManager) getIfGameObjectReference(data interface{}) base.GameObject {
 	deltaMap, isMap := data.(map[string]interface{})
 	if !isMap {
 		return nil
@@ -36,7 +36,7 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 		)
 	}
 
-	gameObjects, gameObjectsAreMap := gameObjectsRaw.(map[string]base.BaseGameObject)
+	gameObjects, gameObjectsAreMap := gameObjectsRaw.(map[string]base.GameObject)
 	if !gameObjectsAreMap {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
@@ -56,7 +56,7 @@ func (this GameManager) getIfGameObjectReference(data interface{}) base.BaseGame
 }
 
 func (this GameManager) serialize(data interface{}) interface{} {
-	if asGameObject, isGameObject := data.(base.BaseGameObject); isGameObject {
+	if asGameObject, isGameObject := data.(base.GameObject); isGameObject {
 		gameObjectReference := make(map[string]string)
 		gameObjectReference["id"] = asGameObject.ID()
 		return gameObjectReference

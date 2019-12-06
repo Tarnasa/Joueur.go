@@ -5,7 +5,8 @@ import "joueur/base"
 // The traditional 8x8 chess board with pieces.
 type Game interface {
 	// Parent interfaces
-	base.BaseGame
+	base.Game
+
 	// -- Attributes -- \\
 
 	// Forsyth-Edwards Notation (fen), a notation that describes the game board state.

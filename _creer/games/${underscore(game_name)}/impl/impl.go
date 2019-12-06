@@ -1,5 +1,5 @@
-// This package contains all the structs, methods, and the AI required as
-// a client to play the ${game_name} with a game server.
+// Package impl contains all the ${game_name } implimentation
+// logic and structures required by aa client to play with a game server.
 // To start coding your AI open ./ai.go
 package impl
 <%include file='functions.noCreer' /><%
@@ -18,31 +18,42 @@ import (
 	if 'parentClasses' in obj:
 		parents.extend(obj['parentClasses'])
 	if obj_name in ['Game', 'GameObject']:
-		parents.append('base.Base' + obj_name)
+		parents.append('base.' + obj_name)
+	longest_attr_name_len = len(sorted(list(obj['attribute_names']), key=len)[-1])
 %>
 // -- ${obj_name} -- ${'\\\\'}
 
+// ${obj_name}Impl is the struct that implements the container for ${obj_name} instances in ${game_name}.
 type ${obj_name}Impl struct {
 %	for parent in parents:
 	${parent}Impl
 %	endfor
 %	if obj_name == 'GameObject':
-	game *${package_name}.Game
+	game${' ' * (5 + longest_attr_name_len - len('game'))}*GameImpl
 %   endif
+%	for attr_name in obj['attribute_names']:
+%	if not (obj_name == 'GameObject' and attr_name == 'id'):
+	${upcase_first(attr_name)}Impl${' ' * (1 + longest_attr_name_len - len(attr_name))}${ptype(obj['attributes'][attr_name]['type'])}
+% 	endif
+%	endfor
 }
 %   if obj_name == 'GameObject':
 
-func (this GameObjectImpl) Game() *${package_name}.Game {
-	return this.game
+// Game returns a pointer to the ${game_name} Game instance
+func (gameObjectImpl *GameObjectImpl) Game() ${package_name}.Game {
+	return gameObjectImpl.game
 }
 %   endif
 %   for attr_name in obj['attribute_names']:
 <%
+		if obj_name == 'GameObject' and attr_name == 'id':
+			continue
 		attr = obj['attributes'][attr_name]
 		ret_type = ptype(attr['type'])
 %>
-func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
-	return this.InternalDataMap["${attr_name}"].(${ret_type})
+// ${upcase_first(attr_name)} returns ${lowercase_first(shared["go"]["description"](attr))}
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
+	return ${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl
 }
 %   endfor
 %   for func_name in obj['function_names']:
@@ -52,73 +63,76 @@ func (this ${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 		argify = lambda a : '{} {}'.format(a['name'], ptype(a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
-func (this ${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
-	args := make(map[string]interface{})
+// ${upcase_first(func_name)} runs logic that ${lowercase_first(shared["go"]["description"](func))}
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
+	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
 %		for arg in func['arguments']:
-	args["${arg['name']}"] = ${arg['name']}
+		"${arg['name']}": ${arg['name']},
 %		endfor
-	${'return ' if ret_type else ''}this.RunOnServer("${func_name}", args)${('.('+ret_type+')') if ret_type else ''}
+	})${('.('+ret_type+')') if ret_type else ''}
 }
 %   endfor
 
-func defaultInternalDataMapFor${obj_name}() map[string]interface{} {
-	data := make(map[string]interface{})
-%	if 'parentClasses' in obj:
-%		for i, parent in enumerate(obj['parentClasses']):
-	parentData${i} := defaultInternalDataMapFor${parent}()
-	for key, value := range parentData${i} {
-		data[key] = value
-	}
+// InitImplDefaults initializes safe defaults for all fields in ${obj_name}.
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) InitImplDefaults() {
+%		for i, parent in enumerate(obj['parentClasses'] + [] if not obj_name in ['Game', 'GameObject'] else [obj_name]):
+	${lowercase_first(obj_name)}Impl.${parent}Impl.InitImplDefaults()
 %		endfor
-%	endif
-%   for attr_name in obj['attribute_names']:
-	data["${attr_name}"] = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'], package_name)}
-%   endfor
 
-	return data
+%   for attr_name in obj['attribute_names']:
+	${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'], package_name)}
+%   endfor
 }
 % endfor
 
-// -- Namespace -- \\
+// -- Namespace -- ${'\\\\'}
 <% ns = game_name + 'Namespace' %>
+// ${ns} is the collection of implimentation logic for the ${game_name} game.
 type ${ns} struct {}
 
-func (_ ${ns}) Name() string {
+// Name returns the name of the ${game_name} game.
+func (*${ns}) Name() string {
 	return "${game_name}"
 }
 
-func (_ ${ns}) Version() string {
+// Version returns the current version hash as last generated for the ${game_name} game.
+func (*${ns}) Version() string {
 	return "${game_version}"
 }
 
-func (_ ${ns}) PlayerName() string {
+// PlayerName returns the desired name of the AI in the ${game_name} game.
+func (*${ns}) PlayerName() string {
 	return ${package_name}.PlayerName()
 }
 
-func (_ ${ns}) CreateGameObject(gameObjectName string) (base.BaseGameObject, *base.BaseDeltaMergeableImpl, error) {
+// CreateGameObject is the factory method for all GameObject instances in the ${game_name} game.
+func (*${ns}) CreateGameObject(gameObjectName string) (base.GameObject, *base.DeltaMergeableImpl, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
 		new${game_obj_name} := ${game_obj_name}Impl{}
-		new${game_obj_name}.InternalDataMap = defaultInternalDataMapFor${game_obj_name}()
-		return &new${game_obj_name}, &(new${game_obj_name}.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
+		new${game_obj_name}.InitImplDefaults()
+		return &new${game_obj_name}, &(new${game_obj_name}.GameObjectImpl.DeltaMergeableImpl), nil
 % endfor
 	}
 	return nil, nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
 }
 
-func (_ ${ns}) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
+// CreateGame is the factory method for Game the ${game_name} game.
+func (*${ns}) CreateGame() (base.Game, *base.DeltaMergeableImpl) {
 	game := GameImpl{}
-	game.InternalDataMap = defaultInternalDataMapForGame()
-	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
+	game.InitImplDefaults()
+	return &game, &(game.GameImpl.DeltaMergeableImpl)
 }
 
-func (_ ${ns}) CreateAI() (base.BaseAI, *base.BaseAIImpl) {
+// CreateAI is the factory method for the AI in the ${game_name} game.
+func (*${ns}) CreateAI() (base.AI, *base.AIImpl) {
 	ai := ${package_name}.AI{}
-	return &ai, &ai.BaseAIImpl
+	return &ai, &ai.AIImpl
 }
 
-func (_ ${ns}) OrderAI(baseAI base.BaseAI, functionName string, args []interface{}) (interface{}, error) {
+// OrderAI handles an order for the AI in the ${game_name} game.
+func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (interface{}, error) {
 	ai, validAI := baseAI.(*chess.AI)
 	if !validAI {
 		return nil, errors.New("AI is not a valid chess.AI to order!")

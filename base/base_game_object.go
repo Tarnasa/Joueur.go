@@ -5,23 +5,26 @@ import (
 	"joueur/runtime/errorhandler"
 )
 
-var RunOnServerCallback func(BaseGameObject, string, map[string]interface{}) interface{}
+// RunOnServerCallback is the callback function for the game manager to hook
+// into so RunOnServer works once the client is connected
+var RunOnServerCallback func(GameObject, string, map[string]interface{}) interface{}
 
-type BaseGameObject interface {
-	// A unique ID (unique to the game instance) of the game object.
-	// Will never change, and IDs are never re-used.
+// GameObject is the base interface all GameObjects in all games should implement
+type GameObject interface {
 	ID() string
-
-	GameObjectName() string
 }
 
-type BaseGameObjectImpl struct {
-	BaseDeltaMergeableImpl
+// GameObjectImpl is the implimentation struct for BaseGameObject
+type GameObjectImpl struct {
+	DeltaMergeableImpl
 
-	game BaseGame
+	game   Game
+	IdImpl string
 }
 
-func (this BaseGameObjectImpl) RunOnServer(functionName string, args map[string]interface{}) interface{} {
+// RunOnServer is a slim wrapper that attempts to run game logic on behalf
+// of this gameObject on the server.
+func (gameObjectImpl *GameObjectImpl) RunOnServer(functionName string, args map[string]interface{}) interface{} {
 	if RunOnServerCallback == nil {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
@@ -29,19 +32,16 @@ func (this BaseGameObjectImpl) RunOnServer(functionName string, args map[string]
 		)
 	}
 
-	return RunOnServerCallback(&this, functionName, args)
+	return RunOnServerCallback(gameObjectImpl, functionName, args)
 }
 
-func (this BaseGameObjectImpl) ID() string {
-	return this.InternalDataMap["id"].(string)
+// ID returns a unique id for each instance of a GameObject or a sub class.
+// Used for client and server communication. Should never change value after being set.
+func (gameObjectImpl *GameObjectImpl) ID() string {
+	return gameObjectImpl.InternalDataMap["id"].(string)
 }
 
-func (this BaseGameObjectImpl) GameObjectName() string {
-	return this.InternalDataMap["gameObjectName"].(string)
+// InitImplDefaults initializes safe defaults for all fields in GameObject.
+func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
+	gameObjectImpl.IdImpl = ""
 }
-
-/*
-func (this BaseGameObjectImpl) Game() BaseGame {
-	return this.Game
-}
-*/

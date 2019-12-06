@@ -1,5 +1,5 @@
-// This package contains all the structs, methods, and the AI required as
-// a client to play the Chess with a game server.
+// Package impl contains all the Chess implimentation
+// logic and structures required by aa client to play with a game server.
 // To start coding your AI open ./ai.go
 package impl
 
@@ -11,189 +11,227 @@ import (
 
 // -- Game -- \\
 
+// GameImpl is the struct that implements the container for Game instances in Chess.
 type GameImpl struct {
-	base.BaseGameImpl
+	base.GameImpl
+	FenImpl         string
+	GameObjectsImpl map[string]chess.GameObject
+	HistoryImpl     []string
+	PlayersImpl     []chess.Player
+	SessionImpl     string
 }
 
-func (this GameImpl) Fen() string {
-	return this.InternalDataMap["fen"].(string)
+// Fen returns forsyth-Edwards Notation (fen), a notation that describes the game board state.
+func (gameImpl *GameImpl) Fen() string {
+	return gameImpl.FenImpl
 }
 
-func (this GameImpl) GameObjects() map[string](chess.GameObject) {
-	return this.InternalDataMap["gameObjects"].(map[string](chess.GameObject))
+// GameObjects returns a mapping of every game object's ID to the actual game object. Primarily used by the server and client to easily refer to the game objects via ID.
+func (gameImpl *GameImpl) GameObjects() map[string]chess.GameObject {
+	return gameImpl.GameObjectsImpl
 }
 
-func (this GameImpl) History() []string {
-	return this.InternalDataMap["history"].([]string)
+// History returns the array of [known] moves that have occurred in the game, in Standard Algebraic Notation (SAN) format. The first element is the first move, with the last being the most recent.
+func (gameImpl *GameImpl) History() []string {
+	return gameImpl.HistoryImpl
 }
 
-func (this GameImpl) Players() [](chess.Player) {
-	return this.InternalDataMap["players"].([](chess.Player))
+// Players returns array of all the players in the game.
+func (gameImpl *GameImpl) Players() []chess.Player {
+	return gameImpl.PlayersImpl
 }
 
-func (this GameImpl) Session() string {
-	return this.InternalDataMap["session"].(string)
+// Session returns a unique identifier for the game instance that is being played.
+func (gameImpl *GameImpl) Session() string {
+	return gameImpl.SessionImpl
 }
 
-func defaultInternalDataMapForGame() map[string]interface{} {
-	data := make(map[string]interface{})
-	data["fen"] = ""
-	data["gameObjects"] = make(map[string](chess.GameObject))
-	data["history"] = make([]string, 0)
-	data["players"] = make([](chess.Player), 0)
-	data["session"] = ""
+// InitImplDefaults initializes safe defaults for all fields in Game.
+func (gameImpl *GameImpl) InitImplDefaults() {
+	gameImpl.GameImpl.InitImplDefaults()
 
-	return data
+	gameImpl.FenImpl = ""
+	gameImpl.GameObjectsImpl = make(map[string]chess.GameObject)
+	gameImpl.HistoryImpl = make([]string, 0)
+	gameImpl.PlayersImpl = make([]chess.Player, 0)
+	gameImpl.SessionImpl = ""
 }
 
 // -- GameObject -- \\
 
+// GameObjectImpl is the struct that implements the container for GameObject instances in Chess.
 type GameObjectImpl struct {
-	base.BaseGameObjectImpl
-	game *chess.Game
+	base.GameObjectImpl
+	game               *GameImpl
+	GameObjectNameImpl string
+	LogsImpl           []string
 }
 
-func (this GameObjectImpl) Game() *chess.Game {
-	return this.game
+// Game returns a pointer to the Chess Game instance
+func (gameObjectImpl *GameObjectImpl) Game() chess.Game {
+	return gameObjectImpl.game
 }
 
-func (this GameObjectImpl) GameObjectName() string {
-	return this.InternalDataMap["gameObjectName"].(string)
+// GameObjectName returns string representing the top level Class that this game object is an instance of. Used for reflection to create new instances on clients, but exposed for convenience should AIs want this data.
+func (gameObjectImpl *GameObjectImpl) GameObjectName() string {
+	return gameObjectImpl.GameObjectNameImpl
 }
 
-func (this GameObjectImpl) Id() string {
-	return this.InternalDataMap["id"].(string)
+// Logs returns any strings logged will be stored here. Intended for debugging.
+func (gameObjectImpl *GameObjectImpl) Logs() []string {
+	return gameObjectImpl.LogsImpl
 }
 
-func (this GameObjectImpl) Logs() []string {
-	return this.InternalDataMap["logs"].([]string)
+// Log runs logic that adds a message to this GameObject's logs. Intended for your own debugging purposes, as strings stored here are saved in the gamelog.
+func (gameObjectImpl *GameObjectImpl) Log(message string) {
+	gameObjectImpl.RunOnServer("log", map[string]interface{}{
+		"message": message,
+	})
 }
 
-func (this GameObjectImpl) Log(message string) {
-	args := make(map[string]interface{})
-	args["message"] = message
-	this.RunOnServer("log", args)
-}
+// InitImplDefaults initializes safe defaults for all fields in GameObject.
+func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
+	gameObjectImpl.GameObjectImpl.InitImplDefaults()
 
-func defaultInternalDataMapForGameObject() map[string]interface{} {
-	data := make(map[string]interface{})
-	data["gameObjectName"] = ""
-	data["id"] = ""
-	data["logs"] = make([]string, 0)
-
-	return data
+	gameObjectImpl.GameObjectNameImpl = ""
+	gameObjectImpl.IdImpl = ""
+	gameObjectImpl.LogsImpl = make([]string, 0)
 }
 
 // -- Player -- \\
 
+// PlayerImpl is the struct that implements the container for Player instances in Chess.
 type PlayerImpl struct {
 	GameObjectImpl
+	ClientTypeImpl    string
+	ColorImpl         string
+	LostImpl          bool
+	NameImpl          string
+	OpponentImpl      chess.Player
+	ReasonLostImpl    string
+	ReasonWonImpl     string
+	TimeRemainingImpl float64
+	WonImpl           bool
 }
 
-func (this PlayerImpl) ClientType() string {
-	return this.InternalDataMap["clientType"].(string)
+// ClientType returns what type of client this is, e.g. 'Python', 'JavaScript', or some other language. For potential data mining purposes.
+func (playerImpl *PlayerImpl) ClientType() string {
+	return playerImpl.ClientTypeImpl
 }
 
-func (this PlayerImpl) Color() string {
-	return this.InternalDataMap["color"].(string)
+// Color returns the color (side) of this player. Either 'white' or 'black', with the 'white' player having the first move.
+func (playerImpl *PlayerImpl) Color() string {
+	return playerImpl.ColorImpl
 }
 
-func (this PlayerImpl) Lost() bool {
-	return this.InternalDataMap["lost"].(bool)
+// Lost returns if the player lost the game or not.
+func (playerImpl *PlayerImpl) Lost() bool {
+	return playerImpl.LostImpl
 }
 
-func (this PlayerImpl) Name() string {
-	return this.InternalDataMap["name"].(string)
+// Name returns the name of the player.
+func (playerImpl *PlayerImpl) Name() string {
+	return playerImpl.NameImpl
 }
 
-func (this PlayerImpl) Opponent() (chess.Player) {
-	return this.InternalDataMap["opponent"].((chess.Player))
+// Opponent returns this player's opponent in the game.
+func (playerImpl *PlayerImpl) Opponent() chess.Player {
+	return playerImpl.OpponentImpl
 }
 
-func (this PlayerImpl) ReasonLost() string {
-	return this.InternalDataMap["reasonLost"].(string)
+// ReasonLost returns the reason why the player lost the game.
+func (playerImpl *PlayerImpl) ReasonLost() string {
+	return playerImpl.ReasonLostImpl
 }
 
-func (this PlayerImpl) ReasonWon() string {
-	return this.InternalDataMap["reasonWon"].(string)
+// ReasonWon returns the reason why the player won the game.
+func (playerImpl *PlayerImpl) ReasonWon() string {
+	return playerImpl.ReasonWonImpl
 }
 
-func (this PlayerImpl) TimeRemaining() float64 {
-	return this.InternalDataMap["timeRemaining"].(float64)
+// TimeRemaining returns the amount of time (in ns) remaining for this AI to send commands.
+func (playerImpl *PlayerImpl) TimeRemaining() float64 {
+	return playerImpl.TimeRemainingImpl
 }
 
-func (this PlayerImpl) Won() bool {
-	return this.InternalDataMap["won"].(bool)
+// Won returns if the player won the game or not.
+func (playerImpl *PlayerImpl) Won() bool {
+	return playerImpl.WonImpl
 }
 
-func defaultInternalDataMapForPlayer() map[string]interface{} {
-	data := make(map[string]interface{})
-	parentData0 := defaultInternalDataMapForGameObject()
-	for key, value := range parentData0 {
-		data[key] = value
-	}
-	data["clientType"] = ""
-	data["color"] = ""
-	data["lost"] = false
-	data["name"] = ""
-	data["opponent"] = nil
-	data["reasonLost"] = ""
-	data["reasonWon"] = ""
-	data["timeRemaining"] = 0
-	data["won"] = false
+// InitImplDefaults initializes safe defaults for all fields in Player.
+func (playerImpl *PlayerImpl) InitImplDefaults() {
+	playerImpl.GameObjectImpl.InitImplDefaults()
 
-	return data
+	playerImpl.ClientTypeImpl = ""
+	playerImpl.ColorImpl = ""
+	playerImpl.LostImpl = false
+	playerImpl.NameImpl = ""
+	playerImpl.OpponentImpl = nil
+	playerImpl.ReasonLostImpl = ""
+	playerImpl.ReasonWonImpl = ""
+	playerImpl.TimeRemainingImpl = 0
+	playerImpl.WonImpl = false
 }
 
-// -- Namespace -- \
-type ChessNamespace struct {}
+// -- Namespace -- \\
 
-func (_ ChessNamespace) Name() string {
+// ChessNamespace is the collection of implimentation logic for the Chess game.
+type ChessNamespace struct{}
+
+// Name returns the name of the Chess game.
+func (*ChessNamespace) Name() string {
 	return "Chess"
 }
 
-func (_ ChessNamespace) Version() string {
+// Version returns the current version hash as last generated for the Chess game.
+func (*ChessNamespace) Version() string {
 	return "cfa5f5c1685087ce2899229c04c26e39f231e897ecc8fe036b44bc22103ef801"
 }
 
-func (_ ChessNamespace) PlayerName() string {
+// PlayerName returns the desired name of the AI in the Chess game.
+func (*ChessNamespace) PlayerName() string {
 	return chess.PlayerName()
 }
 
-func (_ ChessNamespace) CreateGameObject(gameObjectName string) (base.BaseGameObject, *base.BaseDeltaMergeableImpl, error) {
-	switch (gameObjectName) {
+// CreateGameObject is the factory method for all GameObject instances in the Chess game.
+func (*ChessNamespace) CreateGameObject(gameObjectName string) (base.GameObject, *base.DeltaMergeableImpl, error) {
+	switch gameObjectName {
 	case "GameObject":
 		newGameObject := GameObjectImpl{}
-		newGameObject.InternalDataMap = defaultInternalDataMapForGameObject()
-		return &newGameObject, &(newGameObject.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
+		newGameObject.InitImplDefaults()
+		return &newGameObject, &(newGameObject.GameObjectImpl.DeltaMergeableImpl), nil
 	case "Player":
 		newPlayer := PlayerImpl{}
-		newPlayer.InternalDataMap = defaultInternalDataMapForPlayer()
-		return &newPlayer, &(newPlayer.BaseGameObjectImpl.BaseDeltaMergeableImpl), nil
+		newPlayer.InitImplDefaults()
+		return &newPlayer, &(newPlayer.GameObjectImpl.DeltaMergeableImpl), nil
 	}
 	return nil, nil, errors.New("No game object named " + gameObjectName + " for game Chess")
 }
 
-func (_ ChessNamespace) CreateGame() (base.BaseGame, *base.BaseDeltaMergeableImpl) {
+// CreateGame is the factory method for Game the Chess game.
+func (*ChessNamespace) CreateGame() (base.Game, *base.DeltaMergeableImpl) {
 	game := GameImpl{}
-	game.InternalDataMap = defaultInternalDataMapForGame()
-	return &game, &(game.BaseGameImpl.BaseDeltaMergeableImpl)
+	game.InitImplDefaults()
+	return &game, &(game.GameImpl.DeltaMergeableImpl)
 }
 
-func (_ ChessNamespace) CreateAI() (base.BaseAI, *base.BaseAIImpl) {
+// CreateAI is the factory method for the AI in the Chess game.
+func (*ChessNamespace) CreateAI() (base.AI, *base.AIImpl) {
 	ai := chess.AI{}
-	return &ai, &ai.BaseAIImpl
+	return &ai, &ai.AIImpl
 }
 
-func (_ ChessNamespace) OrderAI(baseAI base.BaseAI, functionName string, args []interface{}) (interface{}, error) {
+// OrderAI handles an order for the AI in the Chess game.
+func (*ChessNamespace) OrderAI(baseAI base.AI, functionName string, args []interface{}) (interface{}, error) {
 	ai, validAI := baseAI.(*chess.AI)
 	if !validAI {
 		return nil, errors.New("AI is not a valid chess.AI to order!")
 	}
-	switch (functionName) {
+	switch functionName {
 	case "makeMove":
 		return (*ai).MakeMove(), nil
 	}
 
-	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
+	return nil, errors.New("Cannot find functionName " + functionName + " to run in S{game_name} AI")
 }
