@@ -57,6 +57,13 @@ func (gameImpl *GameImpl) InitImplDefaults() {
 	gameImpl.SessionImpl = ""
 }
 
+func (gameImpl *GameImpl) DeltaMerge(dm base.DeltaMerge, attribute string, delta0 interface{}) {
+	switch attribute {
+	case "fen":
+		dm.String(&(*gameImpl).FenImpl, delta0)
+	}
+}
+
 // -- GameObject -- \\
 
 // GameObjectImpl is the struct that implements the container for GameObject instances in Chess.
