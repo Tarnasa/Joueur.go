@@ -1,0 +1,140 @@
+<%
+if not 'go' in shared:
+    shared['go'] = {}
+
+    def go_type(type_obj, package=''):
+        base_type = type_obj['name']
+
+        if base_type == 'dictionary':
+            return 'map[{}]{}'.format(
+                go_type(type_obj['keyType'], package),
+                go_type(type_obj['valueType'], package)
+            )
+        elif base_type == 'list':
+            return '[]' + go_type(type_obj['valueType'], package)
+        elif base_type == 'int':
+            return 'int64'
+        elif  base_type == 'float':
+            return 'float64'
+        elif type_obj['is_game_object']:
+            if package:
+                return '{}.{}'.format(package, base_type)
+            return base_type
+        elif base_type == 'boolean':
+            return 'bool'
+        else: # should only be string
+            return base_type
+    shared['go']['type'] = go_type
+
+
+    def go_default_value(type_obj, package=''):
+        base_type = type_obj['name']
+        if base_type == "string":
+            return '""'
+        elif base_type == "dictionary":
+            return 'make(map[{}]{})'.format(go_type(type_obj['keyType'], package), go_type(type_obj['valueType'], package))
+        elif base_type == "list":
+            return 'make([]{}, 0)'.format(go_type(type_obj['valueType'], package))
+        elif base_type == "int" or base_type == "float":
+            return '0'
+        elif base_type == "boolean":
+            return 'false'
+        else:
+            return "nil"
+    shared['go']['default_value'] = go_default_value
+
+    def go_description(val):
+        description = val if type(val) == str else val['description']
+        return (description
+            .replace('Null', 'Nil')
+            .replace('null', 'nil')
+            .replace('A list', 'An array')
+            .replace('list', 'array')
+            .replace('List', 'Array')
+        )
+    shared['go']['description'] = go_description
+
+    def go_function_top(function_name, function_params, receiver="", public=True):
+        strs = ['// ', function_params['description'], '\nfunc ']
+
+        if receiver:
+            receiverVar = lowercase_first(receiver)
+            if receiver == 'AI':
+                receiverVar = 'ai'
+            strs.extend(['(', receiverVar, ' ', receiver, ') '])
+
+        if public:
+            strs.append(upcase_first(function_name))
+        else:
+            strs.append(function_name)
+
+        strs.append('(')
+        if len(function_params['arguments']) > 0:
+            strs.append('\n') # each argument will get it's own line
+            for arg in function_params['arguments']:
+                strs.extend([
+                    '\t// ', arg['description'], '\n',
+                    '\t', arg['name'], ' ', go_type(arg['type']), ',\n'
+                ])
+        strs.append(') ')
+        if 'returns' in function_params and function_params['returns']:
+            strs.extend([go_type(function_params['returns']['type']), ' '])
+        strs.append('{')
+
+        return ''.join(strs)
+    shared['go']['function_top'] = go_function_top
+
+    def go_interface_for(obj_name, obj):
+        is_base = obj_name in ['Game', 'GameObject']
+        strs = ['// ', obj['description'], '\ntype ', obj_name, ' interface {\n']
+
+        parents = list(obj['parentClasses'] if 'parentClasses' in obj else [])
+        if is_base:
+            parents.append('base.' + obj_name)
+
+        if parents:
+            strs.extend(['\t// Parent interfaces\n'])
+            for parent in parents:
+                strs.extend(['\t', parent, '\n'])
+            strs.append('\n')
+
+        if 'attributes' in obj and obj['attributes']:
+            strs.append('\t// -- Attributes -- \\\\\n\n')
+            for attr_name in obj['attribute_names']:
+                if obj_name == 'GameObject' and attr_name in ['id', 'gameObjectName']:
+                    continue
+                attr = obj['attributes'][attr_name]
+                strs.extend([
+                    '\t// ', attr['description'], '\n',
+                    '\t', upcase_first(attr_name), '() ', go_type(attr['type']), '\n\n'])
+
+        if 'functions' in obj and obj['functions']:
+            strs.append('\t// -- Methods -- \\\\\n\n')
+            for func_name in obj['function_names']:
+                func = obj['functions'][func_name]
+                strs.extend([
+                    '\t// ', func['description'], '\n',
+                    '\t', upcase_first(func_name), '(', ', '.join(
+                        [go_type(a['type']) for a in func['arguments']]
+                    ), ')', ((' ' + go_type(func['returns']['type'])) if func['returns'] else ''), '\n\n'])
+        strs.append('}\n')
+        return ''.join(strs)
+    shared['go']['interface_for'] = go_interface_for
+
+    def go_format_imports(imports):
+        if not imports:
+            return ''
+        if len(imports) == 1:
+            return 'import "{}"\n\n'.format(imports[0])
+        # else must be 2+ imports, so multiline it
+        lines = ['\t"{}"'.format(line) for line in imports]
+        return 'import ({}\n)\n\n'.format('\n'.join(lines))
+    shared['go']['format_imports'] = go_format_imports
+
+    def go_imports_for(obj_name):
+        is_base = obj_name in ['Game', 'GameObject']
+        imports = ['joueur/base'] if is_base else []
+        return go_format_imports(imports)
+    shared['go']['imports_for'] = go_imports_for
+
+%>

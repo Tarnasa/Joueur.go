@@ -2,20 +2,20 @@ package chess
 
 import "joueur/base"
 
-type AI struct {
-	base.BaseAI
-
-	// The reference to the Game instance this AI is playing.
-	Game *Game
-
-	// The reference to the Player this AI controls in the Game.
-	player *Player
-}
-
-func (ai AI) GetPlayerName() string {
+func PlayerName() string {
 	// <<-- Creer-Merge: getName -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	return "Chess Go Player"
 	// <<-- /Creer-Merge: getName -->>
+}
+
+type AI struct {
+	base.AIImpl
+
+	// The reference to the Game instance this AI is playing.
+	Game Game
+
+	// The reference to the Player this AI controls in the Game.
+	Player Player
 }
 
 // This is called once the game starts and your AI knows its playerID and game.

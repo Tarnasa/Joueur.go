@@ -5,14 +5,12 @@ package runtime
 import (
 	"errors"
 	"fmt"
-	"joueur/base"
 	"joueur/games"
 	"joueur/runtime/client"
 	"joueur/runtime/errorhandler"
 	"joueur/runtime/gamemanager"
 	"os"
 	"os/signal"
-	"reflect"
 	"strconv"
 	"strings"
 	"syscall"
@@ -116,23 +114,21 @@ func Run(args RunArgs) error {
 		)
 	}
 
-	aiType := gameNamespace.AIType
-	ai := reflect.New(aiType)
-	if !ai.IsValid() {
-		return errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			errors.New("Could not create AI struct via reflect"),
-		)
-	}
-	bai := ai.Elem().Interface().(base.InterfaceAI)
-
-	playerName := bai.GetPlayerName()
+	playerName := gameNamespace.PlayerName()
 	if playerName == "" {
 		playerName = "Go Player"
 	}
 
 	if args.PlayerName != "" {
 		playerName = args.PlayerName
+	}
+
+	gameManager := gamemanager.New(gameNamespace, args.AISettings)
+	if gameManager == nil {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Could not create GameManager for game "+gameName),
+		)
 	}
 
 	client.SendEventPlay(client.EventPlay{
@@ -147,55 +143,48 @@ func Run(args RunArgs) error {
 	lobbiedData := client.WaitForEventLobbied()
 	color.Cyan("In lobby for game " + lobbiedData.GameName + " in session " + lobbiedData.GameSession)
 
-	if lobbiedData.GameVersion != (*gameNamespace).Version {
+	ourGameVersion := gameNamespace.Version()
+	if lobbiedData.GameVersion != ourGameVersion {
 		color.Yellow(
 			`WARNING: Game versions do not match.
 -> Your local game version is:     %s
 -> Game Server's game version is:  %s
 
 Version mismatch means that unexpected crashes may happen due to differing game structures!`,
-			(*gameNamespace).Version[:8],
+			ourGameVersion[:8],
 			lobbiedData.GameVersion[:8],
 		)
 	}
 
-	gameManager := gamemanager.New(&gamemanager.GameManager{
-		ServerConstants: lobbiedData.Constants,
-		GameNamespace:   gameNamespace,
-		InterfaceAI:     &bai,
-		ReflectAI:       &ai,
-	}, args.AISettings)
+	gameManager.ServerConstants = lobbiedData.Constants
 
 	startData := client.WaitForEventStart()
 
-	(*gameManager).Start(startData.PlayerID)
-
 	color.Green("Game is starting.")
 
-	/*
-			// player is readonly but that's so competitors don't change it,
-			// so cast to any here so we can set it
-			(ai as any).player = game.gameObjects[startData.playerID];
-			try {
-				await ai.start();
-				await ai.gameUpdated();
-			} catch (err) {
-				handleError(
-					ErrorCode.AI_ERRORED,
-					err,
-					"AI errored when game initially started.",
-				);
-			}
+	gameManager.Start(startData.PlayerID)
 
-			client.acceptOrders();
+	// The client will now wait for order(s) asynchronously.
+	// The process will exit when "over" is sent from the game server.
 
-			// The client will now wait for order(s) asynchronously.
-			// The process will exit when "end" is sent from the game server.
-	*/
+	overData := client.WaitForEventOver()
+
+	won := gameManager.Player.Won()
+	reason := gameManager.Player.ReasonWon()
+	didWin := "I Won!"
+	if !won {
+		reason = gameManager.Player.ReasonLost()
+		didWin = "I Lost :("
+	}
+	color.Green("Game is over. " + didWin + " because: " + reason)
+
+	gameManager.AI.Ended(won, reason)
+
+	if overData.Message != "" {
+		color.Cyan(strings.Replace(overData.Message, "__HOSTNAME__", args.Server, 1))
+	}
 
 	client.Disconnect()
 
-	fmt.Println("done!")
-
-	return nil
+	return nil // should end the process with return code 0
 }

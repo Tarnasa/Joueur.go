@@ -1,13 +1,47 @@
 package base
 
-type BaseGameObject struct {
-	// A unique ID (unique to the game instance) of the game object.
-	// Will never change, and IDs are never re-used.
-	Id string
+import (
+	"errors"
+	"joueur/runtime/errorhandler"
+)
 
-	GameObjectName string
+// RunOnServerCallback is the callback function for the game manager to hook
+// into so RunOnServer works once the client is connected
+var RunOnServerCallback func(GameObject, string, map[string]interface{}) interface{}
+
+// GameObject is the base interface all GameObjects in all games should implement
+type GameObject interface {
+	ID() string
 }
 
-func (gameObject BaseGameObject) runOnServer(name string) {
-	// TODO: do
+// GameObjectImpl is the implimentation struct for BaseGameObject
+type GameObjectImpl struct {
+	DeltaMergeableImpl
+
+	game   Game
+	IdImpl string
+}
+
+// RunOnServer is a slim wrapper that attempts to run game logic on behalf
+// of this gameObject on the server.
+func (gameObjectImpl *GameObjectImpl) RunOnServer(functionName string, args map[string]interface{}) interface{} {
+	if RunOnServerCallback == nil {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Cannot invoke function "+functionName+"on server without callback set!"),
+		)
+	}
+
+	return RunOnServerCallback(gameObjectImpl, functionName, args)
+}
+
+// ID returns a unique id for each instance of a GameObject or a sub class.
+// Used for client and server communication. Should never change value after being set.
+func (gameObjectImpl *GameObjectImpl) ID() string {
+	return gameObjectImpl.InternalDataMap["id"].(string)
+}
+
+// InitImplDefaults initializes safe defaults for all fields in GameObject.
+func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
+	gameObjectImpl.IdImpl = ""
 }

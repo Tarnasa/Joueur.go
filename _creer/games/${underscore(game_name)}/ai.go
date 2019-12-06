@@ -1,22 +1,22 @@
 package ${lowercase_first(game_name)}
-<%include file='functions.noCreer' />
+<%include file='impl/functions.noCreer' />
 import "joueur/base"
 
-type AI struct {
-	base.BaseAI
-
-	// The reference to the Game instance this AI is playing.
-	Game *Game
-
-	// The reference to the Player this AI controls in the Game.
-	player *Player
-}
-
-func (ai AI) GetPlayerName() string {
+func PlayerName() string {
 ${merge(
 	'\t// ', 'getName',
 	'\treturn "' + game_name + ' Go Player"'
 )}
+}
+
+type AI struct {
+	base.AIImpl
+
+	// The reference to the Game instance this AI is playing.
+	Game Game
+
+	// The reference to the Player this AI controls in the Game.
+	Player Player
 }
 
 // This is called once the game starts and your AI knows its playerID and game.
