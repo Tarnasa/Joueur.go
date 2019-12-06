@@ -27,7 +27,7 @@ func waitForEvents() {
 
 	for {
 		sent := make([]byte, readSize)
-		bytesSent, err := instance.conn.Read(sent)
+		bytesSent, err := (*instance.conn).Read(sent)
 		if err != nil {
 			errorhandler.HandleError(
 				errorhandler.CannotReadSocket,

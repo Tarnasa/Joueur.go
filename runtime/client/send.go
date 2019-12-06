@@ -46,7 +46,7 @@ func sendRaw(bytes []byte) error {
 		color.Magenta("TO SERVER <-- " + string(bytes))
 	}
 
-	_, err := instance.conn.Write((bytes))
+	_, err := (*instance.conn).Write((bytes))
 	if err != nil {
 		errorhandler.HandleError(
 			errorhandler.DisconnectedUnexpectedly,
