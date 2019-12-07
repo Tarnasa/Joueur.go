@@ -1,6 +1,7 @@
 <%page args="obj_name"/>package impl
 <%include file='functions.noCreer' />
 import (
+	"errors"
 	"joueur/base"
 	"joueur/games/${underscore(game_name)}"
 )
@@ -18,13 +19,18 @@ type ${obj_name}Impl struct {
 %	for parent in parents:
 	${parent}Impl
 %	endfor
+
 %	if obj_name == 'GameObject':
 	game${' ' * (5 + longest_attr_name_len - len('game'))}*GameImpl
 %   endif
 %	for attr_name in obj['attribute_names']:
 %	if not (obj_name == 'GameObject' and attr_name == 'id'):
-<%		spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
-%>	impl${attr_name}${spaces}${shared['go']['type'](obj['attributes'][attr_name]['type'])}
+<%		attr = obj['attributes'][attr_name]
+		spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
+
+		combined = ''.join([attr_name, 'Impl', spaces, shared['go']['type'](attr['type'])])
+
+%>	${combined}
 % 	endif
 %	endfor
 }
@@ -44,7 +50,7 @@ func (gameObjectImpl *GameObjectImpl) Game() ${shared['go']['package_name']}.Gam
 %>
 // ${upcase_first(attr_name)} returns ${lowercase_first(shared["go"]["description"](attr))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
-	return ${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl
+	return ${lowercase_first(obj_name)}Impl.${attr_name}Impl
 }
 %   endfor
 %   for func_name in obj['function_names']:
@@ -71,21 +77,47 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) InitImplDefaults() {
 %		endfor
 
 %   for attr_name in obj['attribute_names']:
-	${lowercase_first(obj_name)}Impl.impl${attr_name} = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'])}
+<%	if shared['go']['skip_attribute'](obj_name, attr_name):
+		continue
+%>	${lowercase_first(obj_name)}Impl.${attr_name}Impl = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'])}
 %   endfor
 }
 
 // DeltaMerge merged the delta for a given attribute in ${obj_name}.
-func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) {
-	switch(attribute) {
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
+	deltaMerge base.DeltaMerge,
+	attribute string,
+	delta interface{},
+) (bool, error) {
+%	for i, parent in enumerate(parents):
+<%	suf = '' if i == 0 else str(i + 1)
+	if parent.startswith('base.'):
+		parent = parent[5:]
+%>	merged${suf}, err${suf} := ${lowercase_first(obj_name)}Impl.${parent}Impl.DeltaMerge(deltaMerge, attribute, delta)
+	if merged${suf} || err${suf} != nil {
+		return merged${suf}, err${suf}
+	}
+% 	endfor
+
+	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMergeImpl)
+	if !ok {
+		return false, errors.New("DeltaMerge was not the ${shared['go']['package_name']}.impl.DeltaMerge")
+	}
+
+	switch attribute {
 %	for attr_name in obj['attribute_names']:
 <%		attr = obj['attributes'][attr_name]
 		impl = '(*{}Impl).{}Impl'.format(lowercase_first(obj_name), attr_name)
+
+		if shared['go']['skip_attribute'](obj_name, attr_name):
+			continue
 %>	case "${attr_name}":
-		${impl} = deltaMerge.${shared['go']['find_deep_type_name'](attr['type'])}(${
-		(impl + ', ') if shared['go']['is_type_deep'](attr['type']) else 'delta'
+		${impl} = ${shared['go']['package_name']}DeltaMerge.${shared['go']['find_deep_type_name'](attr['type'])}(${
+		(('&' + impl + ', ') if shared['go']['is_type_deep'](attr['type']) else '') + 'delta'
 		})
-		break
+		return true, nil
 %	endfor
 	}
+
+	return false, nil // no errors in delta merging
 }

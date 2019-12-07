@@ -36,7 +36,7 @@ if not 'go' in shared:
         elif base_type == "dictionary":
             return 'make(map[{}]{})'.format(go_type(type_obj['keyType'], package), go_type(type_obj['valueType'], package))
         elif base_type == "list":
-            return 'make([]{}, 0)'.format(go_type(type_obj['valueType'], package))
+            return '[]{}'.format(go_type(type_obj['valueType'], package)) + '{}'
         elif base_type == "int" or base_type == "float":
             return '0'
         elif base_type == "boolean":
@@ -55,6 +55,16 @@ if not 'go' in shared:
             .replace('List', 'Array')
         )
     shared['go']['description'] = go_description
+
+    def go_skip_attribute(obj_name, attr_name):
+        #if obj_name == 'Game':
+        #    if attr_name == 'GameObjects'
+        if obj_name == 'GameObject':
+            if attr_name == 'id':
+                return True
+        return False
+    shared['go']['skip_attribute'] = go_skip_attribute
+
 
     def go_function_top(function_name, function_params, receiver="", public=True):
         strs = ['// ', function_params['description'], '\nfunc ']

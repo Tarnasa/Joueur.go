@@ -33,15 +33,17 @@ type DeltaMergeImpl struct {
 // -- ${game_name} Game Object Deltas -- ${'\\\\'}
 
 % for game_obj_name in game_obj_names:
-func (deltaMergeImpl DeltaMergeImpl) ${game_obj_name}(delta interface{}) ${package_name}.${game_obj_name} {
-	baseGameObject := deltaMergeImpl.BaseGameObject(delta)
+// ${game_obj_name} attempts to return the instance of ${game_obj_name}
+// for the given Delta.
+func (deltaMergeImpl *DeltaMergeImpl) ${game_obj_name}(delta interface{}) ${package_name}.${game_obj_name} {
+	baseGameObject := (*deltaMergeImpl).BaseGameObject(delta)
 	if baseGameObject == nil {
 		return nil
 	}
 
 	as${game_obj_name}, is${game_obj_name} := baseGameObject.(${package_name}.${game_obj_name})
 	if !is${game_obj_name} {
-		deltaMergeImpl.CannotConvertDeltaTo("${package_name}.${game_obj_name}", delta)
+		(*deltaMergeImpl).CannotConvertDeltaTo("${package_name}.${game_obj_name}", delta)
 	}
 
 	return as${game_obj_name}
@@ -64,25 +66,27 @@ valueCall = 'deltaMergeImpl.{}({}deltaValue)'.format(
 	shared['go']['find_deep_type_name'](value_type),
 	'&newArray[index], ' if shared['go']['is_type_deep'](value_type) else ''
 )
-%>func (deltaMergeImpl DeltaMergeImpl) ${deep_type_name}(state *${go_type}, delta interface{}) *${go_type} {
+%>// ${deep_type_name} delta attempts to merge
+// deep structures of this type.
+func (deltaMergeImpl *DeltaMergeImpl) ${deep_type_name}(state *${go_type}, delta interface{}) ${go_type} {
 %	if is_list:
-	deltaList, listLength := deltaMergeImpl.ToDeltaArray(delta)
+	deltaList, listLength := (*deltaMergeImpl).ToDeltaArray(delta)
 	newArray := make(${go_type}, listLength) // resize array with new copy
 	copy(newArray, *state)
 	for deltaIndex, deltaValue := range deltaList {
 		newArray[deltaIndex] = ${valueCall}
 	}
-	return &newArray
+	return newArray
 %	else: # it's a map, and for now assume key_type is string because that's all that is really supported
-	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
+	deltaMap := (*deltaMergeImpl).ToDeltaMap(delta)
 	for deltaKey, deltaValue := range deltaMap {
-		if deltaMergeImpl.IsDeltaRemoved(deltaValue) {
+		if (*deltaMergeImpl).IsDeltaRemoved(deltaValue) {
 			delete(*state, deltaKey)
 		} else {
 			(*state)[deltaKey] = ${valueCall}
 		}
 	}
-	return state
+	return *state
 %	endif
 }
 

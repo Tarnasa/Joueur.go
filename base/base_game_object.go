@@ -19,7 +19,7 @@ type GameObjectImpl struct {
 	DeltaMergeableImpl
 
 	game   Game
-	IdImpl string
+	idImpl string
 }
 
 // RunOnServer is a slim wrapper that attempts to run game logic on behalf
@@ -43,5 +43,16 @@ func (gameObjectImpl *GameObjectImpl) ID() string {
 
 // InitImplDefaults initializes safe defaults for all fields in GameObject.
 func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
-	gameObjectImpl.IdImpl = ""
+	gameObjectImpl.idImpl = ""
+}
+
+// DeltaMerge merges the delta for a given attribute in GameObject.
+func (gameObjectImpl *GameObjectImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) (bool, error) {
+	switch attribute {
+	case "id":
+		(*gameObjectImpl).idImpl = deltaMerge.String(delta)
+		return true, nil
+	}
+
+	return false, nil
 }

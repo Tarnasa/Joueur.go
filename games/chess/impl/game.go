@@ -1,6 +1,7 @@
 package impl
 
 import (
+	"errors"
 	"joueur/base"
 	"joueur/games/chess"
 )
@@ -8,66 +9,83 @@ import (
 // GameImpl is the struct that implements the container for Game instances in Chess.
 type GameImpl struct {
 	base.GameImpl
-	implfen         string
-	implgameObjects map[string]chess.GameObject
-	implhistory     []string
-	implplayers     []chess.Player
-	implsession     string
+
+	fenImpl         string
+	gameObjectsImpl map[string]chess.GameObject
+	historyImpl     []string
+	playersImpl     []chess.Player
+	sessionImpl     string
 }
 
 // Fen returns forsyth-Edwards Notation (fen), a notation that describes the game board state.
 func (gameImpl *GameImpl) Fen() string {
-	return gameImpl.FenImpl
+	return gameImpl.fenImpl
 }
 
 // GameObjects returns a mapping of every game object's ID to the actual game object. Primarily used by the server and client to easily refer to the game objects via ID.
 func (gameImpl *GameImpl) GameObjects() map[string]chess.GameObject {
-	return gameImpl.GameObjectsImpl
+	return gameImpl.gameObjectsImpl
 }
 
 // History returns the array of [known] moves that have occurred in the game, in Standard Algebraic Notation (SAN) format. The first element is the first move, with the last being the most recent.
 func (gameImpl *GameImpl) History() []string {
-	return gameImpl.HistoryImpl
+	return gameImpl.historyImpl
 }
 
 // Players returns array of all the players in the game.
 func (gameImpl *GameImpl) Players() []chess.Player {
-	return gameImpl.PlayersImpl
+	return gameImpl.playersImpl
 }
 
 // Session returns a unique identifier for the game instance that is being played.
 func (gameImpl *GameImpl) Session() string {
-	return gameImpl.SessionImpl
+	return gameImpl.sessionImpl
 }
 
 // InitImplDefaults initializes safe defaults for all fields in Game.
 func (gameImpl *GameImpl) InitImplDefaults() {
 	gameImpl.GameImpl.InitImplDefaults()
 
-	gameImpl.implfen = ""
-	gameImpl.implgameObjects = make(map[string]chess.GameObject)
-	gameImpl.implhistory = make([]string, 0)
-	gameImpl.implplayers = make([]chess.Player, 0)
-	gameImpl.implsession = ""
+	gameImpl.fenImpl = ""
+	gameImpl.gameObjectsImpl = make(map[string]chess.GameObject)
+	gameImpl.historyImpl = []string{}
+	gameImpl.playersImpl = []chess.Player{}
+	gameImpl.sessionImpl = ""
 }
 
 // DeltaMerge merged the delta for a given attribute in Game.
-func (gameImpl *GameImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) {
-	switch(attribute) {
-	case "fen":
-		(*gameImpl).fenImpl = deltaMerge.String(delta)
-		break
-	case "gameObjects":
-		(*gameImpl).gameObjectsImpl = deltaMerge.MapOfStringToGameObject((*gameImpl).gameObjectsImpl, )
-		break
-	case "history":
-		(*gameImpl).historyImpl = deltaMerge.ArrayOfString((*gameImpl).historyImpl, )
-		break
-	case "players":
-		(*gameImpl).playersImpl = deltaMerge.ArrayOfPlayer((*gameImpl).playersImpl, )
-		break
-	case "session":
-		(*gameImpl).sessionImpl = deltaMerge.String(delta)
-		break
+func (gameImpl *GameImpl) DeltaMerge(
+	deltaMerge base.DeltaMerge,
+	attribute string,
+	delta interface{},
+) (bool, error) {
+	merged, err := gameImpl.GameImpl.DeltaMerge(deltaMerge, attribute, delta)
+	if merged || err != nil {
+		return merged, err
 	}
+
+	chessDeltaMerge, ok := deltaMerge.(DeltaMergeImpl)
+	if !ok {
+		return false, errors.New("DeltaMerge was not the chess.impl.DeltaMerge")
+	}
+
+	switch attribute {
+	case "fen":
+		(*gameImpl).fenImpl = chessDeltaMerge.String(delta)
+		return true, nil
+	case "gameObjects":
+		(*gameImpl).gameObjectsImpl = chessDeltaMerge.MapOfStringToGameObject(&(*gameImpl).gameObjectsImpl, delta)
+		return true, nil
+	case "history":
+		(*gameImpl).historyImpl = chessDeltaMerge.ArrayOfString(&(*gameImpl).historyImpl, delta)
+		return true, nil
+	case "players":
+		(*gameImpl).playersImpl = chessDeltaMerge.ArrayOfPlayer(&(*gameImpl).playersImpl, delta)
+		return true, nil
+	case "session":
+		(*gameImpl).sessionImpl = chessDeltaMerge.String(delta)
+		return true, nil
+	}
+
+	return false, nil // no errors in delta merging
 }

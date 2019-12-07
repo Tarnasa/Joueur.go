@@ -12,9 +12,9 @@ type DeltaMerge interface {
 	CannotConvertDeltaTo(string, interface{})
 
 	String(interface{}) string
-	Int(int64, interface{})
-	Float(float64, interface{})
-	Boolean(bool, interface{})
+	Int(interface{}) int64
+	Float(interface{}) float64
+	Boolean(interface{}) bool
 
 	BaseGameObject(interface{}) GameObject
 	ToDeltaMap(interface{}) map[string]interface{}
