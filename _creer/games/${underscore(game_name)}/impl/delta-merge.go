@@ -1,24 +1,13 @@
 package impl
 <%include file='functions.noCreer' /><%
 package_name = lowercase_first(game_name)
-def type_is_deep(type_obj):
-	return type_obj['name'] in ['list', 'dictionary']
 
 def find_deep_types(type_obj, types):
-	if type_is_deep(type_obj):
+	if shared['go']['is_type_deep'](type_obj):
 		types.append(type_obj)
 		find_deep_types(type_obj['valueType'], types)
 		if type_obj['name'] == 'dictionary':
 			find_deep_types(type_obj['keyType'], types)
-
-def find_deep_type_name(type_obj):
-	type_name = type_obj['name']
-	if type_name == 'list':
-		return 'ArrayOf{}'.format(find_deep_type_name(type_obj['valueType']))
-	elif type_name == 'dictionary':
-		return 'MapOf{}To{}'.format(find_deep_type_name(type_obj['keyType']), find_deep_type_name(type_obj['valueType']))
-	else:
-		return upcase_first(type_name)
 
 deep_types = []
 for obj_name in game_obj_names + ['Game']:
@@ -28,7 +17,7 @@ for obj_name in game_obj_names + ['Game']:
 
 name_to_deep_type = dict()
 for deep_type in deep_types:
-	deep_type_name = find_deep_type_name(deep_type)
+	deep_type_name = shared['go']['find_deep_type_name'](deep_type)
 	name_to_deep_type[deep_type_name] = deep_type
 
 %>
@@ -72,8 +61,8 @@ go_value_type = shared['go']['type'](deep_type['valueType'], package_name)
 value_type = deep_type['valueType']
 
 valueCall = 'deltaMergeImpl.{}({}deltaValue)'.format(
-	find_deep_type_name(value_type),
-	'&newArray[index], ' if type_is_deep(value_type) else ''
+	shared['go']['find_deep_type_name'](value_type),
+	'&newArray[index], ' if shared['go']['is_type_deep'](value_type) else ''
 )
 %>func (deltaMergeImpl DeltaMergeImpl) ${deep_type_name}(state *${go_type}, delta interface{}) *${go_type} {
 %	if is_list:

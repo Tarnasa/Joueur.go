@@ -174,6 +174,38 @@ func (playerImpl *PlayerImpl) InitImplDefaults() {
 	playerImpl.WonImpl = false
 }
 
+func (playerImpl *PlayerImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) {
+	switch(attribute) {
+	case "":
+		(*playerImpl.clientTypeImpl) = deltaMerge.String(delta)
+		break
+	case "":
+		(*playerImpl.colorImpl) = deltaMerge.String(delta)
+		break
+	case "":
+		(*playerImpl.lostImpl) = deltaMerge.Boolean(delta)
+		break
+	case "":
+		(*playerImpl.nameImpl) = deltaMerge.String(delta)
+		break
+	case "":
+		(*playerImpl.opponentImpl) = deltaMerge.Player(delta)
+		break
+	case "":
+		(*playerImpl.reasonLostImpl) = deltaMerge.String(delta)
+		break
+	case "":
+		(*playerImpl.reasonWonImpl) = deltaMerge.String(delta)
+		break
+	case "":
+		(*playerImpl.timeRemainingImpl) = deltaMerge.Float(delta)
+		break
+	case "":
+		(*playerImpl.wonImpl) = deltaMerge.Boolean(delta)
+		break
+	}
+}
+
 // -- Namespace -- \\
 
 // ChessNamespace is the collection of implimentation logic for the Chess game.

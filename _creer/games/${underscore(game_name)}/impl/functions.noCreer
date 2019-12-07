@@ -2,7 +2,9 @@
 if not 'go' in shared:
     shared['go'] = {}
 
-    def go_type(type_obj, package=''):
+    shared['go']['package_name'] = game_name.lower()
+
+    def go_type(type_obj, package=True):
         base_type = type_obj['name']
 
         if base_type == 'dictionary':
@@ -18,7 +20,7 @@ if not 'go' in shared:
             return 'float64'
         elif type_obj['is_game_object']:
             if package:
-                return '{}.{}'.format(package, base_type)
+                return '{}.{}'.format(shared['go']['package_name'], base_type)
             return base_type
         elif base_type == 'boolean':
             return 'bool'
@@ -27,7 +29,7 @@ if not 'go' in shared:
     shared['go']['type'] = go_type
 
 
-    def go_default_value(type_obj, package=''):
+    def go_default_value(type_obj, package=True):
         base_type = type_obj['name']
         if base_type == "string":
             return '""'
@@ -106,7 +108,7 @@ if not 'go' in shared:
                 attr = obj['attributes'][attr_name]
                 strs.extend([
                     '\t// ', attr['description'], '\n',
-                    '\t', upcase_first(attr_name), '() ', go_type(attr['type']), '\n\n'])
+                    '\t', upcase_first(attr_name), '() ', go_type(attr['type'], False), '\n\n'])
 
         if 'functions' in obj and obj['functions']:
             strs.append('\t// -- Methods -- \\\\\n\n')
@@ -115,7 +117,7 @@ if not 'go' in shared:
                 strs.extend([
                     '\t// ', func['description'], '\n',
                     '\t', upcase_first(func_name), '(', ', '.join(
-                        [go_type(a['type']) for a in func['arguments']]
+                        [go_type(a['type'], False) for a in func['arguments']]
                     ), ')', ((' ' + go_type(func['returns']['type'])) if func['returns'] else ''), '\n\n'])
         strs.append('}\n')
         return ''.join(strs)
@@ -136,5 +138,20 @@ if not 'go' in shared:
         imports = ['joueur/base'] if is_base else []
         return go_format_imports(imports)
     shared['go']['imports_for'] = go_imports_for
+
+    def go_is_type_deep(type_obj):
+        return type_obj['name'] in ['list', 'dictionary']
+    shared['go']['is_type_deep'] = go_is_type_deep
+
+    def go_find_deep_type_name(type_obj):
+        type_name = type_obj['name']
+        if type_name == 'list':
+            return 'ArrayOf{}'.format(go_find_deep_type_name(type_obj['valueType']))
+        elif type_name == 'dictionary':
+            return 'MapOf{}To{}'.format(go_find_deep_type_name(type_obj['keyType']), go_find_deep_type_name(type_obj['valueType']))
+        else:
+            return upcase_first(type_name)
+    shared['go']['find_deep_type_name'] = go_find_deep_type_name
+
 
 %>

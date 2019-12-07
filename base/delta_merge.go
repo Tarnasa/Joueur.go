@@ -23,13 +23,6 @@ type DeltaMerge interface {
 	IsDeltaRemoved(interface{}) bool
 }
 
-func (deltaMergeImpl DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{}) {
-	errorhandler.HandleError(
-		errorhandler.ReflectionFailed,
-		errors.New("cannot convert delta to "+strName+": "+fmt.Sprintf("%v", delta)),
-	)
-}
-
 // DeltaMergeImpl is the base logic for primitive merging
 type DeltaMergeImpl struct {
 	getGameObject     func(string) GameObject
@@ -37,6 +30,16 @@ type DeltaMergeImpl struct {
 	deltaRemovedValue string
 }
 
+// CannotConvertDeltaTo takes a string about why and a delta to explain why
+// it's going to crash the program because a delta could not be merged.
+func (deltaMergeImpl DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{}) {
+	errorhandler.HandleError(
+		errorhandler.ReflectionFailed,
+		errors.New("cannot convert delta to "+strName+": "+fmt.Sprintf("%v", delta)),
+	)
+}
+
+// String attempts to extract a string from a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) String(delta interface{}) string {
 	asString, isString := delta.(string)
 
@@ -47,6 +50,7 @@ func (deltaMergeImpl DeltaMergeImpl) String(delta interface{}) string {
 	return asString
 }
 
+// Int attempts to extract an int from a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) Int(delta interface{}) int64 {
 	asFloat, isFloat := delta.(float64)
 
@@ -57,6 +61,7 @@ func (deltaMergeImpl DeltaMergeImpl) Int(delta interface{}) int64 {
 	return int64(asFloat)
 }
 
+// Float attempts to extract a float from a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) Float(delta interface{}) float64 {
 	asFloat, isFloat := delta.(float64)
 
@@ -67,6 +72,7 @@ func (deltaMergeImpl DeltaMergeImpl) Float(delta interface{}) float64 {
 	return asFloat
 }
 
+// Boolean attempts to extract a boolean from a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) Boolean(delta interface{}) bool {
 	asBool, isBool := delta.(bool)
 
@@ -77,6 +83,7 @@ func (deltaMergeImpl DeltaMergeImpl) Boolean(delta interface{}) bool {
 	return asBool
 }
 
+// BaseGameObject attempts to extract a base.GameObject from a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObject {
 	if delta == nil {
 		return nil // nil pointer is valid for all game objects
@@ -101,6 +108,8 @@ func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObjec
 	return gameObject
 }
 
+// ToDeltaMap attempts to extract a map of string to more generics from
+// a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{} {
 	asMap, isMap := delta.(map[string]interface{})
 
@@ -111,6 +120,8 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]in
 	return asMap
 }
 
+// ToDeltaArray attempts to extract a data for merging a list delta from
+// a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int) {
 	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
 	deltaLengthString := deltaMergeImpl.String(deltaMap[deltaMergeImpl.deltaLengthKey])
@@ -142,6 +153,7 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]in
 	return intMap, deltaLength
 }
 
+// IsDeltaRemoved checks if a given delta is the special DeltaRemoved token.
 func (deltaMergeImpl DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool {
 	return delta == deltaMergeImpl.deltaRemovedValue
 }

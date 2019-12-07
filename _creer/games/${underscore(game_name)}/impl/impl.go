@@ -2,10 +2,7 @@
 // logic and structures required by aa client to play with a game server.
 // To start coding your AI open ./ai.go
 package impl
-<%include file='functions.noCreer' /><%
-	package_name = underscore(game_name)
-	ptype = lambda t : shared['go']['type'](t, package_name)
-%>
+<%include file='functions.noCreer' />
 import (
 	"errors"
 	"joueur/base"
@@ -33,14 +30,15 @@ type ${obj_name}Impl struct {
 %   endif
 %	for attr_name in obj['attribute_names']:
 %	if not (obj_name == 'GameObject' and attr_name == 'id'):
-	${upcase_first(attr_name)}Impl${' ' * (1 + longest_attr_name_len - len(attr_name))}${ptype(obj['attributes'][attr_name]['type'])}
+<%		spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
+%>	${upcase_first(attr_name)}Impl${spaces}${shared['go']['type'](obj['attributes'][attr_name]['type'])}
 % 	endif
 %	endfor
 }
 %   if obj_name == 'GameObject':
 
 // Game returns a pointer to the ${game_name} Game instance
-func (gameObjectImpl *GameObjectImpl) Game() ${package_name}.Game {
+func (gameObjectImpl *GameObjectImpl) Game() ${shared['go']['package_name']}.Game {
 	return gameObjectImpl.game
 }
 %   endif
@@ -49,7 +47,7 @@ func (gameObjectImpl *GameObjectImpl) Game() ${package_name}.Game {
 		if obj_name == 'GameObject' and attr_name == 'id':
 			continue
 		attr = obj['attributes'][attr_name]
-		ret_type = ptype(attr['type'])
+		ret_type = shared['go']['type'](attr['type'])
 %>
 // ${upcase_first(attr_name)} returns ${lowercase_first(shared["go"]["description"](attr))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
@@ -59,8 +57,8 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 %   for func_name in obj['function_names']:
 <%
 		func = obj['functions'][func_name]
-		ret_type = ptype(func['returns']['type']) if func['returns'] else ''
-		argify = lambda a : '{} {}'.format(a['name'], ptype(a['type']))
+		ret_type = shared['go']['type'](func['returns']['type'], True) if func['returns'] else ''
+		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
 // ${upcase_first(func_name)} runs logic that ${lowercase_first(shared["go"]["description"](func))}
@@ -80,10 +78,24 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) InitImplDefaults() {
 %		endfor
 
 %   for attr_name in obj['attribute_names']:
-	${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'], package_name)}
+	${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'])}
 %   endfor
 }
 % endfor
+
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) {
+	switch(attribute) {
+%	for attr_name in obj['attribute_names']:
+<%		attr = obj['attributes'][attr_name]
+		impl = '*{}Impl.{}Impl'.format(lowercase_first(obj_name), attr_name)
+%>	case "${}":
+		(${impl}) = deltaMerge.${shared['go']['find_deep_type_name'](attr['type'])}(${
+		(impl + ', ') if shared['go']['is_type_deep'](attr['type']) else 'delta'
+		})
+		break
+%	endfor
+	}
+}
 
 // -- Namespace -- ${'\\\\'}
 <% ns = game_name + 'Namespace' %>
@@ -102,7 +114,7 @@ func (*${ns}) Version() string {
 
 // PlayerName returns the desired name of the AI in the ${game_name} game.
 func (*${ns}) PlayerName() string {
-	return ${package_name}.PlayerName()
+	return ${shared['go']['package_name']}.PlayerName()
 }
 
 // CreateGameObject is the factory method for all GameObject instances in the ${game_name} game.
@@ -127,7 +139,7 @@ func (*${ns}) CreateGame() (base.Game, *base.DeltaMergeableImpl) {
 
 // CreateAI is the factory method for the AI in the ${game_name} game.
 func (*${ns}) CreateAI() (base.AI, *base.AIImpl) {
-	ai := ${package_name}.AI{}
+	ai := ${shared['go']['package_name']}.AI{}
 	return &ai, &ai.AIImpl
 }
 
@@ -142,7 +154,7 @@ func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (
 <% func = ai['functions'][func_name]
 %>	case "${func_name}":
 %	for i, arg in enumerate(func['arguments']):
-		arg${i} := args[${i}].(ptype(arg['type']))
+		arg${i} := args[${i}].(${shared['go']['type'](arg['type'])})
 %	endfor
 		return (*ai).${upcase_first(func_name)}(${', '.join('arg{}'.format(i) for i in range(len(func['arguments'])))}), nil
 % endfor
