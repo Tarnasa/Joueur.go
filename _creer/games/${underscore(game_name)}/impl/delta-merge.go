@@ -1,6 +1,11 @@
+package impl
 <%include file='functions.noCreer' /><%
+package_name = lowercase_first(game_name)
+def type_is_deep(type_obj):
+	return type_obj['name'] in ['list', 'dictionary']
+
 def find_deep_types(type_obj, types):
-	if type_obj['name'] in ['list', 'dictionary']:
+	if type_is_deep(type_obj):
 		types.append(type_obj)
 		find_deep_types(type_obj['valueType'], types)
 		if type_obj['name'] == 'dictionary':
@@ -26,18 +31,70 @@ for deep_type in deep_types:
 	deep_type_name = find_deep_type_name(deep_type)
 	name_to_deep_type[deep_type_name] = deep_type
 
-%>import (
+%>
+import (
 	"joueur/base"
+	"joueur/games/${package_name}"
 )
 
 type DeltaMergeImpl struct {
 	base.DeltaMergeImpl
 }
 
+// -- ${game_name} Game Object Deltas -- ${'\\\\'}
+
+% for game_obj_name in game_obj_names:
+func (deltaMergeImpl DeltaMergeImpl) ${game_obj_name}(delta interface{}) ${package_name}.${game_obj_name} {
+	baseGameObject := deltaMergeImpl.BaseGameObject(delta)
+	if baseGameObject == nil {
+		return nil
+	}
+
+	as${game_obj_name}, is${game_obj_name} := baseGameObject.(${package_name}.${game_obj_name})
+	if !is${game_obj_name} {
+		deltaMergeImpl.CannotConvertDeltaTo("${package_name}.${game_obj_name}", delta)
+	}
+
+	return as${game_obj_name}
+}
+
+% endfor
+// -- Deep Deltas -- ${'\\\\'}
+
 % for deep_type_name in sort_dict_keys(name_to_deep_type):
 <%
 deep_type = name_to_deep_type[deep_type_name]
-%>func (deltaMergeImpl DeltaMergeImpl) ${deep_type_name}(state *${shared['go']['type'](deep_type)}, delta interface{}) {
-	// TODO: do
+is_list = deep_type['name'] == 'list'
+
+go_type = shared['go']['type'](deep_type, package_name)
+go_value_type = shared['go']['type'](deep_type['valueType'], package_name)
+
+value_type = deep_type['valueType']
+
+valueCall = 'deltaMergeImpl.{}({}deltaValue)'.format(
+	find_deep_type_name(value_type),
+	'&newArray[index], ' if type_is_deep(value_type) else ''
+)
+%>func (deltaMergeImpl DeltaMergeImpl) ${deep_type_name}(state *${go_type}, delta interface{}) *${go_type} {
+%	if is_list:
+	deltaList, listLength := deltaMergeImpl.ToDeltaArray(delta)
+	newArray := make(${go_type}, listLength) // resize array with new copy
+	copy(newArray, *state)
+	for deltaIndex, deltaValue := range deltaList {
+		newArray[deltaIndex] = ${valueCall}
+	}
+	return &newArray
+%	else: # it's a map, and for now assume key_type is string because that's all that is really supported
+	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
+	for deltaKey, deltaValue := range deltaMap {
+		if deltaMergeImpl.IsDeltaRemoved(deltaValue) {
+			delete(*state, deltaKey)
+		} else {
+			(*state)[deltaKey] = ${valueCall}
+		}
+	}
+	return state
+%	endif
 }
+
 % endfor

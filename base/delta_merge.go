@@ -9,6 +9,8 @@ import (
 
 // DeltaMerge is a container of functions to facilitate type safe delta merging
 type DeltaMerge interface {
+	CannotConvertDeltaTo(string, interface{})
+
 	String(interface{}) string
 	Int(int64, interface{})
 	Float(float64, interface{})
@@ -17,9 +19,11 @@ type DeltaMerge interface {
 	BaseGameObject(interface{}) GameObject
 	ToDeltaMap(interface{}) map[string]interface{}
 	ToDeltaArray(interface{}) (map[int]interface{}, int)
+
+	IsDeltaRemoved(interface{}) bool
 }
 
-func cannotConvertDeltaTo(strName string, delta interface{}) {
+func (deltaMergeImpl DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{}) {
 	errorhandler.HandleError(
 		errorhandler.ReflectionFailed,
 		errors.New("cannot convert delta to "+strName+": "+fmt.Sprintf("%v", delta)),
@@ -33,41 +37,41 @@ type DeltaMergeImpl struct {
 	deltaRemovedValue string
 }
 
-func (DeltaMergeImpl) String(delta interface{}) string {
+func (deltaMergeImpl DeltaMergeImpl) String(delta interface{}) string {
 	asString, isString := delta.(string)
 
 	if !isString {
-		cannotConvertDeltaTo("string", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("string", delta)
 	}
 
 	return asString
 }
 
-func (DeltaMergeImpl) Int(delta interface{}) int64 {
+func (deltaMergeImpl DeltaMergeImpl) Int(delta interface{}) int64 {
 	asFloat, isFloat := delta.(float64)
 
 	if !isFloat {
-		cannotConvertDeltaTo("int64", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("int64", delta)
 	}
 
 	return int64(asFloat)
 }
 
-func (DeltaMergeImpl) Float(delta interface{}) float64 {
+func (deltaMergeImpl DeltaMergeImpl) Float(delta interface{}) float64 {
 	asFloat, isFloat := delta.(float64)
 
 	if !isFloat {
-		cannotConvertDeltaTo("float64", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("float64", delta)
 	}
 
 	return asFloat
 }
 
-func (DeltaMergeImpl) Boolean(delta interface{}) bool {
+func (deltaMergeImpl DeltaMergeImpl) Boolean(delta interface{}) bool {
 	asBool, isBool := delta.(bool)
 
 	if !isBool {
-		cannotConvertDeltaTo("bool", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("bool", delta)
 	}
 
 	return asBool
@@ -83,7 +87,7 @@ func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObjec
 	id, idIsString := rawID.(string)
 
 	if !hasID || !idIsString || id == "" {
-		cannotConvertDeltaTo("base.GameObject", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("base.GameObject", delta)
 	}
 
 	gameObject := deltaMergeImpl.getGameObject(id)
@@ -97,11 +101,11 @@ func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObjec
 	return gameObject
 }
 
-func (DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{} {
+func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{} {
 	asMap, isMap := delta.(map[string]interface{})
 
 	if !isMap {
-		cannotConvertDeltaTo("map[string]interface{}", delta)
+		deltaMergeImpl.CannotConvertDeltaTo("map[string]interface{}", delta)
 	}
 
 	return asMap
@@ -136,4 +140,8 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]in
 	}
 
 	return intMap, deltaLength
+}
+
+func (deltaMergeImpl DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool {
+	return delta == deltaMergeImpl.deltaRemovedValue
 }
