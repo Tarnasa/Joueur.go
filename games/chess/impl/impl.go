@@ -57,13 +57,6 @@ func (gameImpl *GameImpl) InitImplDefaults() {
 	gameImpl.SessionImpl = ""
 }
 
-func (gameImpl *GameImpl) DeltaMerge(dm base.DeltaMerge, attribute string, delta0 interface{}) {
-	switch attribute {
-	case "fen":
-		dm.String(&(*gameImpl).FenImpl, delta0)
-	}
-}
-
 // -- GameObject -- \\
 
 // GameObjectImpl is the struct that implements the container for GameObject instances in Chess.
@@ -184,7 +177,7 @@ func (playerImpl *PlayerImpl) InitImplDefaults() {
 // -- Namespace -- \\
 
 // ChessNamespace is the collection of implimentation logic for the Chess game.
-type ChessNamespace struct{}
+type ChessNamespace struct {}
 
 // Name returns the name of the Chess game.
 func (*ChessNamespace) Name() string {
@@ -203,7 +196,7 @@ func (*ChessNamespace) PlayerName() string {
 
 // CreateGameObject is the factory method for all GameObject instances in the Chess game.
 func (*ChessNamespace) CreateGameObject(gameObjectName string) (base.GameObject, *base.DeltaMergeableImpl, error) {
-	switch gameObjectName {
+	switch (gameObjectName) {
 	case "GameObject":
 		newGameObject := GameObjectImpl{}
 		newGameObject.InitImplDefaults()
@@ -235,10 +228,10 @@ func (*ChessNamespace) OrderAI(baseAI base.AI, functionName string, args []inter
 	if !validAI {
 		return nil, errors.New("AI is not a valid chess.AI to order!")
 	}
-	switch functionName {
+	switch (functionName) {
 	case "makeMove":
 		return (*ai).MakeMove(), nil
 	}
 
-	return nil, errors.New("Cannot find functionName " + functionName + " to run in S{game_name} AI")
+	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
 }
