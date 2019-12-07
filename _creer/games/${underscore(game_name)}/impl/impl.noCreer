@@ -1,0 +1,91 @@
+<%page args="obj_name"/>package impl
+<%include file='functions.noCreer' />
+import (
+	"joueur/base"
+	"joueur/games/${underscore(game_name)}"
+)
+<%
+	obj = game if obj_name == 'Game' else game_objs[obj_key]
+	parents = list()
+	if 'parentClasses' in obj:
+		parents.extend(obj['parentClasses'])
+	if obj_name in ['Game', 'GameObject']:
+		parents.append('base.' + obj_name)
+	longest_attr_name_len = len(sorted(list(obj['attribute_names']), key=len)[-1])
+%>
+// ${obj_name}Impl is the struct that implements the container for ${obj_name} instances in ${game_name}.
+type ${obj_name}Impl struct {
+%	for parent in parents:
+	${parent}Impl
+%	endfor
+%	if obj_name == 'GameObject':
+	game${' ' * (5 + longest_attr_name_len - len('game'))}*GameImpl
+%   endif
+%	for attr_name in obj['attribute_names']:
+%	if not (obj_name == 'GameObject' and attr_name == 'id'):
+<%		spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
+%>	impl${attr_name}${spaces}${shared['go']['type'](obj['attributes'][attr_name]['type'])}
+% 	endif
+%	endfor
+}
+%   if obj_name == 'GameObject':
+
+// Game returns a pointer to the ${game_name} Game instance
+func (gameObjectImpl *GameObjectImpl) Game() ${shared['go']['package_name']}.Game {
+	return gameObjectImpl.game
+}
+%   endif
+%   for attr_name in obj['attribute_names']:
+<%
+		if obj_name == 'GameObject' and attr_name == 'id':
+			continue
+		attr = obj['attributes'][attr_name]
+		ret_type = shared['go']['type'](attr['type'])
+%>
+// ${upcase_first(attr_name)} returns ${lowercase_first(shared["go"]["description"](attr))}
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
+	return ${lowercase_first(obj_name)}Impl.${upcase_first(attr_name)}Impl
+}
+%   endfor
+%   for func_name in obj['function_names']:
+<%
+		func = obj['functions'][func_name]
+		ret_type = shared['go']['type'](func['returns']['type'], True) if func['returns'] else ''
+		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
+		args = ', '.join([argify(a) for a in func['arguments']])
+%>
+// ${upcase_first(func_name)} runs logic that ${lowercase_first(shared["go"]["description"](func))}
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
+	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
+%		for arg in func['arguments']:
+		"${arg['name']}": ${arg['name']},
+%		endfor
+	})${('.('+ret_type+')') if ret_type else ''}
+}
+%   endfor
+
+// InitImplDefaults initializes safe defaults for all fields in ${obj_name}.
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) InitImplDefaults() {
+%		for i, parent in enumerate(obj['parentClasses'] + [] if not obj_name in ['Game', 'GameObject'] else [obj_name]):
+	${lowercase_first(obj_name)}Impl.${parent}Impl.InitImplDefaults()
+%		endfor
+
+%   for attr_name in obj['attribute_names']:
+	${lowercase_first(obj_name)}Impl.impl${attr_name} = ${shared['go']['default_value'](obj['attributes'][attr_name]['type'])}
+%   endfor
+}
+
+// DeltaMerge merged the delta for a given attribute in ${obj_name}.
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) {
+	switch(attribute) {
+%	for attr_name in obj['attribute_names']:
+<%		attr = obj['attributes'][attr_name]
+		impl = '(*{}Impl).{}Impl'.format(lowercase_first(obj_name), attr_name)
+%>	case "${attr_name}":
+		${impl} = deltaMerge.${shared['go']['find_deep_type_name'](attr['type'])}(${
+		(impl + ', ') if shared['go']['is_type_deep'](attr['type']) else 'delta'
+		})
+		break
+%	endfor
+	}
+}
