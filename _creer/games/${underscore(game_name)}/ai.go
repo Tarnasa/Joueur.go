@@ -11,17 +11,22 @@ ${merge(
 
 type AI struct {
 	base.AIImpl
+}
 
-	// The reference to the Game instance this AI is playing.
-	Game Game
+// Game returns the instance of the Game this AI is currently playing.
+func (ai *AI) Game() Game {
+	return ai.AIImpl.Game().(Game)
+}
 
-	// The reference to the Player this AI controls in the Game.
-	Player Player
+// Player returns the instance of the Player this AI is represented by in the
+// game this AI is playing.
+func (ai *AI) Player() Player {
+	return ai.AIImpl.Player().(Player)
 }
 
 // This is called once the game starts and your AI knows its playerID and game.
 // You can initialize your AI here.
-func (ai AI) Start() {
+func (ai *AI) Start() {
 ${merge(
 	'\t// ', 'start',
 	'\t// pass'
@@ -30,7 +35,7 @@ ${merge(
 
 // This is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
-func (ai AI) GameUpdated() {
+func (ai *AI) GameUpdated() {
 ${merge(
 	'\t// ', 'game-updated',
 	'\t// pass'
@@ -41,7 +46,7 @@ ${merge(
 //
 // @param won True means you won, false means you lost.
 // @param reason The human readable string explaining why you won or lost.
-func (ai AI) Ended(won bool, reason string) {
+func (ai *AI) Ended(won bool, reason string) {
 ${merge(
 	'\t// ', 'ended',
 	'\t// pass'

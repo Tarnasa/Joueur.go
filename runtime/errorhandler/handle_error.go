@@ -23,8 +23,8 @@ var errorCodeToNames = map[int]string{
 	42: "AI_ERRORED",
 }
 
-func printErr(str string, a ...interface{}) {
-	os.Stderr.WriteString(color.RedString(str+"\n", a...))
+func printErr(str string) {
+	os.Stderr.WriteString(color.RedString(str + "\n"))
 }
 
 var errorHandler = func() {}
@@ -43,7 +43,7 @@ func HandleError(errorCode int, err error, messages ...string) error {
 		return err
 	}
 
- 	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
+	if errorCodeName, ok := errorCodeToNames[errorCode]; ok {
 		printErr("---\nError: " + errorCodeName)
 	}
 

@@ -2,6 +2,8 @@ package chess
 
 import "joueur/base"
 
+import "fmt"
+
 func PlayerName() string {
 	// <<-- Creer-Merge: getName -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	return "Chess Go Player"
@@ -10,17 +12,22 @@ func PlayerName() string {
 
 type AI struct {
 	base.AIImpl
+}
 
-	// The reference to the Game instance this AI is playing.
-	Game Game
+// Game returns the instance of the Game this AI is currently playing.
+func (ai *AI) Game() Game {
+	return ai.AIImpl.Game().(Game)
+}
 
-	// The reference to the Player this AI controls in the Game.
-	Player Player
+// Player returns the instance of the Player this AI is represented by in the
+// game this AI is playing.
+func (ai *AI) Player() Player {
+	return ai.AIImpl.Player().(Player)
 }
 
 // This is called once the game starts and your AI knows its playerID and game.
 // You can initialize your AI here.
-func (ai AI) Start() {
+func (ai *AI) Start() {
 	// <<-- Creer-Merge: start -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// pass
 	// <<-- /Creer-Merge: start -->>
@@ -28,7 +35,7 @@ func (ai AI) Start() {
 
 // This is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
-func (ai AI) GameUpdated() {
+func (ai *AI) GameUpdated() {
 	// <<-- Creer-Merge: game-updated -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// pass
 	// <<-- /Creer-Merge: game-updated -->>
@@ -38,7 +45,7 @@ func (ai AI) GameUpdated() {
 //
 // @param won True means you won, false means you lost.
 // @param reason The human readable string explaining why you won or lost.
-func (ai AI) Ended(won bool, reason string) {
+func (ai *AI) Ended(won bool, reason string) {
 	// <<-- Creer-Merge: ended -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// pass
 	// <<-- /Creer-Merge: ended -->>
@@ -47,9 +54,10 @@ func (ai AI) Ended(won bool, reason string) {
 // Chess specific AI actions
 
 // This is called every time it is this AI.player's turn to make a move.
-func (ai AI) MakeMove() string {
+func (ai *AI) MakeMove() string {
 	// <<-- Creer-Merge: makeMove -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// Put your game logic here for makeMove
-	return ""
+	fmt.Println("make move..., Game:", ai.Game().Fen(), "Player:", ai.Player())
+	return "b5"
 	// <<-- /Creer-Merge: makeMove -->>
 }

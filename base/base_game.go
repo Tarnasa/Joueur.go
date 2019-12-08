@@ -1,6 +1,9 @@
 package base
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // Game is the base interface all games should implement for their Game interfaces.
 type Game interface {
@@ -12,7 +15,7 @@ type DeltaMergeableGame interface {
 	DeltaMergeable
 	Game
 
-	AddGameObject(GameObject) error
+	AddGameObject(string, GameObject) error
 }
 
 // GameImpl is the implimentation struct for the Game interface.
@@ -24,18 +27,22 @@ type GameImpl struct {
 
 // GetGameObject simply attempts to get a game object from inside its gameObjects map.
 func (gameImpl *GameImpl) GetGameObject(id string) (GameObject, bool) {
+	fmt.Println("trying to get", id, "from", (*gameImpl).gameObjectsImpl)
+	for key, value := range (*gameImpl).gameObjectsImpl {
+		fmt.Println("-->", key, "=", value)
+	}
 	gameObject, found := gameImpl.gameObjectsImpl[id]
 	return gameObject, found
 }
 
 // AddGameObject adds a new gae object to the game.
 // However if the GameObject is already present it returns an error.
-func (gameImpl *GameImpl) AddGameObject(gameObject GameObject) error {
-	id := gameObject.ID()
+func (gameImpl *GameImpl) AddGameObject(id string, gameObject GameObject) error {
 	if _, alreadyHasGameObject := gameImpl.gameObjectsImpl[id]; alreadyHasGameObject {
 		return errors.New("GameObject #" + id + " cannot be added. Already present in Game")
 	}
 
+	fmt.Println("adding game object", id, "to", gameObject)
 	gameImpl.gameObjectsImpl[id] = gameObject
 	return nil
 }

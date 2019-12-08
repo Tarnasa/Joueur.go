@@ -21,8 +21,6 @@ type GameManager struct {
 	AI              base.AI
 	Player          base.Player
 
-	started     bool
-	backOrders  []client.EventOrderData
 	aiImpl      *base.AIImpl
 	gameObjects map[string]base.DeltaMergeableGameObject
 	deltaMerge  base.DeltaMerge
@@ -36,7 +34,6 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager.GameNamespace = gameNamespace
 	gameManager.Game = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.aiImpl = gameNamespace.CreateAI()
-	gameManager.aiImpl.Game = gameManager.Game
 	gameManager.gameObjects = make(map[string]base.DeltaMergeableGameObject)
 	gameManager.deltaMerge = gameNamespace.CreateDeltaMerge(base.DeltaMergeImpl{
 		Game:              gameManager.Game,
@@ -44,15 +41,13 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 		DeltaLengthKey:    gameManager.ServerConstants.DeltaListLengthKey,
 	})
 
-	gameManager.started = false // normal default but we want to be clear
-	gameManager.backOrders = make([]client.EventOrderData, 0)
-
 	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
 		fmt.Println("registered delta thing do a thing", delta)
 		gameManager.applyDeltaState(delta)
 	})
 
-	client.EventOverHandler = func(order client.EventOrderData) {
+	client.EventOrderHandler = func(order client.EventOrderData) {
+		fmt.Println("game manager wants to handle the order")
 		gameManager.handleOrder(order)
 	}
 
@@ -88,31 +83,26 @@ func (gameManager GameManager) parseAISettings(aiSettings string) {
 
 // Start should be invoked when the ame starts and our playerID is known
 func (gameManager GameManager) Start(playerID string) {
-	gameManager.started = true
 	// TODO: set player in ai by this ID
-	if playerGameObject, ok := gameManager.Game.GetGameObject(playerID); ok {
-		player, isPlayer := playerGameObject.(base.Player)
-		if !isPlayer {
-			errorhandler.HandleError(
-				errorhandler.ReflectionFailed,
-				errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
-			)
-		}
-		gameManager.aiImpl.Player = player
-		gameManager.Player = player
-	} else {
-		// handle error
+	playerGameObject, foundGameObjectWithID := gameManager.Game.GetGameObject(playerID)
+	if !foundGameObjectWithID {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.New("Could not find Player with id #"+playerID),
+			errors.New("could not find GameObject with id #"+playerID+" for AI's Player"),
 		)
 	}
+	player, isPlayer := playerGameObject.(base.Player)
+	if !isPlayer {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
+		)
+	}
+	gameManager.Player = player
+	base.InjectIntoAI(gameManager.aiImpl, gameManager.Game, gameManager.Player)
 
 	gameManager.AI.GameUpdated()
-	// do back orders
-	for _, order := range gameManager.backOrders {
-		gameManager.handleOrder(order)
-	}
+	gameManager.AI.Start()
 
 	// game should now be started
 }
@@ -145,12 +135,9 @@ func (gameManager GameManager) RunOnServer(
 
 // handlerOrder is automatically invoked when an  event comes from the server.
 func (gameManager GameManager) handleOrder(order client.EventOrderData) {
-	if !gameManager.started {
-		gameManager.backOrders = append(gameManager.backOrders, order)
-		return
-	}
-
+	fmt.Println("handling order automatically...")
 	args := gameManager.deSerialize(order.Args)
+	fmt.Println("args deserialized are", args)
 	argsList, isList := args.([]interface{})
 	if !isList {
 		errorhandler.HandleError(
@@ -158,6 +145,7 @@ func (gameManager GameManager) handleOrder(order client.EventOrderData) {
 			errors.New("Cannot handle order "+order.Name+" because the args are not a slice"),
 		)
 	}
+	fmt.Println("about to let the namespace do the order...")
 	returned, err := gameManager.GameNamespace.OrderAI(gameManager.AI, order.Name, argsList)
 	if err != nil {
 		errorhandler.HandleError(
@@ -167,6 +155,7 @@ func (gameManager GameManager) handleOrder(order client.EventOrderData) {
 		)
 	}
 
+	fmt.Println("yay!")
 	// now that we've finished the order, tell the server
 	client.SendEventFinished(client.EventFinishedData{
 		OrderIndex: order.Index,

@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"joueur/runtime/errorhandler"
 )
@@ -16,7 +17,7 @@ type eventOrder struct {
 	Data EventOrderData `json:"data"`
 }
 
-var EventOverHandler func(e EventOrderData)
+var EventOrderHandler func(e EventOrderData) = nil
 
 func autoHandleEventOrder(eventBytes []byte) {
 	fmt.Println("auto handling order...", string(eventBytes))
@@ -32,5 +33,11 @@ func autoHandleEventOrder(eventBytes []byte) {
 		)
 	}
 
-	EventOverHandler(parsed.Data)
+	if EventOrderHandler == nil {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("no event order auto handler in client"),
+		)
+	}
+	EventOrderHandler(parsed.Data)
 }

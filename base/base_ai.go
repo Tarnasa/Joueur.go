@@ -19,8 +19,18 @@ type AI interface {
 
 // AIImpl is the implimentation struct for the AI interface
 type AIImpl struct {
-	Game   Game
-	Player Player
+	game   Game
+	player Player
+}
+
+// Game returns the game this [base] AI is in
+func (ai *AIImpl) Game() Game {
+	return ai.game
+}
+
+// Player returns the game this [base] AI is in
+func (ai *AIImpl) Player() Player {
+	return ai.player
 }
 
 // Start is called once the game starts and your AI knows its Player and
@@ -52,4 +62,10 @@ func (ai AIImpl) Invalid(message string) {
 func (ai AIImpl) GetSetting(key string) ([]string, bool) {
 	setting, ok := AISettings[key]
 	return setting, ok
+}
+
+// InjectIntoAI injects into an AI its "private" player and game
+func InjectIntoAI(ai *AIImpl, game Game, player Player) {
+	ai.game = game
+	ai.player = player
 }
