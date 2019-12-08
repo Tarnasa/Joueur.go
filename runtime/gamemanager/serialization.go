@@ -27,7 +27,7 @@ func (gameManager *GameManager) getIfGameObjectReference(data interface{}) base.
 		return nil
 	}
 
-	gameObject, found := gameManager.gameImpl.GetGameObject(gameObjectId)
+	gameObject, found := gameManager.Game.GetGameObject(gameObjectId)
 	if !found {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,

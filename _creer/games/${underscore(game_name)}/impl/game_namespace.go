@@ -28,23 +28,23 @@ func (*${ns}) PlayerName() string {
 }
 
 // CreateGameObject is the factory method for all GameObject instances in the ${game_name} game.
-func (*${ns}) CreateGameObject(gameObjectName string) (base.GameObject, *base.GameObjectImpl, error) {
+func (*${ns}) CreateGameObject(gameObjectName string) (base.DeltaMergeableGameObject, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
 		new${game_obj_name} := ${game_obj_name}Impl{}
 		new${game_obj_name}.InitImplDefaults()
-		return &new${game_obj_name}, &(new${game_obj_name}.GameObjectImpl.DeltaMergeableImpl), nil
+		return &new${game_obj_name}, nil
 % endfor
 	}
-	return nil, nil, errors.New("No game object named " + gameObjectName + " for game ${game_name}")
+	return nil, errors.New("no game object named '" + gameObjectName + "' for game '${game_name}' can be created")
 }
 
 // CreateGame is the factory method for Game the ${game_name} game.
-func (*${ns}) CreateGame() (base.Game, *base.GameImpl) {
+func (*${ns}) CreateGame() base.DeltaMergeableGame {
 	game := GameImpl{}
 	game.InitImplDefaults()
-	return &game, &(game.GameImpl.DeltaMergeableImpl)
+	return &game
 }
 
 // CreateAI is the factory method for the AI in the ${game_name} game.

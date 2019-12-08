@@ -29,16 +29,16 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 	// now all new game objects should be initialize so we can delta merge as normal
 	if gameObjectsExist {
 		for id, gameObjectDelta := range gameObjectsDelta {
-			gameObjectImpl, implExists := gameManager.gameObjectImpls[id]
-			if !implExists {
+			gameObject, gameObjectExists := gameManager.gameObjects[id]
+			if !gameObjectExists {
 				errorhandler.HandleError(
 					errorhandler.DeltaMergeFailure,
-					errors.New("Attemping to merge delta state of game object #"+id+" with no Impl state!"),
+					errors.New("cannot merge delta state of game object #"+id+" with no game object for given id"),
 				)
 			}
 			fmt.Println(">> delta merge game object", gameObjectDelta)
 			for gameObjectAttribute, gameObjectAttributeDelta := range gameObjectDelta {
-				gameObjectImpl.DeltaMerge(gameManager.deltaMerge, gameObjectAttribute, gameObjectAttributeDelta)
+				gameObject.DeltaMerge(gameManager.deltaMerge, gameObjectAttribute, gameObjectAttributeDelta)
 			}
 		}
 	}
@@ -49,7 +49,7 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 		}
 
 		fmt.Println(">> delta merge into game", gameAttribute, gameAttributeDelta)
-		gameManager.gameImpl.DeltaMerge(gameManager.deltaMerge, gameAttribute, gameAttributeDelta)
+		gameManager.Game.DeltaMerge(gameManager.deltaMerge, gameAttribute, gameAttributeDelta)
 	}
 }
 
@@ -64,7 +64,7 @@ func (gameManager *GameManager) initGameObjects(gameObjectDeltas map[string]map[
 			)
 		}
 
-		newGameObject, newGameObjectImpl, creationError := gameManager.GameNamespace.CreateGameObject(gameObjectName)
+		newGameObject, creationError := gameManager.GameNamespace.CreateGameObject(gameObjectName)
 		if creationError != nil {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
@@ -72,8 +72,8 @@ func (gameManager *GameManager) initGameObjects(gameObjectDeltas map[string]map[
 			)
 		}
 
-		gameManager.gameObjectImpls[id] = newGameObjectImpl
-		gameManager.gameImpl.GameObjectsImpl[id] = newGameObject
+		gameManager.gameObjects[id] = newGameObject
+		gameManager.Game.AddGameObject(newGameObject)
 	}
 }
 

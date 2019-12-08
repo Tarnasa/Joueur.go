@@ -14,6 +14,12 @@ type GameObject interface {
 	ID() string
 }
 
+// DeltaMergeableGameObject is a GameObject that is also DeltaMergeable
+type DeltaMergeableGameObject interface {
+	DeltaMergeable
+	GameObject
+}
+
 // GameObjectImpl is the implimentation struct for BaseGameObject
 type GameObjectImpl struct {
 	DeltaMergeableImpl

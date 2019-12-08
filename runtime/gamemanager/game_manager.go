@@ -11,19 +11,21 @@ import (
 	"net/url"
 )
 
+// GameManager is a factory and manager for the game.
+// It sits between the client, AI, and Game to facilitate interactions
+// between all of them.
 type GameManager struct {
 	GameNamespace   games.GameNamespace
 	ServerConstants client.ServerConstants
-	Game            base.Game
+	Game            base.DeltaMergeableGame
 	AI              base.AI
 	Player          base.Player
 
-	started         bool
-	backOrders      []client.EventOrderData
-	deltaMerge      base.DeltaMerge
-	gameImpl        *base.GameImpl
-	gameObjectImpls map[string]*base.GameObjectImpl
-	AIImpl          *base.AIImpl
+	started     bool
+	backOrders  []client.EventOrderData
+	aiImpl      *base.AIImpl
+	gameObjects map[string]base.DeltaMergeableGameObject
+	deltaMerge  base.DeltaMerge
 }
 
 // New creates a new instance of a GameManager for a given namespace.
@@ -32,9 +34,10 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager := GameManager{}
 
 	gameManager.GameNamespace = gameNamespace
-	gameManager.Game, gameManager.gameImpl = gameNamespace.CreateGame()
-	gameManager.AI, gameManager.AIImpl = gameNamespace.CreateAI()
-	gameManager.AIImpl.Game = gameManager.Game
+	gameManager.Game = gameNamespace.CreateGame()
+	gameManager.AI, gameManager.aiImpl = gameNamespace.CreateAI()
+	gameManager.aiImpl.Game = gameManager.Game
+	gameManager.gameObjects = make(map[string]base.DeltaMergeableGameObject)
 	gameManager.deltaMerge = gameNamespace.CreateDeltaMerge(base.DeltaMergeImpl{
 		Game:              gameManager.Game,
 		DeltaRemovedValue: gameManager.ServerConstants.DeltaRemoved,
@@ -95,7 +98,7 @@ func (gameManager GameManager) Start(playerID string) {
 				errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
 			)
 		}
-		gameManager.AIImpl.Player = player
+		gameManager.aiImpl.Player = player
 		gameManager.Player = player
 	} else {
 		// handle error
