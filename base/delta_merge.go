@@ -25,9 +25,9 @@ type DeltaMerge interface {
 
 // DeltaMergeImpl is the base logic for primitive merging
 type DeltaMergeImpl struct {
-	getGameObject     func(string) GameObject
-	deltaLengthKey    string
-	deltaRemovedValue string
+	Game              Game
+	DeltaRemovedValue string
+	DeltaLengthKey    string
 }
 
 // CannotConvertDeltaTo takes a string about why and a delta to explain why
@@ -97,8 +97,8 @@ func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObjec
 		deltaMergeImpl.CannotConvertDeltaTo("base.GameObject", delta)
 	}
 
-	gameObject := deltaMergeImpl.getGameObject(id)
-	if gameObject == nil {
+	gameObject, found := deltaMergeImpl.Game.GetGameObject(id)
+	if gameObject == nil || !found {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
 			errors.New("Cannot find game object #"+id+" to convert Delta reference to"),
@@ -124,7 +124,7 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]in
 // a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int) {
 	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
-	deltaLengthString := deltaMergeImpl.String(deltaMap[deltaMergeImpl.deltaLengthKey])
+	deltaLengthString := deltaMergeImpl.String(deltaMap[deltaMergeImpl.DeltaLengthKey])
 	deltaLength, atoiErr := strconv.Atoi(deltaLengthString)
 	if atoiErr != nil {
 		errorhandler.HandleError(
@@ -136,7 +136,7 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]in
 
 	intMap := make(map[int]interface{})
 	for deltaKey, deltaValue := range deltaMap {
-		if deltaKey == deltaMergeImpl.deltaLengthKey || deltaValue == deltaMergeImpl.deltaRemovedValue {
+		if deltaKey == deltaMergeImpl.DeltaLengthKey || deltaValue == deltaMergeImpl.DeltaRemovedValue {
 			continue // we don't care about these entries
 		}
 		index, indexErr := strconv.Atoi(deltaKey)
@@ -155,5 +155,5 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]in
 
 // IsDeltaRemoved checks if a given delta is the special DeltaRemoved token.
 func (deltaMergeImpl DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool {
-	return delta == deltaMergeImpl.deltaRemovedValue
+	return delta == deltaMergeImpl.DeltaRemovedValue
 }

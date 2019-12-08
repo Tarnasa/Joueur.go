@@ -55,6 +55,16 @@ func (*ChessNamespace) CreateAI() (base.AI, *base.AIImpl) {
 	return &ai, &ai.AIImpl
 }
 
+func (*ChessNamespace) CreateDeltaMerge (game base.Game, deltaRemovedValue string, deltaLengthKey string) base.DeltaMerge {
+	deltaMergeImpl = DeltaMergeImpl{
+		Game: game,
+		DeltaRemovedValue: deltaRemovedValue,
+		DeltaLengthKey: deltaLengthKey,
+	}
+
+	return &deltaMergeImpl
+}
+
 // OrderAI handles an order for the AI in the Chess game.
 func (*ChessNamespace) OrderAI(baseAI base.AI, functionName string, args []interface{}) (interface{}, error) {
 	ai, validAI := baseAI.(*chess.AI)

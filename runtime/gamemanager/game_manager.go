@@ -20,6 +20,7 @@ type GameManager struct {
 
 	started             bool
 	backOrders          []client.EventOrderData
+	deltaMerge          base.DeltaMerge
 	gameImpl            *base.DeltaMergeableImpl
 	gameObjectImpls     map[string]*base.DeltaMergeableImpl
 	gamesGameObjectsMap map[string]interface{}
@@ -35,6 +36,11 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager.Game, gameManager.gameImpl = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.AIImpl = gameNamespace.CreateAI()
 	gameManager.AIImpl.Game = gameManager.Game
+	gameManager.deltaMerge := gameNamespace.CreateDeltaMerge(
+		gameManager.Game,
+		gameManager.ServerConstants.DeltaRemoved,
+		gameManager.ServerConstants.DeltaListLengthKey,
+	)
 
 	gameGameObjectsRaw, gameGameObjectsRawFound := gameManager.gameImpl.InternalDataMap["gameObjects"]
 	gameGameObjectsMap, gameGameObjectsRawIsMap := gameGameObjectsRaw.(map[string]interface{})

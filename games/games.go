@@ -10,6 +10,7 @@ type GameNamespace interface {
 	Version() string
 	PlayerName() string
 	CreateAI() (base.AI, *base.AIImpl)
+	CreateDeltaMerge(base.Game, string, string) base.DeltaMerge
 	CreateGame() (base.Game, *base.DeltaMergeableImpl)
 	CreateGameObject(string) (base.GameObject, *base.DeltaMergeableImpl, error)
 	OrderAI(base.AI, string, []interface{}) (interface{}, error)
