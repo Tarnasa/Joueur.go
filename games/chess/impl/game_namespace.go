@@ -55,14 +55,10 @@ func (*ChessNamespace) CreateAI() (base.AI, *base.AIImpl) {
 	return &ai, &ai.AIImpl
 }
 
-func (*ChessNamespace) CreateDeltaMerge (game base.Game, deltaRemovedValue string, deltaLengthKey string) base.DeltaMerge {
-	deltaMergeImpl = DeltaMergeImpl{
-		Game: game,
-		DeltaRemovedValue: deltaRemovedValue,
-		DeltaLengthKey: deltaLengthKey,
+func (*ChessNamespace) CreateDeltaMerge(deltaMergeImpl base.DeltaMergeImpl) base.DeltaMerge {
+	return &DeltaMergeImpl{
+		DeltaMergeImpl: deltaMergeImpl,
 	}
-
-	return &deltaMergeImpl
 }
 
 // OrderAI handles an order for the AI in the Chess game.
@@ -71,10 +67,10 @@ func (*ChessNamespace) OrderAI(baseAI base.AI, functionName string, args []inter
 	if !validAI {
 		return nil, errors.New("AI is not a valid chess.AI to order!")
 	}
-	switch (functionName) {
+	switch functionName {
 	case "makeMove":
 		return (*ai).MakeMove(), nil
 	}
 
-	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
+	return nil, errors.New("Cannot find functionName " + functionName + " to run in S{game_name} AI")
 }

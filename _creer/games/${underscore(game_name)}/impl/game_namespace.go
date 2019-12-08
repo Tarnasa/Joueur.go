@@ -53,14 +53,10 @@ func (*${ns}) CreateAI() (base.AI, *base.AIImpl) {
 	return &ai, &ai.AIImpl
 }
 
-func (*${ns}) CreateDeltaMerge (game base.Game, deltaRemovedValue string, deltaLengthKey string) base.DeltaMerge {
-	deltaMergeImpl = DeltaMergeImpl{
-		Game: game,
-		DeltaRemovedValue: deltaRemovedValue,
-		DeltaLengthKey: deltaLengthKey,
+func (*${ns}) CreateDeltaMerge(deltaMergeImpl base.DeltaMergeImpl) base.DeltaMerge {
+	return &DeltaMergeImpl{
+		DeltaMergeImpl: deltaMergeImpl,
 	}
-
-	return &deltaMergeImpl
 }
 
 // OrderAI handles an order for the AI in the ${game_name} game.
@@ -69,7 +65,7 @@ func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (
 	if !validAI {
 		return nil, errors.New("AI is not a valid chess.AI to order!")
 	}
-	switch (functionName) {
+	switch functionName {
 % for func_name in ai['function_names']:
 <% func = ai['functions'][func_name]
 %>	case "${func_name}":
@@ -80,5 +76,5 @@ func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (
 % endfor
 	}
 
-	return nil, errors.New("Cannot find functionName "+functionName+" to run in S{game_name} AI")
+	return nil, errors.New("Cannot find functionName " + functionName + " to run in S{game_name} AI")
 }

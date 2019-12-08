@@ -36,11 +36,11 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager.Game, gameManager.gameImpl = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.AIImpl = gameNamespace.CreateAI()
 	gameManager.AIImpl.Game = gameManager.Game
-	gameManager.deltaMerge := gameNamespace.CreateDeltaMerge(
-		gameManager.Game,
-		gameManager.ServerConstants.DeltaRemoved,
-		gameManager.ServerConstants.DeltaListLengthKey,
-	)
+	gameManager.deltaMerge = gameNamespace.CreateDeltaMerge(base.DeltaMergeImpl{
+		Game:              gameManager.Game,
+		DeltaRemovedValue: gameManager.ServerConstants.DeltaRemoved,
+		DeltaLengthKey:    gameManager.ServerConstants.DeltaListLengthKey,
+	})
 
 	gameGameObjectsRaw, gameGameObjectsRawFound := gameManager.gameImpl.InternalDataMap["gameObjects"]
 	gameGameObjectsMap, gameGameObjectsRawIsMap := gameGameObjectsRaw.(map[string]interface{})
