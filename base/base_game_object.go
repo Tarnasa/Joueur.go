@@ -38,7 +38,7 @@ func (gameObjectImpl *GameObjectImpl) RunOnServer(functionName string, args map[
 // ID returns a unique id for each instance of a GameObject or a sub class.
 // Used for client and server communication. Should never change value after being set.
 func (gameObjectImpl *GameObjectImpl) ID() string {
-	return gameObjectImpl.InternalDataMap["id"].(string)
+	return gameObjectImpl.idImpl
 }
 
 // InitImplDefaults initializes safe defaults for all fields in GameObject.

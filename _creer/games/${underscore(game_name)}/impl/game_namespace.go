@@ -28,7 +28,7 @@ func (*${ns}) PlayerName() string {
 }
 
 // CreateGameObject is the factory method for all GameObject instances in the ${game_name} game.
-func (*${ns}) CreateGameObject(gameObjectName string) (base.GameObject, *base.DeltaMergeableImpl, error) {
+func (*${ns}) CreateGameObject(gameObjectName string) (base.GameObject, *base.GameObjectImpl, error) {
 	switch (gameObjectName) {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
@@ -41,7 +41,7 @@ func (*${ns}) CreateGameObject(gameObjectName string) (base.GameObject, *base.De
 }
 
 // CreateGame is the factory method for Game the ${game_name} game.
-func (*${ns}) CreateGame() (base.Game, *base.DeltaMergeableImpl) {
+func (*${ns}) CreateGame() (base.Game, *base.GameImpl) {
 	game := GameImpl{}
 	game.InitImplDefaults()
 	return &game, &(game.GameImpl.DeltaMergeableImpl)

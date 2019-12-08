@@ -10,7 +10,7 @@ import (
 )
 
 // ChessNamespace is the collection of implimentation logic for the Chess game.
-type ChessNamespace struct {}
+type ChessNamespace struct{}
 
 // Name returns the name of the Chess game.
 func (*ChessNamespace) Name() string {
@@ -28,25 +28,25 @@ func (*ChessNamespace) PlayerName() string {
 }
 
 // CreateGameObject is the factory method for all GameObject instances in the Chess game.
-func (*ChessNamespace) CreateGameObject(gameObjectName string) (base.GameObject, *base.DeltaMergeableImpl, error) {
-	switch (gameObjectName) {
+func (*ChessNamespace) CreateGameObject(gameObjectName string) (base.GameObject, *base.GameObjectImpl, error) {
+	switch gameObjectName {
 	case "GameObject":
 		newGameObject := GameObjectImpl{}
 		newGameObject.InitImplDefaults()
-		return &newGameObject, &(newGameObject.GameObjectImpl.DeltaMergeableImpl), nil
+		return &newGameObject, &(newGameObject.GameObjectImpl), nil
 	case "Player":
 		newPlayer := PlayerImpl{}
 		newPlayer.InitImplDefaults()
-		return &newPlayer, &(newPlayer.GameObjectImpl.DeltaMergeableImpl), nil
+		return &newPlayer, &(newPlayer.GameObjectImpl), nil
 	}
 	return nil, nil, errors.New("No game object named " + gameObjectName + " for game Chess")
 }
 
 // CreateGame is the factory method for Game the Chess game.
-func (*ChessNamespace) CreateGame() (base.Game, *base.DeltaMergeableImpl) {
+func (*ChessNamespace) CreateGame() (base.Game, *base.GameImpl) {
 	game := GameImpl{}
 	game.InitImplDefaults()
-	return &game, &(game.GameImpl.DeltaMergeableImpl)
+	return &game, &(game.GameImpl)
 }
 
 // CreateAI is the factory method for the AI in the Chess game.

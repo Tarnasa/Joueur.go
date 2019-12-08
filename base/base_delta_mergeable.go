@@ -7,9 +7,7 @@ type DeltaMergeable interface {
 
 // DeltaMergeableImpl is the implimentation of a struct that can be
 // delta merged
-type DeltaMergeableImpl struct {
-	InternalDataMap map[string]interface{}
-}
+type DeltaMergeableImpl struct{}
 
 // DeltaMerge will merge the given delta into itself
 func (DeltaMergeableImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) (bool, error) {

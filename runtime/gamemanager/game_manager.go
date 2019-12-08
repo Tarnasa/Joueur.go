@@ -18,13 +18,12 @@ type GameManager struct {
 	AI              base.AI
 	Player          base.Player
 
-	started             bool
-	backOrders          []client.EventOrderData
-	deltaMerge          base.DeltaMerge
-	gameImpl            *base.DeltaMergeableImpl
-	gameObjectImpls     map[string]*base.DeltaMergeableImpl
-	gamesGameObjectsMap map[string]interface{}
-	AIImpl              *base.AIImpl
+	started         bool
+	backOrders      []client.EventOrderData
+	deltaMerge      base.DeltaMerge
+	gameImpl        *base.GameImpl
+	gameObjectImpls map[string]*base.GameObjectImpl
+	AIImpl          *base.AIImpl
 }
 
 // New creates a new instance of a GameManager for a given namespace.
@@ -41,17 +40,6 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 		DeltaRemovedValue: gameManager.ServerConstants.DeltaRemoved,
 		DeltaLengthKey:    gameManager.ServerConstants.DeltaListLengthKey,
 	})
-
-	gameGameObjectsRaw, gameGameObjectsRawFound := gameManager.gameImpl.InternalDataMap["gameObjects"]
-	gameGameObjectsMap, gameGameObjectsRawIsMap := gameGameObjectsRaw.(map[string]interface{})
-	if !gameGameObjectsRawFound || !gameGameObjectsRawIsMap || gameGameObjectsMap == nil {
-		fmt.Println(gameGameObjectsRaw)
-		errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			errors.New("Cannot find game's field 'gameObjects' as a map in the internal structure"),
-		)
-	}
-	gameManager.gamesGameObjectsMap = gameGameObjectsMap
 
 	gameManager.started = false // normal default but we want to be clear
 	gameManager.backOrders = make([]client.EventOrderData, 0)
