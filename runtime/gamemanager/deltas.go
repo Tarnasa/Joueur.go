@@ -92,7 +92,7 @@ func (gameManager *GameManager) initGameObjects(gameObjectsDeltas map[string]map
 	}
 }
 
-func (gameManager GameManager) isDeltaPrimitive(delta interface{}) bool {
+func (gameManager *GameManager) isDeltaPrimitive(delta interface{}) bool {
 	if delta == gameManager.ServerConstants.DeltaRemoved {
 		return false
 	}
@@ -105,7 +105,7 @@ func (gameManager GameManager) isDeltaPrimitive(delta interface{}) bool {
 	return isBool || isInt || isFloat || isString
 }
 
-func (gameManager GameManager) mergeDelta(state interface{}, delta interface{}) interface{} {
+func (gameManager *GameManager) mergeDelta(state interface{}, delta interface{}) interface{} {
 	if gameManager.isDeltaPrimitive(delta) {
 		return delta
 	}
@@ -120,7 +120,7 @@ func (gameManager GameManager) mergeDelta(state interface{}, delta interface{}) 
 	if !isDeltaMap {
 		errorhandler.HandleError(
 			errorhandler.DeltaMergeFailure,
-			errors.New("Cannot merge non primitive and non map delta!"),
+			errors.New("cannot merge non primitive and non map delta"),
 		)
 	}
 	deltaLengthValue, hasDeltaLength := deltaMap[gameManager.ServerConstants.DeltaListLengthKey]
@@ -134,7 +134,7 @@ func (gameManager GameManager) mergeDelta(state interface{}, delta interface{}) 
 		if !deltaLenggameManagerInt {
 			errorhandler.HandleError(
 				errorhandler.DeltaMergeFailure,
-				errors.New("DeltaListLength key present without being a number!"),
+				errors.New("delta list length key present without being a number"),
 			)
 		}
 

@@ -126,11 +126,4 @@ func (gameManager *GameManager) deSerialize(data interface{}) interface{} {
 
 		return data
 	}
-
-	errorhandler.HandleError(
-		errorhandler.ReflectionFailed,
-		errors.New("Unknown type to deSerialize from data"),
-	)
-
-	return nil
 }

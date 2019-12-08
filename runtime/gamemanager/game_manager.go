@@ -62,7 +62,7 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	return &gameManager
 }
 
-func (gameManager GameManager) parseAISettings(aiSettings string) {
+func (gameManager *GameManager) parseAISettings(aiSettings string) {
 	settings := make(map[string]([]string))
 	parsedSettings, parseErr := url.ParseQuery(aiSettings)
 	if parseErr != nil {
@@ -82,7 +82,7 @@ func (gameManager GameManager) parseAISettings(aiSettings string) {
 }
 
 // Start should be invoked when the ame starts and our playerID is known
-func (gameManager GameManager) Start(playerID string) {
+func (gameManager *GameManager) Start(playerID string) {
 	// TODO: set player in ai by this ID
 	playerGameObject, foundGameObjectWithID := gameManager.Game.GetGameObject(playerID)
 	if !foundGameObjectWithID {
@@ -98,9 +98,11 @@ func (gameManager GameManager) Start(playerID string) {
 			errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
 		)
 	}
+	fmt.Println("started with player", player)
 	gameManager.Player = player
 	base.InjectIntoAI(gameManager.aiImpl, gameManager.Game, gameManager.Player)
 
+	fmt.Println("and got", gameManager.Player)
 	gameManager.AI.GameUpdated()
 	gameManager.AI.Start()
 
@@ -109,7 +111,7 @@ func (gameManager GameManager) Start(playerID string) {
 
 // RunOnServer should be invoked by GameObjects when they want some function
 // and args to be ran on the game server on their behalf.
-func (gameManager GameManager) RunOnServer(
+func (gameManager *GameManager) RunOnServer(
 	caller base.GameObject,
 	functionName string,
 	args map[string]interface{},
@@ -134,7 +136,7 @@ func (gameManager GameManager) RunOnServer(
 }
 
 // handlerOrder is automatically invoked when an  event comes from the server.
-func (gameManager GameManager) handleOrder(order client.EventOrderData) {
+func (gameManager *GameManager) handleOrder(order client.EventOrderData) {
 	fmt.Println("handling order automatically...")
 	args := gameManager.deSerialize(order.Args)
 	fmt.Println("args deserialized are", args)

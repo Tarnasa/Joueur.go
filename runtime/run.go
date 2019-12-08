@@ -169,6 +169,7 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 
 	overData := client.WaitForEventOver()
 
+	fmt.Println("player?", gameManager.Player)
 	won := gameManager.Player.Won()
 	reason := gameManager.Player.ReasonWon()
 	didWin := "I Won!"
