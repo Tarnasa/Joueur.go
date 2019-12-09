@@ -22,16 +22,16 @@ func (gameManager *GameManager) getIfGameObjectReference(data interface{}) base.
 		return nil
 	}
 
-	gameObjectId, isIdString := id.(string)
-	if !isIdString {
+	gameObjectID, isIDString := id.(string)
+	if !isIDString {
 		return nil
 	}
 
-	gameObject, found := gameManager.Game.GetGameObject(gameObjectId)
+	gameObject, found := gameManager.Game.GetGameObject(gameObjectID)
 	if !found {
 		errorhandler.HandleError(
 			errorhandler.ReflectionFailed,
-			errors.New("could not find game object #"+gameObjectId),
+			errors.New("could not find game object #"+gameObjectID),
 		)
 	}
 
@@ -77,7 +77,7 @@ func (gameManager *GameManager) deSerialize(data interface{}) interface{} {
 			return gameObject
 		}
 
-		if deltaLen, lenExists := asMap[gameManager.ServerConstants.DeltaListLengthKey]; lenExists {
+		if deltaLen, lenExists := asMap[gameManager.serverConstants.DeltaListLengthKey]; lenExists {
 			length, lenToIntErr := strconv.Atoi(deltaLen.(string))
 			if lenToIntErr != nil {
 				errorhandler.HandleError(
@@ -88,7 +88,7 @@ func (gameManager *GameManager) deSerialize(data interface{}) interface{} {
 			}
 			deSerializedSlice := make([]interface{}, length)
 			for indexAsString, element := range asMap {
-				if indexAsString == gameManager.ServerConstants.DeltaListLengthKey {
+				if indexAsString == gameManager.serverConstants.DeltaListLengthKey {
 					continue
 				}
 

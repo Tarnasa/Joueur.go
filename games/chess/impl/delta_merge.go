@@ -5,6 +5,17 @@ import (
 	"joueur/games/chess"
 )
 
+type DeltaMerge interface {
+	base.DeltaMerge
+
+	GameObject(interface{}) chess.GameObject
+	Player(interface{}) chess.Player
+
+	ArrayOfPlayer(*[]chess.Player, interface{}) []chess.Player
+	ArrayOfString(*[]string, interface{}) []string
+	MapOfStringToGameObject(*map[string]chess.GameObject, interface{}) map[string]chess.GameObject
+}
+
 type DeltaMergeImpl struct {
 	base.DeltaMergeImpl
 }

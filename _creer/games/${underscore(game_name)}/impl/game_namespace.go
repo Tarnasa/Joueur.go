@@ -53,9 +53,9 @@ func (*${ns}) CreateAI() (base.AI, *base.AIImpl) {
 	return &ai, &ai.AIImpl
 }
 
-func (*${ns}) CreateDeltaMerge(deltaMergeImpl base.DeltaMergeImpl) base.DeltaMerge {
+func (*${ns}) CreateDeltaMerge(deltaMergeImpl *base.DeltaMergeImpl) base.DeltaMerge {
 	return &DeltaMergeImpl{
-		DeltaMergeImpl: deltaMergeImpl,
+		DeltaMergeImpl: *deltaMergeImpl,
 	}
 }
 

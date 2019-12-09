@@ -2,8 +2,6 @@ package chess
 
 import "joueur/base"
 
-import "fmt"
-
 func PlayerName() string {
 	// <<-- Creer-Merge: getName -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	return "Chess Go Player"
@@ -57,7 +55,6 @@ func (ai *AI) Ended(won bool, reason string) {
 func (ai *AI) MakeMove() string {
 	// <<-- Creer-Merge: makeMove -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
 	// Put your game logic here for makeMove
-	fmt.Println("make move..., Game:", ai.Game().Fen(), "Player:", ai.Player())
-	return "b5"
+	return ""
 	// <<-- /Creer-Merge: makeMove -->>
 }

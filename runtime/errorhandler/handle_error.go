@@ -2,6 +2,7 @@ package errorhandler
 
 import (
 	"os"
+	"runtime/debug"
 
 	"github.com/fatih/color"
 )
@@ -53,6 +54,11 @@ func HandleError(errorCode int, err error, messages ...string) error {
 
 	if err != nil {
 		printErr("---\n" + err.Error())
+	}
+
+	stack := debug.Stack()
+	if len(stack) > 0 {
+		printErr("---\n" + string(stack))
 	}
 
 	printErr("---")

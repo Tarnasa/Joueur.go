@@ -23,5 +23,4 @@ type Game interface {
 
 	// A unique identifier for the game instance that is being played.
 	Session() string
-
 }

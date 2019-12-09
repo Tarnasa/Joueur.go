@@ -10,7 +10,7 @@ import (
 )
 
 // ChessNamespace is the collection of implimentation logic for the Chess game.
-type ChessNamespace struct {}
+type ChessNamespace struct{}
 
 // Name returns the name of the Chess game.
 func (*ChessNamespace) Name() string {
@@ -29,7 +29,7 @@ func (*ChessNamespace) PlayerName() string {
 
 // CreateGameObject is the factory method for all GameObject instances in the Chess game.
 func (*ChessNamespace) CreateGameObject(gameObjectName string) (base.DeltaMergeableGameObject, error) {
-	switch (gameObjectName) {
+	switch gameObjectName {
 	case "GameObject":
 		newGameObject := GameObjectImpl{}
 		newGameObject.InitImplDefaults()
@@ -55,9 +55,9 @@ func (*ChessNamespace) CreateAI() (base.AI, *base.AIImpl) {
 	return &ai, &ai.AIImpl
 }
 
-func (*ChessNamespace) CreateDeltaMerge(deltaMergeImpl base.DeltaMergeImpl) base.DeltaMerge {
+func (*ChessNamespace) CreateDeltaMerge(deltaMergeImpl *base.DeltaMergeImpl) base.DeltaMerge {
 	return &DeltaMergeImpl{
-		DeltaMergeImpl: deltaMergeImpl,
+		DeltaMergeImpl: *deltaMergeImpl,
 	}
 }
 

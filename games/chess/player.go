@@ -33,5 +33,4 @@ type Player interface {
 
 	// If the player won the game or not.
 	Won() bool
-
 }

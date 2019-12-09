@@ -22,7 +22,7 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 
 	gameObjectsDeltas := make(map[string]map[string]interface{})
 	for id, rawGameObjectDelta := range gameObjectsDeltaRaw {
-		gameObjectsDeltas[id] = gameManager.deltaMerge.ToDeltaMap(rawGameObjectDelta)
+		gameObjectsDeltas[id] = gameManager.deltaMerge.ToDeltaMap(&rawGameObjectDelta)
 	}
 
 	if gameObjectsExist {
@@ -44,7 +44,14 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 			fmt.Println(">> delta merge game object", gameObjectDelta)
 			for gameObjectAttribute, gameObjectAttributeDelta := range gameObjectDelta {
 				fmt.Println("->-> DeltaMerging", gameObjectAttribute, gameObjectAttributeDelta)
-				gameObject.DeltaMerge(gameManager.deltaMerge, gameObjectAttribute, gameObjectAttributeDelta)
+				_, err := gameObject.DeltaMerge(gameManager.deltaMerge, gameObjectAttribute, gameObjectAttributeDelta)
+				if err != nil {
+					errorhandler.HandleError(
+						errorhandler.DeltaMergeFailure,
+						err,
+						"Error merging '"+gameObjectAttribute+"' in game object #"+id,
+					)
+				}
 			}
 		}
 	}
@@ -93,7 +100,7 @@ func (gameManager *GameManager) initGameObjects(gameObjectsDeltas map[string]map
 }
 
 func (gameManager *GameManager) isDeltaPrimitive(delta interface{}) bool {
-	if delta == gameManager.ServerConstants.DeltaRemoved {
+	if delta == gameManager.serverConstants.DeltaRemoved {
 		return false
 	}
 
@@ -123,13 +130,13 @@ func (gameManager *GameManager) mergeDelta(state interface{}, delta interface{})
 			errors.New("cannot merge non primitive and non map delta"),
 		)
 	}
-	deltaLengthValue, hasDeltaLength := deltaMap[gameManager.ServerConstants.DeltaListLengthKey]
+	deltaLengthValue, hasDeltaLength := deltaMap[gameManager.serverConstants.DeltaListLengthKey]
 
 	if hasDeltaLength {
 		// Then gameManager part in the state is an array
 		deltaLength, deltaLenggameManagerInt := deltaLengthValue.(int64)
 		// We don't want to copy gameManager key/value over to the state, it was just to signify the delta is an array
-		delete(deltaMap, gameManager.ServerConstants.DeltaListLengthKey)
+		delete(deltaMap, gameManager.serverConstants.DeltaListLengthKey)
 
 		if !deltaLenggameManagerInt {
 			errorhandler.HandleError(
@@ -175,7 +182,7 @@ func (gameManager *GameManager) mergeDelta(state interface{}, delta interface{})
 			}
 		}
 
-		if deltaValue == gameManager.ServerConstants.DeltaRemoved && !isList {
+		if deltaValue == gameManager.serverConstants.DeltaRemoved && !isList {
 			delete(stateMap, key)
 		} else {
 			if isList {

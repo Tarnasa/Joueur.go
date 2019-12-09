@@ -64,26 +64,26 @@ func (gameImpl *GameImpl) DeltaMerge(
 		return merged, err
 	}
 
-	chessDeltaMerge, ok := deltaMerge.(DeltaMergeImpl)
+	chessDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("DeltaMerge was not the chess.impl.DeltaMerge")
+		return false, errors.New("deltaMerge is not the expected type of chess.impl.DeltaMerge")
 	}
 
 	switch attribute {
 	case "fen":
-		(*gameImpl).fenImpl = chessDeltaMerge.String(delta)
+		gameImpl.fenImpl = chessDeltaMerge.String(delta)
 		return true, nil
 	case "gameObjects":
-		(*gameImpl).gameObjectsImpl = chessDeltaMerge.MapOfStringToGameObject(&(*gameImpl).gameObjectsImpl, delta)
+		gameImpl.gameObjectsImpl = chessDeltaMerge.MapOfStringToGameObject(&gameImpl.gameObjectsImpl, delta)
 		return true, nil
 	case "history":
-		(*gameImpl).historyImpl = chessDeltaMerge.ArrayOfString(&(*gameImpl).historyImpl, delta)
+		gameImpl.historyImpl = chessDeltaMerge.ArrayOfString(&gameImpl.historyImpl, delta)
 		return true, nil
 	case "players":
-		(*gameImpl).playersImpl = chessDeltaMerge.ArrayOfPlayer(&(*gameImpl).playersImpl, delta)
+		gameImpl.playersImpl = chessDeltaMerge.ArrayOfPlayer(&gameImpl.playersImpl, delta)
 		return true, nil
 	case "session":
-		(*gameImpl).sessionImpl = chessDeltaMerge.String(delta)
+		gameImpl.sessionImpl = chessDeltaMerge.String(delta)
 		return true, nil
 	}
 

@@ -56,17 +56,17 @@ func (gameObjectImpl *GameObjectImpl) DeltaMerge(
 		return merged, err
 	}
 
-	chessDeltaMerge, ok := deltaMerge.(DeltaMergeImpl)
+	chessDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("DeltaMerge was not the chess.impl.DeltaMerge")
+		return false, errors.New("deltaMerge is not the expected type of chess.impl.DeltaMerge")
 	}
 
 	switch attribute {
 	case "gameObjectName":
-		(*gameObjectImpl).gameObjectNameImpl = chessDeltaMerge.String(delta)
+		gameObjectImpl.gameObjectNameImpl = chessDeltaMerge.String(delta)
 		return true, nil
 	case "logs":
-		(*gameObjectImpl).logsImpl = chessDeltaMerge.ArrayOfString(&(*gameObjectImpl).logsImpl, delta)
+		gameObjectImpl.logsImpl = chessDeltaMerge.ArrayOfString(&gameObjectImpl.logsImpl, delta)
 		return true, nil
 	}
 

@@ -124,6 +124,7 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]in
 // a generic delta.
 func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int) {
 	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
+	fmt.Println("we need LEN", deltaMergeImpl.DeltaLengthKey, delta)
 	deltaLengthString := deltaMergeImpl.String(deltaMap[deltaMergeImpl.DeltaLengthKey])
 	deltaLength, atoiErr := strconv.Atoi(deltaLengthString)
 	if atoiErr != nil {

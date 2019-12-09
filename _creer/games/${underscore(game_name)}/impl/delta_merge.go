@@ -26,6 +26,21 @@ import (
 	"joueur/games/${package_name}"
 )
 
+type DeltaMerge interface {
+	base.DeltaMerge
+
+% for game_obj_name in game_obj_names:
+	${game_obj_name}(interface{}) ${shared['go']['package_name']}.${game_obj_name}
+% endfor
+
+% for deep_type_name in sort_dict_keys(name_to_deep_type):
+<%
+	deep_type = name_to_deep_type[deep_type_name]
+	go_type = shared['go']['type'](deep_type, package_name)
+%>	${deep_type_name}(*${go_type}, interface{}) ${go_type}
+% endfor
+}
+
 type DeltaMergeImpl struct {
 	base.DeltaMergeImpl
 }

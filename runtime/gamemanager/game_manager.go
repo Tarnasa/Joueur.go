@@ -15,15 +15,15 @@ import (
 // It sits between the client, AI, and Game to facilitate interactions
 // between all of them.
 type GameManager struct {
-	GameNamespace   games.GameNamespace
-	ServerConstants client.ServerConstants
-	Game            base.DeltaMergeableGame
-	AI              base.AI
-	Player          base.Player
+	GameNamespace games.GameNamespace
+	Game          base.DeltaMergeableGame
+	AI            base.AI
+	Player        base.Player
 
-	aiImpl      *base.AIImpl
-	gameObjects map[string]base.DeltaMergeableGameObject
-	deltaMerge  base.DeltaMerge
+	aiImpl          *base.AIImpl
+	gameObjects     map[string]base.DeltaMergeableGameObject
+	serverConstants client.ServerConstants
+	deltaMerge      base.DeltaMerge
 }
 
 // New creates a new instance of a GameManager for a given namespace.
@@ -35,11 +35,6 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	gameManager.Game = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.aiImpl = gameNamespace.CreateAI()
 	gameManager.gameObjects = make(map[string]base.DeltaMergeableGameObject)
-	gameManager.deltaMerge = gameNamespace.CreateDeltaMerge(base.DeltaMergeImpl{
-		Game:              gameManager.Game,
-		DeltaRemovedValue: gameManager.ServerConstants.DeltaRemoved,
-		DeltaLengthKey:    gameManager.ServerConstants.DeltaListLengthKey,
-	})
 
 	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
 		fmt.Println("registered delta thing do a thing", delta)
@@ -82,8 +77,14 @@ func (gameManager *GameManager) parseAISettings(aiSettings string) {
 }
 
 // Start should be invoked when the ame starts and our playerID is known
-func (gameManager *GameManager) Start(playerID string) {
-	// TODO: set player in ai by this ID
+func (gameManager *GameManager) Start(playerID string, serverConstants client.ServerConstants) {
+	gameManager.serverConstants = serverConstants
+	gameManager.deltaMerge = gameManager.GameNamespace.CreateDeltaMerge(&base.DeltaMergeImpl{
+		Game:              gameManager.Game,
+		DeltaRemovedValue: gameManager.serverConstants.DeltaRemoved,
+		DeltaLengthKey:    gameManager.serverConstants.DeltaListLengthKey,
+	})
+
 	playerGameObject, foundGameObjectWithID := gameManager.Game.GetGameObject(playerID)
 	if !foundGameObjectWithID {
 		errorhandler.HandleError(

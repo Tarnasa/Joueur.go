@@ -16,5 +16,4 @@ type GameObject interface {
 
 	// Adds a message to this GameObject's logs. Intended for your own debugging purposes, as strings stored here are saved in the gamelog.
 	Log(string)
-
 }

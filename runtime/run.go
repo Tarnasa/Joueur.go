@@ -156,13 +156,11 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 		)
 	}
 
-	gameManager.ServerConstants = lobbiedData.Constants
-
 	startData := client.WaitForEventStart()
 
 	color.Green("Game is starting.")
 
-	gameManager.Start(startData.PlayerID)
+	gameManager.Start(startData.PlayerID, lobbiedData.Constants)
 
 	// The client will now wait for order(s) asynchronously.
 	// The process will exit when "over" is sent from the game server.

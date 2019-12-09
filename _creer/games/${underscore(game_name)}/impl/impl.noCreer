@@ -99,15 +99,15 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 	}
 % 	endfor
 
-	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMergeImpl)
+	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("DeltaMerge was not the ${shared['go']['package_name']}.impl.DeltaMerge")
+		return false, errors.New("deltaMerge is not the expected type of ${shared['go']['package_name']}.impl.DeltaMerge")
 	}
 
 	switch attribute {
 %	for attr_name in obj['attribute_names']:
 <%		attr = obj['attributes'][attr_name]
-		impl = '(*{}Impl).{}Impl'.format(lowercase_first(obj_name), attr_name)
+		impl = '{}Impl.{}Impl'.format(lowercase_first(obj_name), attr_name)
 
 		if shared['go']['skip_attribute'](obj_name, attr_name):
 			continue
