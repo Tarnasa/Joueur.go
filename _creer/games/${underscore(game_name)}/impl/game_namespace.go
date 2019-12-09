@@ -10,7 +10,7 @@ import (
 )
 <% ns = game_name + 'Namespace' %>
 // ${ns} is the collection of implimentation logic for the ${game_name} game.
-type ${ns} struct {}
+type ${ns} struct{}
 
 // Name returns the name of the ${game_name} game.
 func (*${ns}) Name() string {

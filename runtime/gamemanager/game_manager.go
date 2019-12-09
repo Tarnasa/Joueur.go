@@ -28,13 +28,34 @@ type GameManager struct {
 
 // New creates a new instance of a GameManager for a given namespace.
 // This should be the only factory/way to create GameManagers.
-func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
+func New(
+	gameNamespace games.GameNamespace,
+	aiSettings string,
+	serverConstants client.ServerConstants,
+) *GameManager {
 	gameManager := GameManager{}
 
 	gameManager.GameNamespace = gameNamespace
 	gameManager.Game = gameNamespace.CreateGame()
 	gameManager.AI, gameManager.aiImpl = gameNamespace.CreateAI()
 	gameManager.gameObjects = make(map[string]base.DeltaMergeableGameObject)
+
+	if serverConstants.DeltaListLengthKey == "" || serverConstants.DeltaRemoved == "" {
+		errorhandler.HandleError(
+			errorhandler.DeltaMergeFailure,
+			errors.New("invalid server constants, delta array length key is: '"+
+				serverConstants.DeltaListLengthKey+
+				"' and delta removed is: '"+
+				serverConstants.DeltaRemoved+"'."),
+		)
+	}
+
+	gameManager.serverConstants = serverConstants
+	gameManager.deltaMerge = gameManager.GameNamespace.CreateDeltaMerge(&base.DeltaMergeImpl{
+		Game:              gameManager.Game,
+		DeltaRemovedValue: gameManager.serverConstants.DeltaRemoved,
+		DeltaLengthKey:    gameManager.serverConstants.DeltaListLengthKey,
+	})
 
 	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
 		fmt.Println("registered delta thing do a thing", delta)
@@ -57,6 +78,8 @@ func New(gameNamespace games.GameNamespace, aiSettings string) *GameManager {
 	return &gameManager
 }
 
+// parseAISettings parses an AI Settings string and sets the AI's setting
+// map accordingly.
 func (gameManager *GameManager) parseAISettings(aiSettings string) {
 	settings := make(map[string]([]string))
 	parsedSettings, parseErr := url.ParseQuery(aiSettings)
@@ -64,7 +87,7 @@ func (gameManager *GameManager) parseAISettings(aiSettings string) {
 		errorhandler.HandleError(
 			errorhandler.InvalidArgs,
 			parseErr,
-			"Error occured while parsing AI Settings query string. Ensure the format is correct",
+			"Error occurred while parsing AI Settings query string. Ensure the format is correct",
 		)
 	}
 
@@ -77,14 +100,7 @@ func (gameManager *GameManager) parseAISettings(aiSettings string) {
 }
 
 // Start should be invoked when the ame starts and our playerID is known
-func (gameManager *GameManager) Start(playerID string, serverConstants client.ServerConstants) {
-	gameManager.serverConstants = serverConstants
-	gameManager.deltaMerge = gameManager.GameNamespace.CreateDeltaMerge(&base.DeltaMergeImpl{
-		Game:              gameManager.Game,
-		DeltaRemovedValue: gameManager.serverConstants.DeltaRemoved,
-		DeltaLengthKey:    gameManager.serverConstants.DeltaListLengthKey,
-	})
-
+func (gameManager *GameManager) Start(playerID string) {
 	playerGameObject, foundGameObjectWithID := gameManager.Game.GetGameObject(playerID)
 	if !foundGameObjectWithID {
 		errorhandler.HandleError(

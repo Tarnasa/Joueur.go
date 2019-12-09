@@ -13,7 +13,7 @@ type EventLobbiedData struct {
 	// The game session (id) of the game you will be playing.
 	GameSession string `json:"gameSession"`
 	// Constants used to facilitate game IO communication.
-	Constants ServerConstants `json:"serverConstants"`
+	Constants ServerConstants `json:"constants"`
 }
 
 func WaitForEventLobbied() EventLobbiedData {

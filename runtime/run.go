@@ -123,14 +123,6 @@ func Run(args RunArgs) error {
 		playerName = args.PlayerName
 	}
 
-	gameManager := gamemanager.New(gameNamespace, args.AISettings)
-	if gameManager == nil {
-		errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			errors.New("Could not create GameManager for game "+gameName),
-		)
-	}
-
 	client.SendEventPlay(client.EventPlay{
 		ClientType:       "Go",
 		GameName:         gameName,
@@ -156,11 +148,20 @@ Version mismatch means that unexpected crashes may happen due to differing game 
 		)
 	}
 
+	fmt.Println("SERVER CONSTANTS", lobbiedData.Constants)
+	gameManager := gamemanager.New(gameNamespace, args.AISettings, lobbiedData.Constants)
+	if gameManager == nil {
+		errorhandler.HandleError(
+			errorhandler.ReflectionFailed,
+			errors.New("Could not create GameManager for game "+gameName),
+		)
+	}
+
 	startData := client.WaitForEventStart()
 
 	color.Green("Game is starting.")
 
-	gameManager.Start(startData.PlayerID, lobbiedData.Constants)
+	gameManager.Start(startData.PlayerID)
 
 	// The client will now wait for order(s) asynchronously.
 	// The process will exit when "over" is sent from the game server.

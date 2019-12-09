@@ -32,7 +32,7 @@ type DeltaMergeImpl struct {
 
 // CannotConvertDeltaTo takes a string about why and a delta to explain why
 // it's going to crash the program because a delta could not be merged.
-func (deltaMergeImpl DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{}) {
+func (deltaMergeImpl *DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{}) {
 	errorhandler.HandleError(
 		errorhandler.ReflectionFailed,
 		errors.New("cannot convert delta to "+strName+": "+fmt.Sprintf("%v", delta)),
@@ -40,7 +40,7 @@ func (deltaMergeImpl DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta 
 }
 
 // String attempts to extract a string from a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) String(delta interface{}) string {
+func (deltaMergeImpl *DeltaMergeImpl) String(delta interface{}) string {
 	asString, isString := delta.(string)
 
 	if !isString {
@@ -51,7 +51,7 @@ func (deltaMergeImpl DeltaMergeImpl) String(delta interface{}) string {
 }
 
 // Int attempts to extract an int from a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) Int(delta interface{}) int64 {
+func (deltaMergeImpl *DeltaMergeImpl) Int(delta interface{}) int64 {
 	asFloat, isFloat := delta.(float64)
 
 	if !isFloat {
@@ -62,7 +62,7 @@ func (deltaMergeImpl DeltaMergeImpl) Int(delta interface{}) int64 {
 }
 
 // Float attempts to extract a float from a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) Float(delta interface{}) float64 {
+func (deltaMergeImpl *DeltaMergeImpl) Float(delta interface{}) float64 {
 	asFloat, isFloat := delta.(float64)
 
 	if !isFloat {
@@ -73,7 +73,7 @@ func (deltaMergeImpl DeltaMergeImpl) Float(delta interface{}) float64 {
 }
 
 // Boolean attempts to extract a boolean from a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) Boolean(delta interface{}) bool {
+func (deltaMergeImpl *DeltaMergeImpl) Boolean(delta interface{}) bool {
 	asBool, isBool := delta.(bool)
 
 	if !isBool {
@@ -84,7 +84,7 @@ func (deltaMergeImpl DeltaMergeImpl) Boolean(delta interface{}) bool {
 }
 
 // BaseGameObject attempts to extract a base.GameObject from a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObject {
+func (deltaMergeImpl *DeltaMergeImpl) BaseGameObject(delta interface{}) GameObject {
 	if delta == nil {
 		return nil // nil pointer is valid for all game objects
 	}
@@ -110,7 +110,7 @@ func (deltaMergeImpl DeltaMergeImpl) BaseGameObject(delta interface{}) GameObjec
 
 // ToDeltaMap attempts to extract a map of string to more generics from
 // a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{} {
+func (deltaMergeImpl *DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{} {
 	asMap, isMap := delta.(map[string]interface{})
 
 	if !isMap {
@@ -122,18 +122,10 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]in
 
 // ToDeltaArray attempts to extract a data for merging a list delta from
 // a generic delta.
-func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int) {
+func (deltaMergeImpl *DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int) {
 	deltaMap := deltaMergeImpl.ToDeltaMap(delta)
 	fmt.Println("we need LEN", deltaMergeImpl.DeltaLengthKey, delta)
-	deltaLengthString := deltaMergeImpl.String(deltaMap[deltaMergeImpl.DeltaLengthKey])
-	deltaLength, atoiErr := strconv.Atoi(deltaLengthString)
-	if atoiErr != nil {
-		errorhandler.HandleError(
-			errorhandler.ReflectionFailed,
-			atoiErr,
-			"Cannot convert DeltaLength key to int: "+deltaLengthString,
-		)
-	}
+	deltaLength := int(deltaMergeImpl.Int(deltaMap[deltaMergeImpl.DeltaLengthKey]))
 
 	intMap := make(map[int]interface{})
 	for deltaKey, deltaValue := range deltaMap {
@@ -155,6 +147,6 @@ func (deltaMergeImpl DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]in
 }
 
 // IsDeltaRemoved checks if a given delta is the special DeltaRemoved token.
-func (deltaMergeImpl DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool {
+func (deltaMergeImpl *DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool {
 	return delta == deltaMergeImpl.DeltaRemovedValue
 }
