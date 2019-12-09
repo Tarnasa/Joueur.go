@@ -2,7 +2,6 @@ package gamemanager
 
 import (
 	"errors"
-	"fmt"
 	"joueur/base"
 	"joueur/games"
 	"joueur/runtime/client"
@@ -57,13 +56,11 @@ func New(
 		DeltaLengthKey:    gameManager.serverConstants.DeltaListLengthKey,
 	})
 
-	client.RegisterEventDeltaHandler(func(delta map[string]interface{}) {
-		fmt.Println("registered delta thing do a thing", delta)
+	client.EventDeltaHandler = func(delta map[string]interface{}) {
 		gameManager.applyDeltaState(delta)
-	})
+	}
 
 	client.EventOrderHandler = func(order client.EventOrderData) {
-		fmt.Println("game manager wants to handle the order")
 		gameManager.handleOrder(order)
 	}
 
@@ -115,11 +112,9 @@ func (gameManager *GameManager) Start(playerID string) {
 			errors.New("Game Object #"+playerID+" is not a Player when it's supposed to be our player"),
 		)
 	}
-	fmt.Println("started with player", player)
 	gameManager.Player = player
 	base.InjectIntoAI(gameManager.aiImpl, gameManager.Game, gameManager.Player)
 
-	fmt.Println("and got", gameManager.Player)
 	gameManager.AI.GameUpdated()
 	gameManager.AI.Start()
 
@@ -154,9 +149,7 @@ func (gameManager *GameManager) RunOnServer(
 
 // handlerOrder is automatically invoked when an  event comes from the server.
 func (gameManager *GameManager) handleOrder(order client.EventOrderData) {
-	fmt.Println("handling order automatically...")
 	args := gameManager.deSerialize(order.Args)
-	fmt.Println("args deserialized are", args)
 	argsList, isList := args.([]interface{})
 	if !isList {
 		errorhandler.HandleError(
@@ -164,7 +157,6 @@ func (gameManager *GameManager) handleOrder(order client.EventOrderData) {
 			errors.New("Cannot handle order "+order.Name+" because the args are not a slice"),
 		)
 	}
-	fmt.Println("about to let the namespace do the order...")
 	returned, err := gameManager.GameNamespace.OrderAI(gameManager.AI, order.Name, argsList)
 	if err != nil {
 		errorhandler.HandleError(
@@ -174,7 +166,6 @@ func (gameManager *GameManager) handleOrder(order client.EventOrderData) {
 		)
 	}
 
-	fmt.Println("yay!")
 	// now that we've finished the order, tell the server
 	client.SendEventFinished(client.EventFinishedData{
 		OrderIndex: order.Index,

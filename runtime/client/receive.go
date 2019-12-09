@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"joueur/runtime/errorhandler"
 
 	"github.com/fatih/color"
@@ -41,10 +40,9 @@ func waitForEvents() {
 		}
 
 		sent = sent[:bytesSent] // cut off bytes not sent as they are junk 0's
-		fmt.Println("read", string(sent))
 
 		if instance.printIO {
-			color.Magenta("FROM SERVER <-- " + string(sent))
+			color.Magenta("FROM SERVER --> " + string(sent))
 		}
 
 		split := bytes.Split(sent, []byte{eotChar})
@@ -93,7 +91,6 @@ func WaitForEvent(eventName string, dataDestination interface{}) {
 				)
 			}
 
-			fmt.Println("------->", baseEvent.EventName)
 			if baseEvent.EventName == eventName {
 				destination := &BaseEvent{
 					EventName: eventName,

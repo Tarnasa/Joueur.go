@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"joueur/runtime/errorhandler"
 	"net"
 	"sync"
@@ -17,17 +16,6 @@ const eotChar = byte(4)
 
 var instance *Client
 var once sync.Once
-
-var eventDeltaHandler = func(map[string]interface{}) {}
-var eventOverHandler = func() {}
-
-func RegisterEventDeltaHandler(handler func(map[string]interface{})) {
-	eventDeltaHandler = handler
-}
-
-func RegisterEventOverHandler(handler func()) {
-	eventOverHandler = handler
-}
 
 func Setup(printIO bool) *Client {
 	once.Do(func() {
@@ -56,7 +44,6 @@ func Connect(address string) error {
 
 func Disconnect() {
 	if instance.conn != nil {
-		fmt.Println("disconnecting...")
 		(*instance.conn).Close()
 	}
 }

@@ -3,10 +3,10 @@ package client
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"joueur/runtime/errorhandler"
 )
 
+// EventOrderData is the expected shape of an "order" event data
 type EventOrderData struct {
 	Name  string        `json:"name"`
 	Index int64         `json:"index"`
@@ -17,11 +17,11 @@ type eventOrder struct {
 	Data EventOrderData `json:"data"`
 }
 
+// EvenOrderHandler is the handler for "order" events. GameManager should
+// inject into this.
 var EventOrderHandler func(e EventOrderData) = nil
 
 func autoHandleEventOrder(eventBytes []byte) {
-	fmt.Println("auto handling order...", string(eventBytes))
-
 	var parsed eventOrder
 
 	err := json.Unmarshal(eventBytes, &parsed)

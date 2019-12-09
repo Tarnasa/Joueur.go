@@ -2,7 +2,6 @@ package base
 
 import (
 	"errors"
-	"fmt"
 )
 
 // Game is the base interface all games should implement for their Game interfaces.
@@ -27,10 +26,6 @@ type GameImpl struct {
 
 // GetGameObject simply attempts to get a game object from inside its gameObjects map.
 func (gameImpl *GameImpl) GetGameObject(id string) (GameObject, bool) {
-	fmt.Println("trying to get", id, "from", (*gameImpl).gameObjectsImpl)
-	for key, value := range (*gameImpl).gameObjectsImpl {
-		fmt.Println("-->", key, "=", value)
-	}
 	gameObject, found := gameImpl.gameObjectsImpl[id]
 	return gameObject, found
 }
@@ -42,7 +37,6 @@ func (gameImpl *GameImpl) AddGameObject(id string, gameObject GameObject) error 
 		return errors.New("GameObject #" + id + " cannot be added. Already present in Game")
 	}
 
-	fmt.Println("adding game object", id, "to", gameObject)
 	gameImpl.gameObjectsImpl[id] = gameObject
 	return nil
 }

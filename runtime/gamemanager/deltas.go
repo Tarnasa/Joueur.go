@@ -10,7 +10,6 @@ import (
 // applyDeltaState take the root (game) state and delta updates all the
 // structs within the game it is managing.
 func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
-	fmt.Println(">> Merging delta start", delta)
 	gameObjectsRaw, gameObjectsExist := delta["gameObjects"]
 	gameObjectsDeltaRaw, gameObjectsAreMapRaw := gameObjectsRaw.(map[string]interface{})
 	if !gameObjectsAreMapRaw {
@@ -20,18 +19,14 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 		)
 	}
 
-	fmt.Println(">> gathering game object deltas wwith", gameManager.deltaMerge)
 	gameObjectsDeltas := make(map[string]map[string]interface{})
 	for id, rawGameObjectDelta := range gameObjectsDeltaRaw {
 		gameObjectsDeltas[id] = gameManager.deltaMerge.ToDeltaMap(rawGameObjectDelta)
 	}
-	fmt.Println("<< done gathering")
 
 	if gameObjectsExist {
-		fmt.Println(">> init game objects", gameObjectsDeltas)
 		gameManager.initGameObjects(&gameObjectsDeltas)
 	}
-	fmt.Println(">> game objects should be init'd")
 
 	// now all new game objects should be initialize so we can delta merge as normal
 	if gameObjectsExist {
@@ -43,9 +38,7 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 					errors.New("cannot merge delta state of game object #"+id+" with no game object for given id"),
 				)
 			}
-			fmt.Println(">> delta merge game object", gameObjectDelta)
 			for gameObjectAttribute, gameObjectAttributeDelta := range gameObjectDelta {
-				fmt.Println("->-> DeltaMerging", gameObjectAttribute, gameObjectAttributeDelta)
 				_, err := gameObject.DeltaMerge(gameManager.deltaMerge, gameObjectAttribute, gameObjectAttributeDelta)
 				if err != nil {
 					errorhandler.HandleError(
@@ -63,22 +56,17 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 			continue // we already updated gameObject above
 		}
 
-		fmt.Println(">> delta merge into game", gameAttribute, gameAttributeDelta)
 		gameManager.Game.DeltaMerge(gameManager.deltaMerge, gameAttribute, gameAttributeDelta)
 	}
-
-	fmt.Println("++++++++++++++++++ DONE DELTA MERGE? +++++++++++++")
 }
 
 func (gameManager *GameManager) initGameObjects(gameObjectsDeltas *map[string]map[string]interface{}) {
-	fmt.Println("&& initalizing game objects", gameObjectsDeltas)
 	for id, gameObjectDelta := range *gameObjectsDeltas {
 		_, gameObjectAlreadyExists := gameManager.gameObjects[id]
 		if gameObjectAlreadyExists {
 			continue
 		}
 
-		fmt.Println("!!!yo yo yo", gameObjectDelta)
 		rawGameObjectName, rawNameOk := gameObjectDelta["gameObjectName"]
 		gameObjectName, nameIsString := rawGameObjectName.(string)
 		if !rawNameOk || !nameIsString || gameObjectName == "" {
@@ -96,7 +84,6 @@ func (gameManager *GameManager) initGameObjects(gameObjectsDeltas *map[string]ma
 			)
 		}
 
-		fmt.Println(">>NEW NEW NEW<<", newGameObject)
 		gameManager.gameObjects[id] = newGameObject
 		gameManager.Game.AddGameObject(id, newGameObject)
 	}

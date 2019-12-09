@@ -2,20 +2,27 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
+	"joueur/runtime/errorhandler"
 )
 
-type EventDelta struct {
+type eventDelta struct {
 	Data map[string]interface{} `json:"data"`
 }
 
+// EventDeltaHandler is the handler that should be set by the GameManager to
+// handler "delta" events, which cases a delta merge.
+var EventDeltaHandler func(map[string]interface{}) = nil
+
 func autoHandleEventDelta(eventBytes []byte) {
-	fmt.Println("auto hanlding delta...")
+	var parsed eventDelta
+	json.Unmarshal(eventBytes, &parsed)
 
-	var parsed EventDelta
-
-	err := json.Unmarshal(eventBytes, &parsed)
-	fmt.Println("auto handled the delta and got...", parsed, string(eventBytes), err)
-
-	eventDeltaHandler(parsed.Data)
+	if EventDeltaHandler == nil {
+		errorhandler.HandleError(
+			errorhandler.DeltaMergeFailure,
+			errors.New("cannot merge delta without EventDeltaHandler set"),
+		)
+	}
+	EventDeltaHandler(parsed.Data)
 }
