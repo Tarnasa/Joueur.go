@@ -61,7 +61,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
 // ${upcase_first(func_name)} runs logic that ${lowercase_first(shared["go"]["description"](func))}
-func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${' ' if ret_type else ''} {
+func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${(' '+ret_type) if ret_type else ''} {
 	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
 %		for arg in func['arguments']:
 		"${arg['name']}": ${arg['name']},
@@ -83,7 +83,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) InitImplDefaults() {
 %   endfor
 }
 
-// DeltaMerge merged the delta for a given attribute in ${obj_name}.
+// DeltaMerge merges the delta for a given attribute in ${obj_name}.
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 	deltaMerge base.DeltaMerge,
 	attribute string,

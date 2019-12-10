@@ -95,7 +95,7 @@ if not 'go' in shared:
                 ])
         strs.append(') ')
         if 'returns' in function_params and function_params['returns']:
-            strs.extend([go_type(function_params['returns']['type']), ' '])
+            strs.extend([go_type(function_params['returns']['type'], False), ' '])
         strs.append('{')
 
         return ''.join(strs)
@@ -136,7 +136,7 @@ if not 'go' in shared:
                     '\n\t// ', func['description'], '\n',
                     '\t', upcase_first(func_name), '(', ', '.join(
                         [go_type(a['type'], False) for a in func['arguments']]
-                    ), ')', ((' ' + go_type(func['returns']['type'])) if func['returns'] else ''), '\n'])
+                    ), ')', ((' ' + go_type(func['returns']['type'], False)) if func['returns'] else ''), '\n'])
         strs.append('}\n')
         return ''.join(strs)
     shared['go']['interface_for'] = go_interface_for
