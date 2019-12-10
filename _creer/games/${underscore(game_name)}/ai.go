@@ -6,7 +6,8 @@ import "joueur/base"
 func PlayerName() string {
 ${merge(
 	'\t// ', 'getName',
-	'\treturn "' + game_name + ' Go Player"'
+	'\treturn "' + game_name + ' Go Player"',
+	help=False
 )}
 }
 
@@ -15,7 +16,8 @@ type AI struct {
 	base.AIImpl
 ${merge(
 	'\t// ', 'fields',
-	'\t// You can add new fields here'
+	'\t// You can add new fields here',
+	help=False
 )}
 }
 
@@ -35,7 +37,8 @@ func (ai *AI) Player() Player {
 func (ai *AI) Start() {
 ${merge(
 	'\t// ', 'start',
-	'\t// pass'
+	'\t// pass',
+	help=False
 )}
 }
 
@@ -44,7 +47,8 @@ ${merge(
 func (ai *AI) GameUpdated() {
 ${merge(
 	'\t// ', 'game-updated',
-	'\t// pass'
+	'\t// pass',
+	help=False
 )}
 }
 
@@ -53,7 +57,8 @@ ${merge(
 func (ai *AI) Ended(won bool, reason string) {
 ${merge(
 	'\t// ', 'ended',
-	'\t// pass'
+	'\t// pass',
+	help=False
 )}
 }
 
@@ -68,7 +73,8 @@ ${merge(
 """.format(
 		function_name,
 		(' ' + shared['go']['default_value'](function_params['returns']['type'])) if function_params['returns'] else ''
-	)
+	),
+	help=False
 )}
 }
 % endfor

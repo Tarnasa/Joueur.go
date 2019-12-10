@@ -1,3 +1,5 @@
+// Package games collects and registers all the available games this
+// Joueur client can play.
 package games
 
 import (
@@ -27,5 +29,7 @@ func Get(gameName string) (GameNamespace, error) {
 		return gameNamespace, nil
 	}
 
-	return nil, errors.New("Cannot get and create namespace for game " + gameName)
+	return nil, errors.New(
+		"Cannot get and create namespace for game " + gameName,
+	)
 }

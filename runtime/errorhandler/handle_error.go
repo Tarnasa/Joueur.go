@@ -1,3 +1,5 @@
+// Package errorhandler implements handlers to gracefully capture and log
+// errors during game play.
 package errorhandler
 
 import (

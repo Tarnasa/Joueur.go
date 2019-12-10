@@ -1,5 +1,5 @@
-// Package base
-// A pretty cool package
+// Package runtime contains the runtime logic of this client to talk to and
+// interact with a game server.
 package runtime
 
 import (

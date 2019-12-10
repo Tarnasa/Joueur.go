@@ -1,3 +1,4 @@
+// Package client implements game client basics to with a Cadre game server.
 package client
 
 import (

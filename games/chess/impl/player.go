@@ -6,7 +6,8 @@ import (
 	"joueur/games/chess"
 )
 
-// PlayerImpl is the struct that implements the container for Player instances in Chess.
+// PlayerImpl is the struct that implements the container for Player
+// instances in Chess.
 type PlayerImpl struct {
 	GameObjectImpl
 
@@ -21,12 +22,15 @@ type PlayerImpl struct {
 	wonImpl           bool
 }
 
-// ClientType returns what type of client this is, e.g. 'Python', 'JavaScript', or some other language. For potential data mining purposes.
+// ClientType returns what type of client this is, e.g. 'Python',
+// 'JavaScript', or some other language. For potential data mining
+// purposes.
 func (playerImpl *PlayerImpl) ClientType() string {
 	return playerImpl.clientTypeImpl
 }
 
-// Color returns the color (side) of this player. Either 'white' or 'black', with the 'white' player having the first move.
+// Color returns the color (side) of this player. Either 'white' or
+// 'black', with the 'white' player having the first move.
 func (playerImpl *PlayerImpl) Color() string {
 	return playerImpl.colorImpl
 }
@@ -56,7 +60,8 @@ func (playerImpl *PlayerImpl) ReasonWon() string {
 	return playerImpl.reasonWonImpl
 }
 
-// TimeRemaining returns the amount of time (in ns) remaining for this AI to send commands.
+// TimeRemaining returns the amount of time (in ns) remaining for this AI
+// to send commands.
 func (playerImpl *PlayerImpl) TimeRemaining() float64 {
 	return playerImpl.timeRemainingImpl
 }
@@ -81,20 +86,27 @@ func (playerImpl *PlayerImpl) InitImplDefaults() {
 	playerImpl.wonImpl = false
 }
 
-// DeltaMerge merged the delta for a given attribute in Player.
+// DeltaMerge merges the delta for a given attribute in Player.
 func (playerImpl *PlayerImpl) DeltaMerge(
 	deltaMerge base.DeltaMerge,
 	attribute string,
 	delta interface{},
 ) (bool, error) {
-	merged, err := playerImpl.GameObjectImpl.DeltaMerge(deltaMerge, attribute, delta)
+	merged, err := playerImpl.GameObjectImpl.DeltaMerge(
+		deltaMerge,
+		attribute,
+		delta,
+	)
 	if merged || err != nil {
 		return merged, err
 	}
 
 	chessDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("deltaMerge is not the expected type of chess.impl.DeltaMerge")
+		return false, errors.New(
+			"deltaMerge is not the expected type of: "+
+			"'chess.impl.DeltaMerge'",
+		)
 	}
 
 	switch attribute {

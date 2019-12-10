@@ -4,7 +4,7 @@ import "joueur/base"
 
 // PlayerName should return the string name of your Player in games it plays.
 func PlayerName() string {
-	// <<-- Creer-Merge: getName -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: getName -->>
 	return "Chess Go Player"
 	// <<-- /Creer-Merge: getName -->>
 }
@@ -12,7 +12,7 @@ func PlayerName() string {
 // AI is your personal AI implimentation.
 type AI struct {
 	base.AIImpl
-	// <<-- Creer-Merge: fields -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: fields -->>
 	// You can add new fields here
 	// <<-- /Creer-Merge: fields -->>
 }
@@ -31,7 +31,7 @@ func (ai *AI) Player() Player {
 // Start is called once the game starts and your AI has a Player and Game.
 // You can initialize your AI struct here.
 func (ai *AI) Start() {
-	// <<-- Creer-Merge: start -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: start -->>
 	// pass
 	// <<-- /Creer-Merge: start -->>
 }
@@ -39,7 +39,7 @@ func (ai *AI) Start() {
 // GameUpdated is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
 func (ai *AI) GameUpdated() {
-	// <<-- Creer-Merge: game-updated -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: game-updated -->>
 	// pass
 	// <<-- /Creer-Merge: game-updated -->>
 }
@@ -47,16 +47,17 @@ func (ai *AI) GameUpdated() {
 // Ended is called when the game ends, you can clean up your data and dump
 // files here if need be.
 func (ai *AI) Ended(won bool, reason string) {
-	// <<-- Creer-Merge: ended -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: ended -->>
 	// pass
 	// <<-- /Creer-Merge: ended -->>
 }
 
 // -- Chess specific AI actions -- \\
 
-// MakeMove is called every time it is this AI.player's turn to make a move.
+// MakeMove this is called every time it is this AI.player's turn to make a
+// move.
 func (ai *AI) MakeMove() string {
-	// <<-- Creer-Merge: makeMove -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: makeMove -->>
 	// Put your game logic here for makeMove
 	return ""
 	// <<-- /Creer-Merge: makeMove -->>

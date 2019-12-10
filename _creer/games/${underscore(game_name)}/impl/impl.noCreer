@@ -14,7 +14,13 @@ import (
 		parents.append('base.' + obj_name)
 	longest_attr_name_len = len(sorted(list(obj['attribute_names']), key=len)[-1])
 %>
-// ${obj_name}Impl is the struct that implements the container for ${obj_name} instances in ${game_name}.
+${shared['go']['doc_string'](
+	obj_name + 'Impl',
+	'is the struct that implements the container for {obj_name} instances in {game_name}.'.format(
+		obj_name=obj_name,
+		game_name=game_name
+	)
+)}
 type ${obj_name}Impl struct {
 %	for parent in parents:
 	${parent}Impl
@@ -48,7 +54,7 @@ func (gameObjectImpl *GameObjectImpl) Game() ${shared['go']['package_name']}.Gam
 		attr = obj['attributes'][attr_name]
 		ret_type = shared['go']['type'](attr['type'])
 %>
-// ${upcase_first(attr_name)} returns ${lowercase_first(shared["go"]["description"](attr))}
+${shared['go']['doc_string'](attr_name + ' returns', attr)}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_name)}() ${ret_type} {
 	return ${lowercase_first(obj_name)}Impl.${attr_name}Impl
 }
@@ -60,7 +66,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
-// ${upcase_first(func_name)} runs logic that ${lowercase_first(shared["go"]["description"](func))}
+${lowercase_first(shared['go']['doc_string'](func_name + 'runs logic that ', func))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${(' '+ret_type) if ret_type else ''} {
 	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
 %		for arg in func['arguments']:
@@ -93,7 +99,11 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 <%	suf = '' if i == 0 else str(i + 1)
 	if parent.startswith('base.'):
 		parent = parent[5:]
-%>	merged${suf}, err${suf} := ${lowercase_first(obj_name)}Impl.${parent}Impl.DeltaMerge(deltaMerge, attribute, delta)
+%>	merged${suf}, err${suf} := ${lowercase_first(obj_name)}Impl.${parent}Impl.DeltaMerge(
+		deltaMerge,
+		attribute,
+		delta,
+	)
 	if merged${suf} || err${suf} != nil {
 		return merged${suf}, err${suf}
 	}
@@ -101,7 +111,10 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 
 	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("deltaMerge is not the expected type of ${shared['go']['package_name']}.impl.DeltaMerge")
+		return false, errors.New(
+			"deltaMerge is not the expected type of: "+
+			"'${shared['go']['package_name']}.impl.DeltaMerge'",
+		)
 	}
 
 	switch attribute {

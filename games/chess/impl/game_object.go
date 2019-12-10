@@ -6,7 +6,8 @@ import (
 	"joueur/games/chess"
 )
 
-// GameObjectImpl is the struct that implements the container for GameObject instances in Chess.
+// GameObjectImpl is the struct that implements the container for
+// GameObject instances in Chess.
 type GameObjectImpl struct {
 	base.GameObjectImpl
 
@@ -20,17 +21,23 @@ func (gameObjectImpl *GameObjectImpl) Game() chess.Game {
 	return gameObjectImpl.game
 }
 
-// GameObjectName returns string representing the top level Class that this game object is an instance of. Used for reflection to create new instances on clients, but exposed for convenience should AIs want this data.
+// GameObjectName returns string representing the top level Class that this
+// game object is an instance of. Used for reflection to create new
+// instances on clients, but exposed for convenience should AIs want this
+// data.
 func (gameObjectImpl *GameObjectImpl) GameObjectName() string {
 	return gameObjectImpl.gameObjectNameImpl
 }
 
-// Logs returns any strings logged will be stored here. Intended for debugging.
+// Logs returns any strings logged will be stored here. Intended for
+// debugging.
 func (gameObjectImpl *GameObjectImpl) Logs() []string {
 	return gameObjectImpl.logsImpl
 }
 
-// Log runs logic that adds a message to this GameObject's logs. Intended for your own debugging purposes, as strings stored here are saved in the gamelog.
+// Logruns logic that  adds a message to this GameObject's logs. Intended
+// for your own debugging purposes, as strings stored here are saved in the
+// gamelog.
 func (gameObjectImpl *GameObjectImpl) Log(message string) {
 	gameObjectImpl.RunOnServer("log", map[string]interface{}{
 		"message": message,
@@ -45,20 +52,27 @@ func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
 	gameObjectImpl.logsImpl = []string{}
 }
 
-// DeltaMerge merged the delta for a given attribute in GameObject.
+// DeltaMerge merges the delta for a given attribute in GameObject.
 func (gameObjectImpl *GameObjectImpl) DeltaMerge(
 	deltaMerge base.DeltaMerge,
 	attribute string,
 	delta interface{},
 ) (bool, error) {
-	merged, err := gameObjectImpl.GameObjectImpl.DeltaMerge(deltaMerge, attribute, delta)
+	merged, err := gameObjectImpl.GameObjectImpl.DeltaMerge(
+		deltaMerge,
+		attribute,
+		delta,
+	)
 	if merged || err != nil {
 		return merged, err
 	}
 
 	chessDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("deltaMerge is not the expected type of chess.impl.DeltaMerge")
+		return false, errors.New(
+			"deltaMerge is not the expected type of: "+
+			"'chess.impl.DeltaMerge'",
+		)
 	}
 
 	switch attribute {

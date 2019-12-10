@@ -1,10 +1,12 @@
+// Package base implements the shared logic and structures between all games.
 package base
 
 import (
 	"errors"
 )
 
-// Game is the base interface all games should implement for their Game interfaces.
+// Game is the base interface all games should implement for their Game
+// interfaces.
 type Game interface {
 	GetGameObject(string) (GameObject, bool)
 }
@@ -24,7 +26,8 @@ type GameImpl struct {
 	gameObjectsImpl map[string]GameObject
 }
 
-// GetGameObject simply attempts to get a game object from inside its gameObjects map.
+// GetGameObject simply attempts to get a game object from inside its
+// gameObjects map.
 func (gameImpl *GameImpl) GetGameObject(id string) (GameObject, bool) {
 	gameObject, found := gameImpl.gameObjectsImpl[id]
 	return gameObject, found

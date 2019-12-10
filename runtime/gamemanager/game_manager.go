@@ -1,3 +1,5 @@
+// Package gamemanager implements middleware between the AIs, Games, and the
+// runtime client.
 package gamemanager
 
 import (

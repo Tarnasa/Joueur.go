@@ -1,3 +1,5 @@
+// Package joueur implements the base logic required to interact with the
+// Cadre AI framework to facilitate playing AI base games.
 package main
 
 import (

@@ -6,7 +6,8 @@ import (
 	"joueur/games/chess"
 )
 
-// GameImpl is the struct that implements the container for Game instances in Chess.
+// GameImpl is the struct that implements the container for Game instances
+// in Chess.
 type GameImpl struct {
 	base.GameImpl
 
@@ -17,17 +18,22 @@ type GameImpl struct {
 	sessionImpl     string
 }
 
-// Fen returns forsyth-Edwards Notation (fen), a notation that describes the game board state.
+// Fen returns forsyth-Edwards Notation (fen), a notation that describes
+// the game board state.
 func (gameImpl *GameImpl) Fen() string {
 	return gameImpl.fenImpl
 }
 
-// GameObjects returns a mapping of every game object's ID to the actual game object. Primarily used by the server and client to easily refer to the game objects via ID.
+// GameObjects returns a mapping of every game object's ID to the actual
+// game object. Primarily used by the server and client to easily refer to
+// the game objects via ID.
 func (gameImpl *GameImpl) GameObjects() map[string]chess.GameObject {
 	return gameImpl.gameObjectsImpl
 }
 
-// History returns the array of [known] moves that have occurred in the game, in Standard Algebraic Notation (SAN) format. The first element is the first move, with the last being the most recent.
+// History returns the array of [known] moves that have occurred in the
+// game, in Standard Algebraic Notation (SAN) format. The first element is
+// the first move, with the last being the most recent.
 func (gameImpl *GameImpl) History() []string {
 	return gameImpl.historyImpl
 }
@@ -37,7 +43,8 @@ func (gameImpl *GameImpl) Players() []chess.Player {
 	return gameImpl.playersImpl
 }
 
-// Session returns a unique identifier for the game instance that is being played.
+// Session returns a unique identifier for the game instance that is being
+// played.
 func (gameImpl *GameImpl) Session() string {
 	return gameImpl.sessionImpl
 }
@@ -53,20 +60,27 @@ func (gameImpl *GameImpl) InitImplDefaults() {
 	gameImpl.sessionImpl = ""
 }
 
-// DeltaMerge merged the delta for a given attribute in Game.
+// DeltaMerge merges the delta for a given attribute in Game.
 func (gameImpl *GameImpl) DeltaMerge(
 	deltaMerge base.DeltaMerge,
 	attribute string,
 	delta interface{},
 ) (bool, error) {
-	merged, err := gameImpl.GameImpl.DeltaMerge(deltaMerge, attribute, delta)
+	merged, err := gameImpl.GameImpl.DeltaMerge(
+		deltaMerge,
+		attribute,
+		delta,
+	)
 	if merged || err != nil {
 		return merged, err
 	}
 
 	chessDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
-		return false, errors.New("deltaMerge is not the expected type of chess.impl.DeltaMerge")
+		return false, errors.New(
+			"deltaMerge is not the expected type of: "+
+			"'chess.impl.DeltaMerge'",
+		)
 	}
 
 	switch attribute {

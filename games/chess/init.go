@@ -1,11 +1,11 @@
-// This package contains all the structs, methods, and the AI required as
-// a client to play the Chess with a game server.
-// To start coding your AI open ./ai.go
+// Package chess contains all the interfaces and AI
+// that are required to represent and play Chess.
 package chess
 
-// If you need to add code to initialize the ENTIRE Chess package, do so here
+// If you need to add code to initialize the ENTIRE Chess package,
+// do so here
 func init() {
-	// <<-- Creer-Merge: init -->> - Code you add between this comment and the end comment will be preserved between Creer re-runs.
+	// <<-- Creer-Merge: init -->>
 	// package initialization logic can go here
 	// <<-- /Creer-Merge: init -->>
 }

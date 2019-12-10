@@ -1,7 +1,6 @@
-// Package impl contains all the ${game_name } implimentation
-// logic and structures required by aa client to play with a game server.
-// To start coding your AI open ./ai.go
+// Package impl contains all the ${game_name} game implimentation logic.
 package impl
+// To start coding your AI please open ./ai.go
 <%include file='functions.noCreer' />
 import (
 	"errors"
