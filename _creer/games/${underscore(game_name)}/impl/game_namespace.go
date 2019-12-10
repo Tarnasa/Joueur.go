@@ -29,7 +29,7 @@ func (*${ns}) PlayerName() string {
 
 // CreateGameObject is the factory method for all GameObject instances in the ${game_name} game.
 func (*${ns}) CreateGameObject(gameObjectName string) (base.DeltaMergeableGameObject, error) {
-	switch (gameObjectName) {
+	switch gameObjectName {
 % for game_obj_name in game_obj_names:
 	case "${game_obj_name}":
 		new${game_obj_name} := ${game_obj_name}Impl{}

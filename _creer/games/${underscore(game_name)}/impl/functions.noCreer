@@ -65,9 +65,14 @@ if not 'go' in shared:
         return False
     shared['go']['skip_attribute'] = go_skip_attribute
 
-
     def go_function_top(function_name, function_params, receiver="", public=True):
-        strs = ['// ', function_params['description'], '\nfunc ']
+        strs = ['// ', upcase_first(function_name), ' ', ]
+        desc = lowercase_first(function_params['description'])
+
+        if desc.startswith('this '):
+            desc = desc[5:] # chop off "this "
+
+        strs.extend([desc, '\nfunc '])
 
         if receiver:
             receiverVar = lowercase_first(receiver)

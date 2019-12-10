@@ -2,6 +2,7 @@ package ${lowercase_first(game_name)}
 <%include file='impl/functions.noCreer' />
 import "joueur/base"
 
+// PlayerName should return the string name of your Player in games it plays.
 func PlayerName() string {
 ${merge(
 	'\t// ', 'getName',
@@ -9,8 +10,13 @@ ${merge(
 )}
 }
 
+// AI is your personal AI implimentation.
 type AI struct {
 	base.AIImpl
+${merge(
+	'\t// ', 'fields',
+	'\t// You can add new fields here'
+)}
 }
 
 // Game returns the instance of the Game this AI is currently playing.
@@ -24,8 +30,8 @@ func (ai *AI) Player() Player {
 	return ai.AIImpl.Player().(Player)
 }
 
-// This is called once the game starts and your AI knows its playerID and game.
-// You can initialize your AI here.
+// Start is called once the game starts and your AI has a Player and Game.
+// You can initialize your AI struct here.
 func (ai *AI) Start() {
 ${merge(
 	'\t// ', 'start',
@@ -33,7 +39,7 @@ ${merge(
 )}
 }
 
-// This is called every time the game's state updates,
+// GameUpdated is called every time the game's state updates,
 // so if you are tracking anything you can update it here.
 func (ai *AI) GameUpdated() {
 ${merge(
@@ -42,10 +48,8 @@ ${merge(
 )}
 }
 
-// This is called when the game ends, you can clean up your data and dump files here if need be.
-//
-// @param won True means you won, false means you lost.
-// @param reason The human readable string explaining why you won or lost.
+// Ended is called when the game ends, you can clean up your data and dump
+// files here if need be.
 func (ai *AI) Ended(won bool, reason string) {
 ${merge(
 	'\t// ', 'ended',
@@ -53,7 +57,7 @@ ${merge(
 )}
 }
 
-// Chess specific AI actions
+// -- ${game_name} specific AI actions -- ${'\\\\'}
 % for function_name in ai['function_names']:
 <% function_params = ai['functions'][function_name]%>
 ${shared['go']['function_top'](function_name, function_params, 'AI')}
