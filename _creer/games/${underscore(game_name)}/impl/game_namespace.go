@@ -60,9 +60,9 @@ func (*${ns}) CreateDeltaMerge(deltaMergeImpl *base.DeltaMergeImpl) base.DeltaMe
 
 // OrderAI handles an order for the AI in the ${game_name} game.
 func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (interface{}, error) {
-	ai, validAI := baseAI.(*chess.AI)
+	ai, validAI := baseAI.(*${shared['go']['package_name']}.AI)
 	if !validAI {
-		return nil, errors.New("AI is not a valid chess.AI to order!")
+		return nil, errors.New("AI is not a valid ${shared['go']['package_name']}.AI to order!")
 	}
 	switch functionName {
 % for func_name in ai['function_names']:

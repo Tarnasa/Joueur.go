@@ -32,22 +32,31 @@ if not 'go' in shared:
 
     def go_default_value(type_obj, package=True):
         base_type = type_obj['name']
+        def_value = type_obj['default'] if 'default' in type_obj else None
+
         if base_type == "string":
-            return '""'
+            return '"{}"'.format(def_value or "")
         elif base_type == "dictionary":
             return 'make(map[{}]{})'.format(go_type(type_obj['keyType'], package), go_type(type_obj['valueType'], package))
         elif base_type == "list":
             return '[]{}'.format(go_type(type_obj['valueType'], package)) + '{}'
         elif base_type == "int" or base_type == "float":
-            return '0'
+            return str(def_value or 0)
         elif base_type == "boolean":
-            return 'false'
+            return 'false' if def_value else 'true'
         else:
             return "nil"
     shared['go']['default_value'] = go_default_value
 
     def go_doc_string(prefix, val, remove_from_beginning='', indent=0):
-        desc = lowercase_first(val if type(val) == str else val['description'])
+        if type(val) == str:
+            desc = val
+            obj = None
+        else:
+            desc = val['description']
+            obj = val
+        desc = lowercase_first(desc)
+
         if remove_from_beginning and desc.startswith(remove_from_beginning):
             desc = desc[len(remove_from_beginning):] # chop off that part
         if prefix:
@@ -63,15 +72,22 @@ if not 'go' in shared:
 
         wrapper_prefix = ('\t'*indent) + '// '
         tabsize=8
-        return '\n'.join(textwrap.wrap(
-            text,
+        wrapper = textwrap.TextWrapper(
+            width=(78 - 3 - indent*tabsize),
             tabsize=tabsize,
             replace_whitespace=False,
             expand_tabs=False,
-            width=(78 - 3 - indent*tabsize),
             initial_indent=wrapper_prefix,
             subsequent_indent=wrapper_prefix
-        ))
+        )
+
+        desc_lines = wrapper.wrap(text)
+
+        if obj and 'type' in obj and obj['type'] and 'literals' in obj['type'] and obj['type']['literals']:
+            literal_lines = wrapper.wrap('Literal Values: {}'.format(human_string_list(['"{}"'.format(s) for s in obj['type']['literals']])))
+            desc_lines.extend(literal_lines)
+
+        return '\n'.join(desc_lines)
     shared['go']['doc_string'] = go_doc_string
 
     def go_skip_attribute(obj_name, attr_name):

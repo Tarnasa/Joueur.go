@@ -45,20 +45,23 @@ func waitForEvents() {
 			color.Magenta("FROM SERVER --> " + string(sent))
 		}
 
-		split := bytes.Split(sent, []byte{eotChar})
-		// the last item will either be "" if the last char was an EOT_CHAR,
-		//	or a partial data we need to buffer anyways
-		for i, eventBytes := range split {
-			if i == len(split)-1 {
-				receivedBuffer = eventBytes // left over bytes after the last EOT char for next event
-				continue
-			}
+		byteArrays := bytes.Split(sent, []byte{eotChar})
+		numberOfByteArrays := len(byteArrays)
+		// the first element should be a continuation of what we last read
+		byteArrays[0] = append(receivedBuffer, byteArrays[0]...)
+		if numberOfByteArrays == 1 {
+			// then the entire read had no EOT chars,
+			// so just buffer more bytes
+			receivedBuffer = byteArrays[0]
+			continue
+		}
+		// else with at least 2 elements split we received the EOT character
+		// so we have at least one event to parse from the bytes.
+		receivedBuffer = byteArrays[numberOfByteArrays-1] // buffer the last slice
+		byteArrays = byteArrays[:numberOfByteArrays-1]    // and remove it
 
-			if i == 0 {
-				eventBytes = append(receivedBuffer, eventBytes...)
-				receivedBuffer = make([]byte, 0)
-			}
-
+		//
+		for _, eventBytes := range byteArrays {
 			eventsStack = append(eventsStack, eventBytes)
 		}
 

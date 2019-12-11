@@ -66,7 +66,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
-${lowercase_first(shared['go']['doc_string'](func_name + 'runs logic that ', func))}
+${lowercase_first(shared['go']['doc_string'](func_name + ' runs logic that', func))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${(' '+ret_type) if ret_type else ''} {
 	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
 %		for arg in func['arguments']:
@@ -134,3 +134,46 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 
 	return false, nil // no errors in delta merging
 }
+% if 'tiled' in parent_data_names and obj_name == 'Tile':
+
+// GetNeighbors returns an array of the neighbors of this Tile.
+func (tileImpl *TileImpl) GetNeighbors() []${shared['go']['package_name']}.Tile {
+	neighbors := []${shared['go']['package_name']}.Tile{}
+
+	if tileImpl.tileNorthImpl != nil {
+		neighbors = append(neighbors, tileImpl.tileNorthImpl)
+	}
+
+	if tileImpl.tileEastImpl != nil {
+		neighbors = append(neighbors, tileImpl.tileEastImpl)
+	}
+
+	if tileImpl.tileSouthImpl != nil {
+		neighbors = append(neighbors, tileImpl.tileSouthImpl)
+	}
+
+	if tileImpl.tileWestImpl != nil {
+		neighbors = append(neighbors, tileImpl.tileWestImpl)
+	}
+
+	return neighbors
+}
+
+// IsPathable returns if the Tile is pathable for FindPath
+func (tileImpl *TileImpl) IsPathable() bool {
+${merge(
+	'\t// ', 'is-pathable',
+	'\treturn false // TODO: developer add game logic here!',
+	help=False
+)}
+}
+
+// HasNeighbor checks if this Tile has a specific neighboring Tile.
+func (tileImpl *TileImpl) hasNeighbor(tile ${shared['go']['package_name']}.Tile) bool {
+	return tile != nil &&
+		(tileImpl.tileNorthImpl == tile ||
+			tileImpl.tileEastImpl == tile ||
+			tileImpl.tileSouthImpl == tile ||
+			tileImpl.tileEastImpl == tile)
+}
+% endif
