@@ -51,4 +51,15 @@ type Tile interface {
 
 	// YoungGun is the YoungGun on this tile, nil otherwise.
 	YoungGun() YoungGun
+
+	// -- Tiled Game Utils -- \\
+
+	// GetNeighbors returns an array of the neighbors of this Tile.
+	GetNeighbors() Tile
+
+	// IsPathable returns if the Tile is pathable for FindPath
+	IsPathable() bool
+
+	// HasNeighbor checks if this Tile has a specific neighboring Tile.
+	HasNeighbor(Tile) bool
 }

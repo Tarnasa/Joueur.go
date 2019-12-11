@@ -165,6 +165,29 @@ if not 'go' in shared:
                     '\t', upcase_first(func_name), '(', ', '.join(
                         [go_type(a['type'], False) for a in func['arguments']]
                     ), ')', ((' ' + go_type(func['returns']['type'], False)) if func['returns'] else ''), '\n'])
+
+        if 'tiled' in parent_data_names:
+            if obj_name == 'Tile':
+                strs.append("""
+\t// -- Tiled Game Utils -- \\\\
+
+\t// GetNeighbors returns an array of the neighbors of this Tile.
+\tGetNeighbors() Tile
+
+\t// IsPathable returns if the Tile is pathable for FindPath
+\tIsPathable() bool
+
+\t// HasNeighbor checks if this Tile has a specific neighboring Tile.
+\tHasNeighbor(Tile) bool
+""")
+            if obj_name == 'Game':
+                strs.append("""
+\t// -- Tiled Game Utils -- \\\\
+
+\t// GetTileAt returns the Tile at a give position (x, y).
+\tGetTileAt(int, int) Tile
+""")
+
         strs.append('}\n')
         return ''.join(strs)
     shared['go']['interface_for'] = go_interface_for

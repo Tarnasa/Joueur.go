@@ -89,4 +89,9 @@ type Game interface {
 	// TurnsDrunk is how many turns a Cowboy will be drunk for if a
 	// bottle breaks on it.
 	TurnsDrunk() int64
+
+	// -- Tiled Game Utils -- \\
+
+	// GetTileAt returns the Tile at a give position (x, y).
+	GetTileAt(int, int) Tile
 }

@@ -175,6 +175,8 @@ func (tileImpl *TileImpl) DeltaMerge(
 	return false, nil // no errors in delta merging
 }
 
+// -- Tiled Game Utils -- \\
+
 // GetNeighbors returns an array of the neighbors of this Tile.
 func (tileImpl *TileImpl) GetNeighbors() []saloon.Tile {
 	neighbors := []saloon.Tile{}
@@ -206,7 +208,7 @@ func (tileImpl *TileImpl) IsPathable() bool {
 }
 
 // HasNeighbor checks if this Tile has a specific neighboring Tile.
-func (tileImpl *TileImpl) hasNeighbor(tile saloon.Tile) bool {
+func (tileImpl *TileImpl) HasNeighbor(tile saloon.Tile) bool {
 	return tile != nil &&
 		(tileImpl.tileNorthImpl == tile ||
 			tileImpl.tileEastImpl == tile ||

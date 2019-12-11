@@ -134,7 +134,10 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 
 	return false, nil // no errors in delta merging
 }
-% if 'tiled' in parent_data_names and obj_name == 'Tile':
+% if 'tiled' in parent_data_names:
+%	if obj_name == 'Tile':
+
+// -- Tiled Game Utils -- ${'\\\\'}
 
 // GetNeighbors returns an array of the neighbors of this Tile.
 func (tileImpl *TileImpl) GetNeighbors() []${shared['go']['package_name']}.Tile {
@@ -169,11 +172,26 @@ ${merge(
 }
 
 // HasNeighbor checks if this Tile has a specific neighboring Tile.
-func (tileImpl *TileImpl) hasNeighbor(tile ${shared['go']['package_name']}.Tile) bool {
+func (tileImpl *TileImpl) HasNeighbor(tile ${shared['go']['package_name']}.Tile) bool {
 	return tile != nil &&
 		(tileImpl.tileNorthImpl == tile ||
 			tileImpl.tileEastImpl == tile ||
 			tileImpl.tileSouthImpl == tile ||
 			tileImpl.tileEastImpl == tile)
 }
+%	endif
+%	if obj_name == 'Game':
+
+// -- Tiled Game Utils -- ${'\\\\'}
+
+// GetTileAt returns the Tile at a give position (x, y).
+func (gameImpl *GameImpl) GetTileAt(x int, y int) ${shared['go']['package_name']}.Tile {
+	if x < 0 or y < 0 or x >= gameImpl.mapWidthImpl or y >= gameImpl.mapHeightImpl {
+		// out of bounds
+		return nil
+	}
+
+	return gameImpl.tilesImpl[x + y * self.mapWidthImpl]
+}
+%	endif
 % endif
