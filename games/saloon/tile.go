@@ -55,7 +55,7 @@ type Tile interface {
 	// -- Tiled Game Utils -- \\
 
 	// GetNeighbors returns an array of the neighbors of this Tile.
-	GetNeighbors() Tile
+	GetNeighbors() []Tile
 
 	// IsPathable returns if the Tile is pathable for FindPath
 	IsPathable() bool

@@ -93,5 +93,5 @@ type Game interface {
 	// -- Tiled Game Utils -- \\
 
 	// GetTileAt returns the Tile at a give position (x, y).
-	GetTileAt(int, int) Tile
+	GetTileAt(int64, int64) Tile
 }

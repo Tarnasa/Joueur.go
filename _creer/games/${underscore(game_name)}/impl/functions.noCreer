@@ -172,7 +172,7 @@ if not 'go' in shared:
 \t// -- Tiled Game Utils -- \\\\
 
 \t// GetNeighbors returns an array of the neighbors of this Tile.
-\tGetNeighbors() Tile
+\tGetNeighbors() []Tile
 
 \t// IsPathable returns if the Tile is pathable for FindPath
 \tIsPathable() bool
@@ -185,7 +185,7 @@ if not 'go' in shared:
 \t// -- Tiled Game Utils -- \\\\
 
 \t// GetTileAt returns the Tile at a give position (x, y).
-\tGetTileAt(int, int) Tile
+\tGetTileAt(int64, int64) Tile
 """)
 
         strs.append('}\n')

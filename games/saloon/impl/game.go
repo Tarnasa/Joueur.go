@@ -278,11 +278,11 @@ func (gameImpl *GameImpl) DeltaMerge(
 // -- Tiled Game Utils -- \\
 
 // GetTileAt returns the Tile at a give position (x, y).
-func (gameImpl *GameImpl) GetTileAt(x int, y int) saloon.Tile {
-	if x < 0 or y < 0 or x >= gameImpl.mapWidthImpl or y >= gameImpl.mapHeightImpl {
+func (gameImpl *GameImpl) GetTileAt(x int64, y int64) saloon.Tile {
+	if x < 0 || y < 0 || x >= gameImpl.mapWidthImpl || y >= gameImpl.mapHeightImpl {
 		// out of bounds
 		return nil
 	}
 
-	return gameImpl.tilesImpl[x + y * self.mapWidthImpl]
+	return gameImpl.tilesImpl[x + y * gameImpl.mapWidthImpl]
 }

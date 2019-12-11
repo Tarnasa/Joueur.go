@@ -61,3 +61,64 @@ func (ai *AI) RunTurn() bool {
 	return true
 	// <<-- /Creer-Merge: runTurn -->>
 }
+
+// -- Tiled Game Utils -- \\
+
+// findPath is a very basic path finding algorithm (Breadth First Search),
+// that when given a starting Tile, will return a valid path to the goal Tile.
+// If none is found an empty array will be returned.
+func (ai *AI) findPath(start Tile, goal Tile) []Tile {
+	if start == goal {
+		// no need to make a path to here...
+		return []Tile{}
+	}
+
+	// Queue of the tiles that will have their neighbors searched for 'goal',
+	// with start as the first tile to have its neighbors searched.
+	fringe := []Tile{start}
+
+	// How we got to each tile that went into the fringe.
+	cameFrom := make(map[string]Tile)
+
+	// keep exploring neighbors of neighbors... until there are no more.
+	for len(fringe) > 0 {
+		// the tile we are currently exploring.
+		inspect := fringe[len(fringe)-1] // pop off the last time
+		fringe := fringe[:len(fringe)-1]
+
+		// cycle through the tile's neighbors.
+		for _, neighbor := range inspect.GetNeighbors() {
+			// if we found the goal, we have the path!
+			if neighbor == goal {
+				// Follow the path backward to the start from the goal and
+				// return it.
+				path := []Tile{goal}
+
+				// Starting at the tile we are currently at, insert them
+				// retracing our steps till we get to the starting tile
+				for inspect != start {
+					// add inspect to the front of the path
+					path = append([]Tile{inspect}, path...)
+					inspect = cameFrom[inspect.ID()]
+				}
+				return path
+			}
+			// else we did not find the goal, so enqueue this tile's
+			// neighbors to be inspected
+
+			// if the tile exists, has not been explored or added to the
+			// fringe yet, and it is pathable
+			_, neighborInCameFrom := cameFrom[neighbor.ID()]
+			if neighborInCameFrom && neighbor.IsPathable() {
+				// add it to the tiles to be explored and add where it came
+				// from for path reconstruction.
+				fringe = append(fringe, neighbor)
+				cameFrom[neighbor.ID()] = inspect
+			}
+		}
+	}
+
+	// if you're here, that means that there was not a path to get to where
+	// you want to go; in that case, we'll just return an empty path.
+	return []Tile{}
+}
