@@ -13,7 +13,7 @@ type EventOverData struct {
 func WaitForEventOver() EventOverData {
 	data := EventOverData{}
 	// we expect this to take a LONG time...
-	WaitForEvent("over", &data)
+	waitForEvent("over", &data)
 
 	return data
 }

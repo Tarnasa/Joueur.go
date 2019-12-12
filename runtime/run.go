@@ -18,7 +18,8 @@ import (
 	"github.com/fatih/color"
 )
 
-// hio
+// RunArgs are the expected arguments needed to actually run this Go Cadre
+// game client.
 type RunArgs struct {
 	Server string
 	Port   string
@@ -35,9 +36,9 @@ type RunArgs struct {
 	PrintIO bool
 }
 
-// SetupCloseHandler creates a 'listener' on a new goroutine which will notify the
-// program if it receives an interrupt from the OS. We then handle this by calling
-// our clean up procedure and exiting the program.
+// SetupInterruptHandler creates a 'listener' on a new goroutine which will
+// notify the program if it receives an interrupt from the OS. We then handle
+// this by calling our clean up procedure and exiting the program.
 func SetupInterruptHandler() {
 	c := make(chan os.Signal, 2)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
@@ -50,11 +51,8 @@ func SetupInterruptHandler() {
 	}()
 }
 
-/**
- * Invoked to actually run the client, connecting to the game server, then
- * playing with the AI and game objects
- * @param args the command line args already parsed into a key/value dict
- */
+// Run actually runs the client, connecting to the game server, then
+// playing with the AI and game objects.
 func Run(args RunArgs) error {
 	SetupInterruptHandler()
 
@@ -123,7 +121,7 @@ func Run(args RunArgs) error {
 		playerName = args.PlayerName
 	}
 
-	client.SendEventPlay(client.EventPlay{
+	client.SendEventPlay(client.EventPlayData{
 		ClientType:       "Go",
 		GameName:         gameName,
 		GameSettings:     args.GameSettings,

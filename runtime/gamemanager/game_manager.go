@@ -139,7 +139,7 @@ func (gameManager *GameManager) RunOnServer(
 		)
 	}
 	client.SendEventRun(client.EventRunData{
-		Caller:       client.GameObjectReference{Id: caller.ID()},
+		Caller:       client.GameObjectReference{ID: caller.ID()},
 		FunctionName: functionName,
 		Args:         serializedArgsMap,
 	})

@@ -9,6 +9,8 @@ import (
 	"github.com/fatih/color"
 )
 
+// BaseEvent is the base shape of an event being sent or received from the
+// Cadre game server.
 type BaseEvent struct {
 	EventName string      `json:"event"`
 	Data      interface{} `json:"data"`
@@ -19,6 +21,9 @@ const readSize = 1024
 var eventsStack = make([][]byte, 0)
 var receivedBuffer = make([]byte, 0)
 
+// waitForEvents will block the call stack and wait for the TCP connection to
+// fill with at least one event. Once 1 or more bytes of an event are received
+// this function returns assuming something will parse those bytes.
 func waitForEvents() {
 	if len(eventsStack) > 0 {
 		return
@@ -71,7 +76,9 @@ func waitForEvents() {
 	}
 }
 
-func WaitForEvent(eventName string, dataDestination interface{}) {
+// waitForEvent waits for a given event name by its string and given a
+// destination interface stores the resulting data shape in that destination.
+func waitForEvent(eventName string, dataDestination interface{}) {
 	for {
 		waitForEvents()
 
@@ -115,21 +122,21 @@ func WaitForEvent(eventName string, dataDestination interface{}) {
 				}
 
 				return
-			} else { // attempt to auto handle the event
-				switch baseEvent.EventName {
-				case "delta":
-					autoHandleEventDelta(eventBytes)
-				case "fatal":
-					autoHandleEventFatal(eventBytes)
-				case "order":
-					autoHandleEventOrder(eventBytes)
-				default:
-					errorhandler.HandleError(
-						errorhandler.UnknownEventFromServer,
-						errors.New("No event auto handler for "+baseEvent.EventName),
-						"Unknown event could not be handled",
-					)
-				}
+			}
+			// else attempt to auto handle the event
+			switch baseEvent.EventName {
+			case "delta":
+				autoHandleEventDelta(eventBytes)
+			case "fatal":
+				autoHandleEventFatal(eventBytes)
+			case "order":
+				autoHandleEventOrder(eventBytes)
+			default:
+				errorhandler.HandleError(
+					errorhandler.UnknownEventFromServer,
+					errors.New("No event auto handler for "+baseEvent.EventName),
+					"Unknown event could not be handled",
+				)
 			}
 		}
 	}

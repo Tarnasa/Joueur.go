@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"joueur/runtime/errorhandler"
-	"strconv"
 )
 
 // applyDeltaState take the root (game) state and delta updates all the
@@ -60,6 +59,9 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 	}
 }
 
+// initGameObjects initializes all new game objects found in a gameObjects
+// delta. This should be done before any other delta merges, so that if a
+// reference to a new game object is found, it will exist to be hooked up.
 func (gameManager *GameManager) initGameObjects(gameObjectsDeltas *map[string]map[string]interface{}) {
 	for id, gameObjectDelta := range *gameObjectsDeltas {
 		_, gameObjectAlreadyExists := gameManager.gameObjects[id]
@@ -87,100 +89,4 @@ func (gameManager *GameManager) initGameObjects(gameObjectsDeltas *map[string]ma
 		gameManager.gameObjects[id] = newGameObject
 		gameManager.Game.AddGameObject(id, newGameObject)
 	}
-}
-
-func (gameManager *GameManager) isDeltaPrimitive(delta interface{}) bool {
-	if delta == gameManager.serverConstants.DeltaRemoved {
-		return false
-	}
-
-	_, isBool := delta.(bool)
-	_, isInt := delta.(int64)
-	_, isFloat := delta.(float64)
-	_, isString := delta.(string)
-
-	return isBool || isInt || isFloat || isString
-}
-
-func (gameManager *GameManager) mergeDelta(state interface{}, delta interface{}) interface{} {
-	if gameManager.isDeltaPrimitive(delta) {
-		return delta
-	}
-
-	gameObject := gameManager.getIfGameObjectReference(delta)
-	if gameObject != nil {
-		return gameObject
-	}
-
-	deltaMap, isDeltaMap := delta.(map[string]interface{})
-
-	if !isDeltaMap {
-		errorhandler.HandleError(
-			errorhandler.DeltaMergeFailure,
-			errors.New("cannot merge non primitive and non map delta"),
-		)
-	}
-	deltaLengthValue, hasDeltaLength := deltaMap[gameManager.serverConstants.DeltaListLengthKey]
-
-	if hasDeltaLength {
-		// Then gameManager part in the state is an array
-		deltaLength, deltaLenggameManagerInt := deltaLengthValue.(int64)
-		// We don't want to copy gameManager key/value over to the state, it was just to signify the delta is an array
-		delete(deltaMap, gameManager.serverConstants.DeltaListLengthKey)
-
-		if !deltaLenggameManagerInt {
-			errorhandler.HandleError(
-				errorhandler.DeltaMergeFailure,
-				errors.New("delta list length key present without being a number"),
-			)
-		}
-
-		if state == nil {
-			state = make([]interface{}, deltaLength)
-		}
-
-		stateList, isList := state.([]interface{})
-		if !isList {
-			errorhandler.HandleError(
-				errorhandler.DeltaMergeFailure,
-				errors.New("delta merging is not a slice! Cannot resize"),
-			)
-		}
-		stateList = stateList[:deltaLength]
-	}
-
-	if state == nil {
-		state = make(map[string]interface{})
-	}
-
-	stateList, isList := state.([]interface{})
-	stateMap, isMap := state.(map[string]interface{})
-
-	for key, deltaValue := range deltaMap {
-		keyAsIndex := 0
-		if isList {
-			keyAsIndex, err := strconv.Atoi(key)
-			if err != nil || len(stateList) >= keyAsIndex || keyAsIndex < 0 {
-				if err == nil {
-					err = errors.New("key index " + key + "out out of range")
-				}
-				errorhandler.HandleError(
-					errorhandler.DeltaMergeFailure,
-					err,
-					"Cannot merge into list with key index "+key,
-				)
-			}
-		}
-
-		if deltaValue == gameManager.serverConstants.DeltaRemoved && !isList {
-			delete(stateMap, key)
-		} else {
-			if isList {
-				stateList[keyAsIndex] = gameManager.mergeDelta(stateList[keyAsIndex], deltaMap[key])
-			} else if isMap {
-				stateMap[key] = gameManager.mergeDelta(stateMap[key], deltaMap[key])
-			}
-		}
-	}
-	return state
 }

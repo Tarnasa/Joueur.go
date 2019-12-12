@@ -1,6 +1,7 @@
 package client
 
-type EventPlay struct {
+// EventPlayData is the expected shape of the event "play"'s data.
+type EventPlayData struct {
 	ClientType       string `json:"clientType"`
 	GameName         string `json:"gameName"`
 	GameSettings     string `json:"gameSettings"`
@@ -10,6 +11,7 @@ type EventPlay struct {
 	RequestedSession string `json:"requestedSession"`
 }
 
-func SendEventPlay(data EventPlay) {
-	SendEvent("play", data)
+// SendEventPlay sends the event "play" to the game server.
+func SendEventPlay(data EventPlayData) {
+	sendEvent("play", data)
 }

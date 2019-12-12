@@ -9,14 +9,17 @@ import (
 	"github.com/fatih/color"
 )
 
-type SendEventData struct {
+// sendEventData is the basic shape of an event we send to the server.
+type sendEventData struct {
 	Event    string      `json:"event"`
 	SentTime int64       `json:"sentTime"`
 	Data     interface{} `json:"data"`
 }
 
-func SendEvent(event string, data interface{}) {
-	bytes, err := json.Marshal(SendEventData{
+// sendEvent sends an even by its name with some optional data to the game
+// server.
+func sendEvent(event string, data interface{}) {
+	bytes, err := json.Marshal(sendEventData{
 		Event:    event,
 		Data:     data,
 		SentTime: time.Now().Unix(),
@@ -33,6 +36,8 @@ func SendEvent(event string, data interface{}) {
 	sendRaw(append(bytes, eotChar))
 }
 
+// sendRaw sends raw bytes to the game server. It's assumed these bytes are in
+// the correct serialized event format.
 func sendRaw(bytes []byte) error {
 	/**
 	 * Sends a raw string to the game server

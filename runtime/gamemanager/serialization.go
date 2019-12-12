@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+// getIfGameObjectReference checks if a delta is a GameObjectReference delta,
+// and if so returns the actual GameObject the reference is referencing.
 func (gameManager *GameManager) getIfGameObjectReference(data interface{}) base.GameObject {
 	deltaMap, isMap := data.(map[string]interface{})
 	if !isMap {
@@ -61,6 +63,8 @@ func (gameManager *GameManager) serialize(data interface{}) interface{} {
 	return data // should be int, float, string, or boolean
 }
 
+// deSerialize takes an arbitrary data structure and recursively goes into it
+// and de-serializes it and any game objects it was references inside.
 func (gameManager *GameManager) deSerialize(data interface{}) interface{} {
 	if asSlice, isSlice := data.([]interface{}); isSlice {
 		deSerializedSlice := make([]interface{}, len(asSlice))

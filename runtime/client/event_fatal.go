@@ -5,6 +5,8 @@ import (
 	"joueur/runtime/errorhandler"
 )
 
+// autoHandleEventFatal automatically handles "fatal" events by reporting
+// the error.
 func autoHandleEventFatal(eventBytes []byte) {
 	errorhandler.HandleError(
 		errorhandler.FatalEvent,

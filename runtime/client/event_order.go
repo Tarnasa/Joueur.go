@@ -17,10 +17,12 @@ type eventOrder struct {
 	Data EventOrderData `json:"data"`
 }
 
-// EvenOrderHandler is the handler for "order" events. GameManager should
+// EventOrderHandler is the handler for "order" events. GameManager should
 // inject into this.
 var EventOrderHandler func(e EventOrderData) = nil
 
+// autoHandleEventOrder automatically handles any "order" events by parsing it
+// and invoking the EventOrderHandler.
 func autoHandleEventOrder(eventBytes []byte) {
 	var parsed eventOrder
 

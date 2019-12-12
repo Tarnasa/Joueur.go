@@ -26,21 +26,27 @@ var errorCodeToNames = map[int]string{
 	42: "AI_ERRORED",
 }
 
+// printErr prints a string as an error string in red.
 func printErr(str string) {
 	os.Stderr.WriteString(color.RedString(str + "\n"))
 }
 
-var errorHandler = func() {}
+// ErrorHandler is a callback function that is invoked if HandleError is
+// invoked, just before exiting the process. To cleanup stuff like
+// disconnecting the client.
+var ErrorHandler func()
+
 var handlingErrors = true
 
-func RegisterErrorHandler(handler func()) {
-	errorHandler = handler
-}
-
+// StopHandlingErrors stops the HandleError function from actually handling
+// errors and exiting the process.
 func StopHandlingErrors() {
 	handlingErrors = false
 }
 
+// HandleError gracefully handles an unexpected error by printing as much
+// information about the error as possible before exiting with a none 0 status
+// code.
 func HandleError(errorCode int, err error, messages ...string) error {
 	if !handlingErrors {
 		return err
@@ -65,8 +71,8 @@ func HandleError(errorCode int, err error, messages ...string) error {
 
 	printErr("---")
 
-	if errorHandler != nil {
-		errorHandler()
+	if ErrorHandler != nil {
+		ErrorHandler()
 	}
 
 	os.Exit(errorCode)
