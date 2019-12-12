@@ -131,6 +131,8 @@ func waitForEvent(eventName string, dataDestination interface{}) {
 				autoHandleEventFatal(eventBytes)
 			case "order":
 				autoHandleEventOrder(eventBytes)
+			case "invalid":
+				autoHandleEventInvalid(eventBytes)
 			default:
 				errorhandler.HandleError(
 					errorhandler.UnknownEventFromServer,

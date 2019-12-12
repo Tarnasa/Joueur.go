@@ -16,3 +16,11 @@ type Player interface {
 	/** The reason why the player lost the game. */
 	ReasonLost() string
 }
+
+func asPlayer(gameObject GameObject) Player {
+	if player, isPlayer := gameObject.(Player); isPlayer {
+		return player
+	}
+
+	return nil
+}

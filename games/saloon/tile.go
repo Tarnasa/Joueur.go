@@ -63,3 +63,7 @@ type Tile interface {
 	// HasNeighbor checks if this Tile has a specific neighboring Tile.
 	HasNeighbor(Tile) bool
 }
+
+// TileDirections are all the direction strings that Tile's neighbors can be
+// in.
+var TileDirections = [...]string{"North", "South", "East", "West"}

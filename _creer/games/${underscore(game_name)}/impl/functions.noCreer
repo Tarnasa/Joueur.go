@@ -94,7 +94,7 @@ if not 'go' in shared:
         #if obj_name == 'Game':
         #    if attr_name == 'GameObjects'
         if obj_name == 'GameObject':
-            if attr_name == 'id':
+            if attr_name in ['id', 'gameObjectName']:
                 return True
         return False
     shared['go']['skip_attribute'] = go_skip_attribute

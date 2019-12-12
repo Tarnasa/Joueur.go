@@ -48,7 +48,6 @@ func (gameObjectImpl *GameObjectImpl) Log(message string) {
 func (gameObjectImpl *GameObjectImpl) InitImplDefaults() {
 	gameObjectImpl.GameObjectImpl.InitImplDefaults()
 
-	gameObjectImpl.gameObjectNameImpl = ""
 	gameObjectImpl.logsImpl = []string{}
 }
 
@@ -76,9 +75,6 @@ func (gameObjectImpl *GameObjectImpl) DeltaMerge(
 	}
 
 	switch attribute {
-	case "gameObjectName":
-		gameObjectImpl.gameObjectNameImpl = saloonDeltaMerge.String(delta)
-		return true, nil
 	case "logs":
 		gameObjectImpl.logsImpl = saloonDeltaMerge.ArrayOfString(&gameObjectImpl.logsImpl, delta)
 		return true, nil

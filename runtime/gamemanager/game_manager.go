@@ -66,6 +66,10 @@ func New(
 		gameManager.handleOrder(order)
 	}
 
+	client.EventInvalidHandler = func(message string) {
+		gameManager.AI.Invalid(message)
+	}
+
 	base.RunOnServerCallback = func(
 		caller base.GameObject,
 		functionName string,

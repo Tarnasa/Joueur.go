@@ -10,16 +10,16 @@ import (
 // getIfGameObjectReference checks if a delta is a GameObjectReference delta,
 // and if so returns the actual GameObject the reference is referencing.
 func (gameManager *GameManager) getIfGameObjectReference(data interface{}) base.GameObject {
-	deltaMap, isMap := data.(map[string]interface{})
+	deltaMap, isMap := data.(*map[string]interface{})
 	if !isMap {
 		return nil
 	}
 
-	if len(deltaMap) != 1 {
+	if len(*deltaMap) != 1 {
 		return nil
 	}
 
-	id, idFound := deltaMap["id"]
+	id, idFound := (*deltaMap)["id"]
 	if !idFound {
 		return nil
 	}

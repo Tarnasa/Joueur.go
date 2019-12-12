@@ -14,7 +14,7 @@ type AI interface {
 	Start()
 	Ended(bool, string)
 	GameUpdated()
-	// Invalid()
+	Invalid(string)
 }
 
 // AIImpl is the implimentation struct for the AI interface
