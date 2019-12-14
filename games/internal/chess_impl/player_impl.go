@@ -31,6 +31,7 @@ func (playerImpl *PlayerImpl) ClientType() string {
 
 // Color returns the color (side) of this player. Either 'white' or
 // 'black', with the 'white' player having the first move.
+// Literal Values: "black" or "white"
 func (playerImpl *PlayerImpl) Color() string {
 	return playerImpl.colorImpl
 }
@@ -77,13 +78,13 @@ func (playerImpl *PlayerImpl) InitImplDefaults() {
 
 	playerImpl.clientTypeImpl = ""
 	playerImpl.colorImpl = ""
-	playerImpl.lostImpl = false
+	playerImpl.lostImpl = true
 	playerImpl.nameImpl = ""
 	playerImpl.opponentImpl = nil
 	playerImpl.reasonLostImpl = ""
 	playerImpl.reasonWonImpl = ""
 	playerImpl.timeRemainingImpl = 0
-	playerImpl.wonImpl = false
+	playerImpl.wonImpl = true
 }
 
 // DeltaMerge merges the delta for a given attribute in Player.

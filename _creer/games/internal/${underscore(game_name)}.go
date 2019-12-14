@@ -1,10 +1,10 @@
-package games
+package internal
 
 // This file registers the game.
 // Removing/modifying it means your AI may not work correctly as the game won't exist!
 
-import "joueur/games/chess/impl"
+import "joueur/games/internal/${underscore(game_name)}_impl"
 
 func init() {
-	Register("Chess", &impl.ChessNamespace{})
+	register("${game_name}", &impl.${game_name}Namespace{})
 }

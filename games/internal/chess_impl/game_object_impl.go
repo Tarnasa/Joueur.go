@@ -35,7 +35,7 @@ func (gameObjectImpl *GameObjectImpl) Logs() []string {
 	return gameObjectImpl.logsImpl
 }
 
-// Logruns logic that  adds a message to this GameObject's logs. Intended
+// Log runs logic that adds a message to this GameObject's logs. Intended
 // for your own debugging purposes, as strings stored here are saved in the
 // gamelog.
 func (gameObjectImpl *GameObjectImpl) Log(message string) {

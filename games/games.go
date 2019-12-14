@@ -5,16 +5,13 @@ package games
 import (
 	"errors"
 	"joueur/base"
+	"joueur/games/internal"
 )
 
-var gamesNamespaceTypes = make(map[string]base.GameNamespace)
-
-func Register(gameName string, gameNamespace base.GameNamespace) {
-	gamesNamespaceTypes[gameName] = gameNamespace
-}
-
+// Get attempts to retrive the GameNamespace for a given game by its name.
+// If none is found nil and an error are returned.
 func Get(gameName string) (base.GameNamespace, error) {
-	if gameNamespace, found := gamesNamespaceTypes[gameName]; found {
+	if gameNamespace, found := internal.GameNamespaceRegistry[gameName]; found {
 		return gameNamespace, nil
 	}
 
