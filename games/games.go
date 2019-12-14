@@ -7,24 +7,13 @@ import (
 	"joueur/base"
 )
 
-type GameNamespace interface {
-	Name() string
-	Version() string
-	PlayerName() string
-	CreateAI() (base.AI, *base.AIImpl)
-	CreateDeltaMerge(*base.DeltaMergeImpl) base.DeltaMerge
-	CreateGame() base.DeltaMergeableGame
-	CreateGameObject(string) (base.DeltaMergeableGameObject, error)
-	OrderAI(base.AI, string, []interface{}) (interface{}, error)
-}
+var gamesNamespaceTypes = make(map[string]base.GameNamespace)
 
-var gamesNamespaceTypes = make(map[string]GameNamespace)
-
-func Register(gameName string, gameNamespace GameNamespace) {
+func Register(gameName string, gameNamespace base.GameNamespace) {
 	gamesNamespaceTypes[gameName] = gameNamespace
 }
 
-func Get(gameName string) (GameNamespace, error) {
+func Get(gameName string) (base.GameNamespace, error) {
 	if gameNamespace, found := gamesNamespaceTypes[gameName]; found {
 		return gameNamespace, nil
 	}

@@ -5,7 +5,6 @@ package gamemanager
 import (
 	"errors"
 	"joueur/base"
-	"joueur/games"
 	"joueur/internal/client"
 	"joueur/internal/errorhandler"
 
@@ -16,7 +15,7 @@ import (
 // It sits between the client, AI, and Game to facilitate interactions
 // between all of them.
 type GameManager struct {
-	GameNamespace games.GameNamespace
+	GameNamespace base.GameNamespace
 	Game          base.DeltaMergeableGame
 	AI            base.AI
 	Player        base.Player
@@ -30,7 +29,7 @@ type GameManager struct {
 // New creates a new instance of a GameManager for a given namespace.
 // This should be the only factory/way to create GameManagers.
 func New(
-	gameNamespace games.GameNamespace,
+	gameNamespace base.GameNamespace,
 	aiSettings string,
 	serverConstants client.ServerConstants,
 ) *GameManager {
