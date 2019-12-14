@@ -17,3 +17,7 @@ joueur*
 # bad OS files
 .DS_Store
 desktop.ini
+
+# Docs
+docs/temp
+temp

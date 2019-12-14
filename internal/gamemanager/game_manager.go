@@ -6,8 +6,8 @@ import (
 	"errors"
 	"joueur/base"
 	"joueur/games"
-	"joueur/runtime/client"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/client"
+	"joueur/internal/errorhandler"
 
 	"net/url"
 )

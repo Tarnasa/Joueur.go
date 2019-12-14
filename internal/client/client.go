@@ -2,7 +2,7 @@
 package client
 
 import (
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 	"net"
 	"sync"
 )
