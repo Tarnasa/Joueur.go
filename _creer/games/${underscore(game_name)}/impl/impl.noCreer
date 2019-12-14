@@ -112,7 +112,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
 		return false, errors.New(
-			"deltaMerge is not the expected type of: "+
+			"deltaMerge is not the expected type of: " +
 			"'${shared['go']['package_name']}.impl.DeltaMerge'",
 		)
 	}
@@ -177,7 +177,7 @@ func (tileImpl *TileImpl) HasNeighbor(tile ${shared['go']['package_name']}.Tile)
 		(tileImpl.tileNorthImpl == tile ||
 			tileImpl.tileEastImpl == tile ||
 			tileImpl.tileSouthImpl == tile ||
-			tileImpl.tileEastImpl == tile)
+			tileImpl.tileWestImpl == tile)
 }
 %	endif
 %	if obj_name == 'Game':
