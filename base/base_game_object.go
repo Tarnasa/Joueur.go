@@ -2,7 +2,7 @@ package base
 
 import (
 	"errors"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 )
 
 // RunOnServerCallback is the callback function for the game manager to hook

@@ -1,5 +1,5 @@
 package ${lowercase_first(game_name)}
-<%include file='impl/functions.noCreer' />
+<%include file='functions.noCreer' />
 import "joueur/base"
 
 // PlayerName should return the string name of your Player in games it plays.

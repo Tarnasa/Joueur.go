@@ -5,6 +5,8 @@ import (
 	"joueur/games/chess"
 )
 
+// DeltaMerge is the set of functions that can delta merge a
+// Chess game.
 type DeltaMerge interface {
 	base.DeltaMerge
 
@@ -16,6 +18,7 @@ type DeltaMerge interface {
 	MapOfStringToGameObject(*map[string]chess.GameObject, interface{}) map[string]chess.GameObject
 }
 
+// DeltaMergeImpl is the implimentation struct for the DeltaMerge interface.
 type DeltaMergeImpl struct {
 	base.DeltaMergeImpl
 }

@@ -3,7 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 )
 
 // eventDelta is the expected shape of a "delta" event.

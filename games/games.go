@@ -5,27 +5,13 @@ package games
 import (
 	"errors"
 	"joueur/base"
+	"joueur/games/internal"
 )
 
-type GameNamespace interface {
-	Name() string
-	Version() string
-	PlayerName() string
-	CreateAI() (base.AI, *base.AIImpl)
-	CreateDeltaMerge(*base.DeltaMergeImpl) base.DeltaMerge
-	CreateGame() base.DeltaMergeableGame
-	CreateGameObject(string) (base.DeltaMergeableGameObject, error)
-	OrderAI(base.AI, string, []interface{}) (interface{}, error)
-}
-
-var gamesNamespaceTypes = make(map[string]GameNamespace)
-
-func Register(gameName string, gameNamespace GameNamespace) {
-	gamesNamespaceTypes[gameName] = gameNamespace
-}
-
-func Get(gameName string) (GameNamespace, error) {
-	if gameNamespace, found := gamesNamespaceTypes[gameName]; found {
+// Get attempts to retrive the GameNamespace for a given game by its name.
+// If none is found nil and an error are returned.
+func Get(gameName string) (base.GameNamespace, error) {
+	if gameNamespace, found := internal.GameNamespaceRegistry[gameName]; found {
 		return gameNamespace, nil
 	}
 

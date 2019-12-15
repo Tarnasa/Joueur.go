@@ -1,14 +1,14 @@
 // Package runtime contains the runtime logic of this client to talk to and
 // interact with a game server.
-package runtime
+package internal
 
 import (
 	"errors"
 	"fmt"
 	"joueur/games"
-	"joueur/runtime/client"
-	"joueur/runtime/errorhandler"
-	"joueur/runtime/gamemanager"
+	"joueur/internal/client"
+	"joueur/internal/errorhandler"
+	"joueur/internal/gamemanager"
 	"os"
 	"os/signal"
 	"strconv"

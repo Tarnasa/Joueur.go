@@ -2,7 +2,7 @@ package client
 
 import (
 	"errors"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 )
 
 // autoHandleEventFatal automatically handles "fatal" events by reporting

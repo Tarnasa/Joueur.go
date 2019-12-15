@@ -3,7 +3,7 @@ package gamemanager
 import (
 	"errors"
 	"joueur/base"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 	"strconv"
 )
 

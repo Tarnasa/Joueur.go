@@ -3,7 +3,7 @@ package base
 import (
 	"errors"
 	"fmt"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 	"strconv"
 )
 

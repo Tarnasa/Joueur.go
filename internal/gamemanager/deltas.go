@@ -3,7 +3,7 @@ package gamemanager
 import (
 	"errors"
 	"fmt"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 )
 
 // applyDeltaState take the root (game) state and delta updates all the

@@ -3,7 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
-	"joueur/runtime/errorhandler"
+	"joueur/internal/errorhandler"
 )
 
 // EventOrderData is the expected shape of an "order" event data
