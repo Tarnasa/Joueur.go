@@ -26,6 +26,8 @@ import (
 	"joueur/games/${package_name}"
 )
 
+// DeltaMerge is the set of functions that can delta merge a
+// ${game_name} game.
 type DeltaMerge interface {
 	base.DeltaMerge
 
@@ -41,6 +43,7 @@ type DeltaMerge interface {
 % endfor
 }
 
+// DeltaMergeImpl is the implimentation struct for the DeltaMerge interface.
 type DeltaMergeImpl struct {
 	base.DeltaMergeImpl
 }
