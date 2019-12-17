@@ -40,11 +40,15 @@ sleep(3)
 
 ensure_clean_dir(OUTPUT_DIR)
 print('-> Going to scrape the godoc server, this will take some time...')
-run(
+wget_error_code = run(
     'wget -m -k -q -erobots=off -X src/ --no-host-directories --no-use-server-timestamps http://localhost:6060',
     cwd=OUTPUT_DIR,
     timeout=300, # 5 min
 )
+
+if wget_error_code not in [0, 8]: # 0 is ok, 8 is server error we don't care about
+    print("!!-> wget error code", wget_error_code)
+    sys.exit(wget_error_code)
 
 print('-> Done scraping. Killing process')
 godoc_process.kill()
