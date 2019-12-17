@@ -1,12 +1,10 @@
+import json
 import os
 import os.path
+from shutil import copyfile, rmtree
 import subprocess
-import shutil
-from datetime import date
 import sys
-import zipfile
 from time import sleep
-import json
 
 OUTPUT_DIR = './output'
 GAMES_DOCS_DIR = './games'
@@ -20,7 +18,7 @@ def run(command, ignore_errors=False, **kwargs):
 
 def ensure_clean_dir(dirs):
     if os.path.isdir(dirs):
-        shutil.rmtree(dirs)
+        rmtree(dirs)
     os.makedirs(dirs)
 
 def github_link_to(game_name):
@@ -50,12 +48,12 @@ wget_error_code = run(
     ignore_errors=True,
 )
 
-if wget_error_code not in [0, 8]: # 0 is ok, 8 is server error we don't care about
-    print("!!-> wget error code", wget_error_code)
-    sys.exit(wget_error_code)
-
 print('-> Done scraping. Killing process')
 godoc_process.kill()
+
+if wget_error_code not in [0, 8]: # 0 is ok, 8 is server error we don't care about
+    print('!!-> wget error code', wget_error_code)
+    # sys.exit(wget_error_code)
 
 print('-> Injecting additional documentation into scraped html files')
 games = {}
@@ -171,4 +169,6 @@ Additional materials, such as the <a href="{github}story.md">story</a> and <a hr
         game_file.seek(0)
         game_file.write(''.join(split))
 
-print("<- Done generating Go docs")
+copyfile('./favicon.ico', os.path.join(OUTPUT_DIR, 'favicon.ico'))
+
+print('<- Done generating Go docs')
