@@ -44,6 +44,7 @@ wget_error_code = run(
     'wget -m -k -q -erobots=off -X src/ --no-host-directories --no-use-server-timestamps http://localhost:6060',
     cwd=OUTPUT_DIR,
     timeout=300, # 5 min
+    ignore_errors=True,
 )
 
 if wget_error_code not in [0, 8]: # 0 is ok, 8 is server error we don't care about
