@@ -43,7 +43,7 @@ print('-> Going to scrape the godoc server, this will take some time...')
 run(
     'wget -m -k -q -erobots=off -X src/ --no-host-directories --no-use-server-timestamps http://localhost:6060',
     cwd=OUTPUT_DIR,
-    ignore_errors=True
+    timeout=300, # 5 min
 )
 
 print('-> Done scraping. Killing process')
