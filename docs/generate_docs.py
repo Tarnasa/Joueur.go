@@ -29,6 +29,9 @@ def github_link_to(game_name):
 def package_link_to(game_name):
     return 'pkg/joueur/games/{}/index.html'.format(game_name.lower())
 
+def replace_pkg_links(s):
+    return s.replace("pkg.1", "")
+
 run('go get golang.org/x/tools/cmd/godoc@v0.0.0-20191213221258-04c2e8eff935')
 
 gopath = os.getenv('GOPATH')
@@ -65,6 +68,7 @@ for filename in os.listdir(GAMES_DOCS_DIR):
 with open(os.path.join(OUTPUT_DIR, 'index.html'), 'r+') as index_html:
     index_contents = index_html.read()
     index_contents = index_contents.replace('class="toggleVisible"', 'class="toggle"')
+    index_contents = replace_pkg_links(index_contents)
     split = index_contents.split('<h1>')
     split.insert(1, """
 <h1>Joueur.go Documentation</h1>
@@ -141,7 +145,9 @@ If you wish to get the actual code for a game check in the
 # for each game, add additional text explaining the game
 for game_name, game_docs in games.items():
     with open(os.path.join(OUTPUT_DIR, package_link_to(game_name)), 'r+') as game_file:
-        split = game_file.read().split('</p>')
+        game_contents = game_file.read()
+        game_contents = replace_pkg_links(game_contents)
+        split = game_contents.split('</p>')
         split.insert(1, """</p>
 <p>
 {description}
