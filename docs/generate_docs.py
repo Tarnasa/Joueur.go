@@ -30,6 +30,24 @@ def package_link_to(game_name):
 def replace_pkg_links(s):
     return s.replace("pkg.1", "")
 
+def update_file(output_path, formatter):
+    with open(os.path.join(OUTPUT_DIR, output_path), 'r+') as output_file:
+        contents = output_file.read()
+        contents = replace_pkg_links(contents)
+
+        ih = contents.index('</head>')
+        contents = '{}<link rel="icon" type="image/x-icon" href="{}favicon.ico" />{}'.format(
+            contents[:ih],
+            '../' * output_path.count('/'),
+            contents[ih:],
+        )
+
+        if formatter:
+            contents = formatter(contents)
+
+        output_file.seek(0)
+        output_file.write(''.join(contents))
+
 run('go get golang.org/x/tools/cmd/godoc@v0.0.0-20191213221258-04c2e8eff935')
 
 gopath = os.getenv('GOPATH')
@@ -63,12 +81,14 @@ for filename in os.listdir(GAMES_DOCS_DIR):
         games[parsed_file['game_name']] = parsed_file
 
 # Inject/change up the index.html file a bit to be more Cadre game centric.
-with open(os.path.join(OUTPUT_DIR, 'index.html'), 'r+') as index_html:
-    index_contents = index_html.read()
-    index_contents = index_contents.replace('class="toggleVisible"', 'class="toggle"')
-    index_contents = replace_pkg_links(index_contents)
-    split = index_contents.split('<h1>')
-    split.insert(1, """
+def root_index_update_contents(contents):
+    # auto collapse all sections because the vast majority of the packages
+    # are redundant to go users
+    contents = contents.replace('class="toggleVisible"', 'class="toggle"')
+
+    # and slice in some additional documentation data about the games
+    i = contents.index('<h1>')
+    return contents[:i] + """
 <h1>Joueur.go Documentation</h1>
 
 This is the documentation for the Go Cadre client and its various game
@@ -124,7 +144,7 @@ If you wish to get the actual code for a game check in the
  <a href="{cerveau_link}">Cerveau game server</a>. Its directory structure is
  similar to most clients (such as this one).
 <p>
-<h1>""".format(
+""".format(
     cadre_link='https://github.com/siggame/Cadre',
     cerveau_link='https://github.com/siggame/Cerveau',
     creer_link='https://github.com/siggame/Creer',
@@ -136,17 +156,16 @@ If you wish to get the actual code for a game check in the
         pkg_link=package_link_to(game_name),
         description=games[game_name]['description']
     ) for game_name in sorted(games.keys())])
-))
-    index_html.seek(0)
-    index_html.write(''.join(split))
+) + contents[i:]
+
+update_file('index.html', root_index_update_contents)
 
 # for each game, add additional text explaining the game
 for game_name, game_docs in games.items():
-    with open(os.path.join(OUTPUT_DIR, package_link_to(game_name)), 'r+') as game_file:
-        game_contents = game_file.read()
-        game_contents = replace_pkg_links(game_contents)
-        split = game_contents.split('</p>')
-        split.insert(1, """</p>
+    insert_at = '</p>'
+    def game_index_update_contents(contents):
+        i = contents.index(insert_at) + len(insert_at)
+        return contents[:i] + """
 <p>
 {description}
 </p>
@@ -161,13 +180,13 @@ Additional materials, such as the <a href="{github}story.md">story</a> and <a hr
 <em>Game version hash</em>: <pre>{game_version}</pre>
 </p>
 """.format(
-            description=game_docs['description'],
-            game_name=game_name,
-            game_version=game_docs['game_version'],
-            github=github_link_to(game_name)
-        ))
-        game_file.seek(0)
-        game_file.write(''.join(split))
+        description=game_docs['description'],
+        game_name=game_name,
+        game_version=game_docs['game_version'],
+        github=github_link_to(game_name)
+    ) + contents[i:]
+
+    update_file(package_link_to(game_name), game_index_update_contents)
 
 copyfile('./favicon.ico', os.path.join(OUTPUT_DIR, 'favicon.ico'))
 
