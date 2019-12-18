@@ -1,5 +1,4 @@
 package impl
-
 import (
 	"errors"
 	"joueur/base"
@@ -128,7 +127,7 @@ func (tileImpl *TileImpl) DeltaMerge(
 	saloonDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
 		return false, errors.New(
-			"deltaMerge is not the expected type of: "+
+			"deltaMerge is not the expected type of: " +
 			"'saloon.impl.DeltaMerge'",
 		)
 	}
@@ -213,5 +212,5 @@ func (tileImpl *TileImpl) HasNeighbor(tile saloon.Tile) bool {
 		(tileImpl.tileNorthImpl == tile ||
 			tileImpl.tileEastImpl == tile ||
 			tileImpl.tileSouthImpl == tile ||
-			tileImpl.tileEastImpl == tile)
+			tileImpl.tileWestImpl == tile)
 }

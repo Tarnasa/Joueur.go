@@ -78,13 +78,15 @@ func (ai *AI) findPath(start Tile, goal Tile) []Tile {
 	fringe := []Tile{start}
 
 	// How we got to each tile that went into the fringe.
-	cameFrom := make(map[string]Tile)
+	cameFrom := map[Tile]Tile{
+		start: start, // so we don't do back to the start when searching
+	}
 
 	// keep exploring neighbors of neighbors... until there are no more.
 	for len(fringe) > 0 {
 		// the tile we are currently exploring.
 		inspect := fringe[len(fringe)-1] // pop off the last time
-		fringe := fringe[:len(fringe)-1]
+		fringe = fringe[:len(fringe)-1]
 
 		// cycle through the tile's neighbors.
 		for _, neighbor := range inspect.GetNeighbors() {
@@ -99,7 +101,7 @@ func (ai *AI) findPath(start Tile, goal Tile) []Tile {
 				for inspect != start {
 					// add inspect to the front of the path
 					path = append([]Tile{inspect}, path...)
-					inspect = cameFrom[inspect.ID()]
+					inspect = cameFrom[inspect]
 				}
 				return path
 			}
@@ -108,12 +110,12 @@ func (ai *AI) findPath(start Tile, goal Tile) []Tile {
 
 			// if the tile exists, has not been explored or added to the
 			// fringe yet, and it is pathable
-			_, neighborInCameFrom := cameFrom[neighbor.ID()]
-			if neighborInCameFrom && neighbor.IsPathable() {
+			_, neighborInCameFrom := cameFrom[neighbor]
+			if !neighborInCameFrom && neighbor.IsPathable() {
 				// add it to the tiles to be explored and add where it came
 				// from for path reconstruction.
 				fringe = append(fringe, neighbor)
-				cameFrom[neighbor.ID()] = inspect
+				cameFrom[neighbor] = inspect
 			}
 		}
 	}

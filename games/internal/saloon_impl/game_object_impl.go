@@ -1,5 +1,4 @@
 package impl
-
 import (
 	"errors"
 	"joueur/base"
@@ -69,7 +68,7 @@ func (gameObjectImpl *GameObjectImpl) DeltaMerge(
 	saloonDeltaMerge, ok := deltaMerge.(DeltaMerge)
 	if !ok {
 		return false, errors.New(
-			"deltaMerge is not the expected type of: "+
+			"deltaMerge is not the expected type of: " +
 			"'saloon.impl.DeltaMerge'",
 		)
 	}
