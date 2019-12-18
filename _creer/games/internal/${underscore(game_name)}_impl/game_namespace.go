@@ -66,12 +66,22 @@ func (*${ns}) OrderAI(baseAI base.AI, functionName string, args []interface{}) (
 	}
 	switch functionName {
 % for func_name in ai['function_names']:
-<% func = ai['functions'][func_name]
+<%	func = ai['functions'][func_name]
+	ai_func_invoke = "(*ai).{}({})".format(
+		upcase_first(func_name),
+		', '.join('arg{}'.format(i) for i in range(len(func['arguments'])))
+	)
+	ai_returns = 'nil'
+	if func['returns']:
+		ai_returns = ai_func_invoke
 %>	case "${func_name}":
 %	for i, arg in enumerate(func['arguments']):
 		arg${i} := args[${i}].(${shared['go']['type'](arg['type'])})
 %	endfor
-		return (*ai).${upcase_first(func_name)}(${', '.join('arg{}'.format(i) for i in range(len(func['arguments'])))}), nil
+%	if ai_returns == 'nil':
+		${ai_func_invoke}
+%	endif
+		return ${ai_returns}, nil
 % endfor
 	}
 

@@ -65,7 +65,7 @@ ${merge(
 // -- ${game_name} specific AI actions -- ${'\\\\'}
 % for function_name in ai['function_names']:
 <% function_params = ai['functions'][function_name]%>
-${shared['go']['function_top'](function_name, function_params, 'AI')}
+${shared['go']['function_top'](function_name, function_params, 'AI', package=False)}
 ${merge(
 	'\t// ', function_name,
 """	// Put your game logic here for {}

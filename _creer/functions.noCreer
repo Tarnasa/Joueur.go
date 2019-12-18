@@ -99,7 +99,7 @@ if not 'go' in shared:
         return False
     shared['go']['skip_attribute'] = go_skip_attribute
 
-    def go_function_top(function_name, function_params, receiver="", public=True):
+    def go_function_top(function_name, function_params, receiver="", public=True, package=True):
         strs = [go_doc_string(function_name, function_params), '\nfunc ']
 
         if receiver:
@@ -119,11 +119,11 @@ if not 'go' in shared:
             for arg in function_params['arguments']:
                 strs.extend([
                     go_doc_string(function_name, function_params, indent=1), '\n',
-                    '\t', arg['name'], ' ', go_type(arg['type']), ',\n'
+                    '\t', arg['name'], ' ', go_type(arg['type'], package), ',\n'
                 ])
         strs.append(') ')
         if 'returns' in function_params and function_params['returns']:
-            strs.extend([go_type(function_params['returns']['type'], False), ' '])
+            strs.extend([go_type(function_params['returns']['type'], package), ' '])
         strs.append('{')
 
         return ''.join(strs)
@@ -222,4 +222,32 @@ if not 'go' in shared:
             return upcase_first(type_name)
     shared['go']['find_deep_type_name'] = go_find_deep_type_name
 
+    def go_all_types_in(obj):
+        all_types = []
+        def go_all_types_in_deep(type_obj):
+            all_types.append(type_obj)
+            for type_key in ['valueType', 'keyType']:
+                if type_key in type_obj and type_obj[type_key]:
+                    go_all_types_in_deep(type_obj[type_key])
+
+        for attr in obj['attributes'].values():
+            go_all_types_in_deep(attr['type'])
+        for func in obj['functions'].values():
+            for arg in func['arguments']:
+                go_all_types_in_deep(arg['type'])
+            if func['returns']:
+                go_all_types_in_deep(func['returns']['type'])
+
+        return all_types
+    shared['go']['all_types_in'] = go_all_types_in
+
+    def go_variable_name_safe(name_string):
+        return name_string + 'Var' if name_string in [
+            'break',    'default',     'func',   'interface', 'select',
+            'case',     'defer',       'go',     'map',       'struct',
+            'chan',     'else',        'goto',   'package',   'switch',
+            'const',    'fallthrough', 'if',     'range',     'type',
+            'continue', 'for',         'import', 'return',    'var',
+        ] else name_string
+    shared['go']['variable_name_safe'] = go_variable_name_safe
 %>

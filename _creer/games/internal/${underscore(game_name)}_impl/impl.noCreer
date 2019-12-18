@@ -1,19 +1,30 @@
 <%page args="obj_name"/>package impl
-<%include file='functions.noCreer' />
-import (
-	"errors"
-	"joueur/base"
-	"joueur/games/${underscore(game_name)}"
-)
-<%
+<%include file='functions.noCreer' /><%
 	obj = game if obj_name == 'Game' else game_objs[obj_key]
 	parents = list()
 	if 'parentClasses' in obj:
 		parents.extend(obj['parentClasses'])
 	if obj_name in ['Game', 'GameObject']:
 		parents.append('base.' + obj_name)
-	longest_attr_name_len = len(sorted(list(obj['attribute_names']), key=len)[-1])
-%>
+	attr_names_by_len = sorted(list(obj['attribute_names']), key=len)
+	longest_attr_name_len = len(attr_names_by_len[-1]) if attr_names_by_len else 0
+
+	import_game = False
+	if obj_name in ['Game', 'GameObject']:
+		import_game = True
+	if not import_game:
+		for base_type in shared['go']['all_types_in'](obj):
+			if base_type['is_game_object']:
+				import_game = True
+				break
+%>import (
+	"errors"
+	"joueur/base"
+% if import_game:
+	"joueur/games/${underscore(game_name)}"
+% endif
+)
+
 ${shared['go']['doc_string'](
 	obj_name + 'Impl',
 	'is the struct that implements the container for {obj_name} instances in {game_name}.'.format(
@@ -63,14 +74,14 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 <%
 		func = obj['functions'][func_name]
 		ret_type = shared['go']['type'](func['returns']['type'], True) if func['returns'] else ''
-		argify = lambda a : '{} {}'.format(a['name'], shared['go']['type'](a['type']))
+		argify = lambda a : '{} {}'.format(shared['go']['variable_name_safe'](a['name']), shared['go']['type'](a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
 %>
 ${lowercase_first(shared['go']['doc_string'](func_name + ' runs logic that', func))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${(' '+ret_type) if ret_type else ''} {
 	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
 %		for arg in func['arguments']:
-		"${arg['name']}": ${arg['name']},
+		"${arg['name']}": ${shared['go']['variable_name_safe'](arg['name'])},
 %		endfor
 	})${('.('+ret_type+')') if ret_type else ''}
 }
@@ -109,7 +120,17 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 	}
 % 	endfor
 
-	${shared['go']['package_name']}DeltaMerge, ok := deltaMerge.(DeltaMerge)
+<%
+	dm = shared['go']['package_name'] + 'DeltaMerge'
+	attribute_names = []
+	for attr_name in obj['attribute_names']:
+		if shared['go']['skip_attribute'](obj_name, attr_name):
+			continue
+		attribute_names.append(attr_name)
+	if not attribute_names:
+		dm  = '_'
+
+%>	${dm}, ok := deltaMerge.(DeltaMerge)
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
@@ -117,21 +138,20 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 		)
 	}
 
+%	if attribute_names:
 	switch attribute {
-%	for attr_name in obj['attribute_names']:
-<%		attr = obj['attributes'][attr_name]
-		impl = '{}Impl.{}Impl'.format(lowercase_first(obj_name), attr_name)
-
-		if shared['go']['skip_attribute'](obj_name, attr_name):
-			continue
+%		for attr_name in attribute_names:
+<%			attr = obj['attributes'][attr_name]
+			impl = '{}Impl.{}Impl'.format(lowercase_first(obj_name), attr_name)
 %>	case "${attr_name}":
-		${impl} = ${shared['go']['package_name']}DeltaMerge.${shared['go']['find_deep_type_name'](attr['type'])}(${
+		${impl} = ${dm}.${shared['go']['find_deep_type_name'](attr['type'])}(${
 		(('&' + impl + ', ') if shared['go']['is_type_deep'](attr['type']) else '') + 'delta'
 		})
 		return true, nil
-%	endfor
+%		endfor
 	}
 
+%	endif
 	return false, nil // no errors in delta merging
 }
 % if 'tiled' in parent_data_names:
