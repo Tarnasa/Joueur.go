@@ -212,14 +212,9 @@ The full game rules for {game_name} can be found on <a href="{github}rules.md">G
 <p>
 Additional materials, such as the <a href="{github}story.md">story</a> and <a href="{github}creer.yaml">game template</a> can be found on <a href="{github}">GitHub</a> as well.
 </p>
-<p>
-<h3>Game version hash</h3>
-<pre>{game_version}</pre>
-</p>
 """.format(
             description=game_docs['description'],
             game_name=game_name,
-            game_version=game_docs['game_version'],
             github=github_link_to(game_name)
         )
     ) + contents[i:]
