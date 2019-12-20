@@ -30,6 +30,7 @@ func (playerImpl *PlayerImpl) ClientType() string {
 
 // Color returns the color (side) of this player. Either 'white' or
 // 'black', with the 'white' player having the first move.
+//
 // Literal Values: "black" or "white"
 func (playerImpl *PlayerImpl) Color() string {
 	return playerImpl.colorImpl

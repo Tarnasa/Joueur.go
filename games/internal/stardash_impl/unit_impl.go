@@ -84,12 +84,16 @@ func (unitImpl *UnitImpl) Mythicite() int64 {
 }
 
 // Owner returns the Player that owns and can control this Unit.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Owner() stardash.Player {
 	return unitImpl.ownerImpl
 }
 
 // Protector returns the martyr ship that is currently shielding this ship
 // if any.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Protector() stardash.Unit {
 	return unitImpl.protectorImpl
 }

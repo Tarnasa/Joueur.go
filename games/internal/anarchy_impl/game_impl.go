@@ -101,6 +101,8 @@ func (gameImpl *GameImpl) MaxTurns() int64 {
 // NextForecast returns the next Forecast, which will be applied at the end
 // of your opponent's turn. This is also the Forecast WeatherStations can
 // control this turn.
+//
+// Value can be returned as a nil pointer.
 func (gameImpl *GameImpl) NextForecast() anarchy.Forecast {
 	return gameImpl.nextForecastImpl
 }

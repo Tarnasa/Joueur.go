@@ -21,6 +21,7 @@ type Job interface {
 	Moves() int64
 
 	// Title is the Job title. 'intern', 'manager', or 'physicist'.
+//
 	// Literal Values: "intern", "manager", or "physicist"
 	Title() string
 }

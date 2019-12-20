@@ -26,6 +26,8 @@ type TileImpl struct {
 }
 
 // Beaver returns the Beaver on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Beaver() stumped.Beaver {
 	return tileImpl.beaverImpl
 }
@@ -37,6 +39,7 @@ func (tileImpl *TileImpl) Branches() int64 {
 
 // FlowDirection returns the cardinal direction water is flowing on this
 // Tile ('North', 'East', 'South', 'West').
+//
 // Literal Values: "North", "East", "South", "West", or ""
 func (tileImpl *TileImpl) FlowDirection() string {
 	return tileImpl.flowDirectionImpl
@@ -49,41 +52,54 @@ func (tileImpl *TileImpl) Food() int64 {
 
 // LodgeOwner returns the owner of the Beaver lodge on this Tile, if
 // present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) LodgeOwner() stumped.Player {
 	return tileImpl.lodgeOwnerImpl
 }
 
 // Spawner returns the resource Spawner on this Tile if present, otherwise
 // nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Spawner() stumped.Spawner {
 	return tileImpl.spawnerImpl
 }
 
 // TileEast returns the Tile to the 'East' of this one (x+1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileEast() stumped.Tile {
 	return tileImpl.tileEastImpl
 }
 
 // TileNorth returns the Tile to the 'North' of this one (x, y-1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileNorth() stumped.Tile {
 	return tileImpl.tileNorthImpl
 }
 
 // TileSouth returns the Tile to the 'South' of this one (x, y+1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileSouth() stumped.Tile {
 	return tileImpl.tileSouthImpl
 }
 
 // TileWest returns the Tile to the 'West' of this one (x-1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileWest() stumped.Tile {
 	return tileImpl.tileWestImpl
 }
 
 // Type returns what type of Tile this is, either 'water' or 'land'.
+//
 // Literal Values: "land" or "water"
 func (tileImpl *TileImpl) Type() string {
 	return tileImpl.typeImpl

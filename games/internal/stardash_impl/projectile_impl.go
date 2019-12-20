@@ -29,6 +29,8 @@ func (projectileImpl *ProjectileImpl) Fuel() int64 {
 }
 
 // Owner returns the Player that owns and can control this Projectile.
+//
+// Value can be returned as a nil pointer.
 func (projectileImpl *ProjectileImpl) Owner() stardash.Player {
 	return projectileImpl.ownerImpl
 }

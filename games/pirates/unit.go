@@ -26,6 +26,8 @@ type Unit interface {
 
 	// Owner is the Player that owns and can control this Unit, or nil
 	// if the Unit is neutral.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Path is (Merchants only) The path this Unit will follow. The
@@ -42,9 +44,13 @@ type Unit interface {
 	StunTurns() int64
 
 	// TargetPort is (Merchants only) The Port this Unit is moving to.
+//
+	// Value can be returned as a nil pointer.
 	TargetPort() Port
 
 	// Tile is the Tile this Unit is on.
+//
+	// Value can be returned as a nil pointer.
 	Tile() Tile
 
 	// -- Methods -- \\

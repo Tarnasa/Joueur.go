@@ -14,18 +14,26 @@ type Building interface {
 
 	// BuildingEast is the Building directly to the east of this
 	// building, or nil if not present.
+//
+	// Value can be returned as a nil pointer.
 	BuildingEast() Building
 
 	// BuildingNorth is the Building directly to the north of this
 	// building, or nil if not present.
+//
+	// Value can be returned as a nil pointer.
 	BuildingNorth() Building
 
 	// BuildingSouth is the Building directly to the south of this
 	// building, or nil if not present.
+//
+	// Value can be returned as a nil pointer.
 	BuildingSouth() Building
 
 	// BuildingWest is the Building directly to the west of this
 	// building, or nil if not present.
+//
+	// Value can be returned as a nil pointer.
 	BuildingWest() Building
 
 	// Fire is how much fire is currently burning the building, and

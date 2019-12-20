@@ -34,6 +34,7 @@ func (spawnerImpl *SpawnerImpl) Tile() stumped.Tile {
 }
 
 // Type returns what type of resource this is ('food' or 'branches').
+//
 // Literal Values: "food" or "branches"
 func (spawnerImpl *SpawnerImpl) Type() string {
 	return spawnerImpl.typeImpl

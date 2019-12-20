@@ -31,17 +31,22 @@ func (structureImpl *StructureImpl) Materials() int64 {
 }
 
 // Owner returns the owner of this Structure if any, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (structureImpl *StructureImpl) Owner() catastrophe.Player {
 	return structureImpl.ownerImpl
 }
 
 // Tile returns the Tile this Structure is on.
+//
+// Value can be returned as a nil pointer.
 func (structureImpl *StructureImpl) Tile() catastrophe.Tile {
 	return structureImpl.tileImpl
 }
 
 // Type returns the type of Structure this is ('shelter', 'monument',
 // 'wall', 'road', 'neutral').
+//
 // Literal Values: "neutral", "shelter", "monument", "wall", or "road"
 func (structureImpl *StructureImpl) Type() string {
 	return structureImpl.typeImpl

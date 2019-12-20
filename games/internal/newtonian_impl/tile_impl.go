@@ -48,6 +48,7 @@ func (tileImpl *TileImpl) Decoration() int64 {
 
 // Direction returns the direction of a conveyor belt ('blank', 'north',
 // 'east', 'south', or 'west'). blank means conveyor doesn't move.
+//
 // Literal Values: "blank", "north", "east", "south", or "west"
 func (tileImpl *TileImpl) Direction() string {
 	return tileImpl.directionImpl
@@ -59,12 +60,16 @@ func (tileImpl *TileImpl) IsWall() bool {
 }
 
 // Machine returns the Machine on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Machine() newtonian.Machine {
 	return tileImpl.machineImpl
 }
 
 // Owner returns the owner of this Tile, or nil if owned by no-one. Only
 // for generators and spawn areas.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Owner() newtonian.Player {
 	return tileImpl.ownerImpl
 }
@@ -81,36 +86,47 @@ func (tileImpl *TileImpl) RediumOre() int64 {
 
 // TileEast returns the Tile to the 'East' of this one (x+1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileEast() newtonian.Tile {
 	return tileImpl.tileEastImpl
 }
 
 // TileNorth returns the Tile to the 'North' of this one (x, y-1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileNorth() newtonian.Tile {
 	return tileImpl.tileNorthImpl
 }
 
 // TileSouth returns the Tile to the 'South' of this one (x, y+1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileSouth() newtonian.Tile {
 	return tileImpl.tileSouthImpl
 }
 
 // TileWest returns the Tile to the 'West' of this one (x-1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileWest() newtonian.Tile {
 	return tileImpl.tileWestImpl
 }
 
 // Type returns the type of Tile this is ('normal', 'generator',
 // 'conveyor', or 'spawn').
+//
 // Literal Values: "normal", "generator", "conveyor", or "spawn"
 func (tileImpl *TileImpl) Type() string {
 	return tileImpl.typeImpl
 }
 
 // Unit returns the Unit on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Unit() newtonian.Unit {
 	return tileImpl.unitImpl
 }

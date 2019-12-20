@@ -9,6 +9,8 @@ type Cutter interface {
 
 	// CuttingWeb is the Web that this Cutter is trying to cut. Nil if
 	// not cutting.
+//
+	// Value can be returned as a nil pointer.
 	CuttingWeb() Web
 
 	// -- Methods -- \\

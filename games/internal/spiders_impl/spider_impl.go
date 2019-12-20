@@ -23,6 +23,8 @@ func (spiderImpl *SpiderImpl) IsDead() bool {
 
 // Nest returns the Nest that this Spider is currently on. Nil when moving
 // on a Web.
+//
+// Value can be returned as a nil pointer.
 func (spiderImpl *SpiderImpl) Nest() spiders.Nest {
 	return spiderImpl.nestImpl
 }

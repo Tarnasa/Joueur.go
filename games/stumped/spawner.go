@@ -20,6 +20,7 @@ type Spawner interface {
 	Tile() Tile
 
 	// Type is what type of resource this is ('food' or 'branches').
+//
 	// Literal Values: "food" or "branches"
 	Type() string
 }

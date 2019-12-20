@@ -30,6 +30,8 @@ func (portImpl *PortImpl) Investment() int64 {
 }
 
 // Owner returns the owner of this Port, or nil if owned by merchants.
+//
+// Value can be returned as a nil pointer.
 func (portImpl *PortImpl) Owner() pirates.Player {
 	return portImpl.ownerImpl
 }

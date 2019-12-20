@@ -57,6 +57,7 @@ func (unitJobImpl *UnitJobImpl) Range() int64 {
 
 // Title returns the type title. 'worker', 'zombie', 'ghoul', 'hound',
 // 'abomination', 'wraith' or 'horseman'.
+//
 // Literal Values: "worker", "zombie", "ghoul", "hound", "abomination",
 // "wraith", or "horseman"
 func (unitJobImpl *UnitJobImpl) Title() string {

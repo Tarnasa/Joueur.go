@@ -26,16 +26,22 @@ type TileImpl struct {
 
 // Bottle returns the beer Bottle currently flying over this Tile, nil
 // otherwise.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Bottle() saloon.Bottle {
 	return tileImpl.bottleImpl
 }
 
 // Cowboy returns the Cowboy that is on this Tile, nil otherwise.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Cowboy() saloon.Cowboy {
 	return tileImpl.cowboyImpl
 }
 
 // Furnishing returns the furnishing that is on this Tile, nil otherwise.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Furnishing() saloon.Furnishing {
 	return tileImpl.furnishingImpl
 }
@@ -54,24 +60,32 @@ func (tileImpl *TileImpl) IsBalcony() bool {
 
 // TileEast returns the Tile to the 'East' of this one (x+1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileEast() saloon.Tile {
 	return tileImpl.tileEastImpl
 }
 
 // TileNorth returns the Tile to the 'North' of this one (x, y-1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileNorth() saloon.Tile {
 	return tileImpl.tileNorthImpl
 }
 
 // TileSouth returns the Tile to the 'South' of this one (x, y+1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileSouth() saloon.Tile {
 	return tileImpl.tileSouthImpl
 }
 
 // TileWest returns the Tile to the 'West' of this one (x-1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileWest() saloon.Tile {
 	return tileImpl.tileWestImpl
 }
@@ -87,6 +101,8 @@ func (tileImpl *TileImpl) Y() int64 {
 }
 
 // YoungGun returns the YoungGun on this tile, nil otherwise.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) YoungGun() saloon.YoungGun {
 	return tileImpl.youngGunImpl
 }

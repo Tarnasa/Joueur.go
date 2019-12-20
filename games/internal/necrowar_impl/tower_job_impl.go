@@ -52,6 +52,7 @@ func (towerJobImpl *TowerJobImpl) Range() int64 {
 
 // Title returns the type title. 'arrow', 'aoe', 'balarraya', 'cleansing',
 // or 'castle'.
+//
 // Literal Values: "arrow", "aoe", "ballista", "cleansing", or "castle"
 func (towerJobImpl *TowerJobImpl) Title() string {
 	return towerJobImpl.titleImpl

@@ -41,30 +41,40 @@ func (tileImpl *TileImpl) Materials() int64 {
 }
 
 // Structure returns the Structure on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Structure() catastrophe.Structure {
 	return tileImpl.structureImpl
 }
 
 // TileEast returns the Tile to the 'East' of this one (x+1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileEast() catastrophe.Tile {
 	return tileImpl.tileEastImpl
 }
 
 // TileNorth returns the Tile to the 'North' of this one (x, y-1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileNorth() catastrophe.Tile {
 	return tileImpl.tileNorthImpl
 }
 
 // TileSouth returns the Tile to the 'South' of this one (x, y+1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileSouth() catastrophe.Tile {
 	return tileImpl.tileSouthImpl
 }
 
 // TileWest returns the Tile to the 'West' of this one (x-1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileWest() catastrophe.Tile {
 	return tileImpl.tileWestImpl
 }
@@ -76,6 +86,8 @@ func (tileImpl *TileImpl) TurnsToHarvest() int64 {
 }
 
 // Unit returns the Unit on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Unit() catastrophe.Unit {
 	return tileImpl.unitImpl
 }

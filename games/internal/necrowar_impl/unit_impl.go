@@ -40,11 +40,15 @@ func (unitImpl *UnitImpl) Moves() int64 {
 }
 
 // Owner returns the Player that owns and can control this Unit.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Owner() necrowar.Player {
 	return unitImpl.ownerImpl
 }
 
 // Tile returns the Tile this Unit is on.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Tile() necrowar.Tile {
 	return unitImpl.tileImpl
 }

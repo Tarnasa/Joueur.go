@@ -31,11 +31,15 @@ func (webImpl *WebImpl) Load() int64 {
 }
 
 // NestA returns the first Nest this Web is connected to.
+//
+// Value can be returned as a nil pointer.
 func (webImpl *WebImpl) NestA() spiders.Nest {
 	return webImpl.nestAImpl
 }
 
 // NestB returns the second Nest this Web is connected to.
+//
+// Value can be returned as a nil pointer.
 func (webImpl *WebImpl) NestB() spiders.Nest {
 	return webImpl.nestBImpl
 }

@@ -27,6 +27,7 @@ func (bodyImpl *BodyImpl) Amount() int64 {
 
 // BodyType returns the type of celestial body it is. Either 'planet',
 // 'asteroid', or 'sun'.
+//
 // Literal Values: "planet", "asteroid", or "sun"
 func (bodyImpl *BodyImpl) BodyType() string {
 	return bodyImpl.bodyTypeImpl
@@ -34,6 +35,7 @@ func (bodyImpl *BodyImpl) BodyType() string {
 
 // MaterialType returns the type of material the celestial body has. Either
 // 'none', 'genarium', 'rarium', 'legendarium', or 'mythicite'.
+//
 // Literal Values: "none", "genarium", "rarium", "legendarium", or
 // "mythicite"
 func (bodyImpl *BodyImpl) MaterialType() string {
@@ -41,6 +43,8 @@ func (bodyImpl *BodyImpl) MaterialType() string {
 }
 
 // Owner returns the Player that owns and can control this Body.
+//
+// Value can be returned as a nil pointer.
 func (bodyImpl *BodyImpl) Owner() stardash.Player {
 	return bodyImpl.ownerImpl
 }

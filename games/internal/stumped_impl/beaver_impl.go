@@ -65,6 +65,8 @@ func (beaverImpl *BeaverImpl) Recruited() bool {
 }
 
 // Tile returns the Tile this Beaver is on.
+//
+// Value can be returned as a nil pointer.
 func (beaverImpl *BeaverImpl) Tile() stumped.Tile {
 	return beaverImpl.tileImpl
 }

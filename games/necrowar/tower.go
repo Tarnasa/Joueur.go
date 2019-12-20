@@ -20,6 +20,8 @@ type Tower interface {
 	Job() TowerJob
 
 	// Owner is the player that built / owns this tower.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Tile is the Tile this Tower is on.

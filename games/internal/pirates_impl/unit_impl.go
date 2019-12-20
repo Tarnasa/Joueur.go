@@ -51,6 +51,8 @@ func (unitImpl *UnitImpl) Moves() int64 {
 
 // Owner returns the Player that owns and can control this Unit, or nil if
 // the Unit is neutral.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Owner() pirates.Player {
 	return unitImpl.ownerImpl
 }
@@ -75,11 +77,15 @@ func (unitImpl *UnitImpl) StunTurns() int64 {
 }
 
 // TargetPort returns (Merchants only) The Port this Unit is moving to.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) TargetPort() pirates.Port {
 	return unitImpl.targetPortImpl
 }
 
 // Tile returns the Tile this Unit is on.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Tile() pirates.Tile {
 	return unitImpl.tileImpl
 }

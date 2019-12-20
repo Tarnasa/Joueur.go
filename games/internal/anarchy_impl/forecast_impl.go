@@ -23,6 +23,7 @@ func (forecastImpl *ForecastImpl) ControllingPlayer() anarchy.Player {
 
 // Direction returns the direction the wind will blow fires in. Can be
 // 'north', 'east', 'south', or 'west'.
+//
 // Literal Values: "North", "East", "South", or "West"
 func (forecastImpl *ForecastImpl) Direction() string {
 	return forecastImpl.directionImpl

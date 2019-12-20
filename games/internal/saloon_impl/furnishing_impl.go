@@ -41,6 +41,8 @@ func (furnishingImpl *FurnishingImpl) IsPlaying() bool {
 }
 
 // Tile returns the Tile that this Furnishing is located on.
+//
+// Value can be returned as a nil pointer.
 func (furnishingImpl *FurnishingImpl) Tile() saloon.Tile {
 	return furnishingImpl.tileImpl
 }

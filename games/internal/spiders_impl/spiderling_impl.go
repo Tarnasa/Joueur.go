@@ -20,6 +20,7 @@ type SpiderlingImpl struct {
 // Busy returns when empty string this Spiderling is not busy, and can act.
 // Otherwise a string representing what it is busy with, e.g. 'Moving',
 // 'Attacking'.
+//
 // Literal Values: "", "Moving", "Attacking", "Strengthening", "Weakening",
 // "Cutting", or "Spitting"
 func (spiderlingImpl *SpiderlingImpl) Busy() string {
@@ -28,12 +29,16 @@ func (spiderlingImpl *SpiderlingImpl) Busy() string {
 
 // MovingOnWeb returns the Web this Spiderling is using to move. Nil if it
 // is not moving.
+//
+// Value can be returned as a nil pointer.
 func (spiderlingImpl *SpiderlingImpl) MovingOnWeb() spiders.Web {
 	return spiderlingImpl.movingOnWebImpl
 }
 
 // MovingToNest returns the Nest this Spiderling is moving to. Nil if it is
 // not moving.
+//
+// Value can be returned as a nil pointer.
 func (spiderlingImpl *SpiderlingImpl) MovingToNest() spiders.Nest {
 	return spiderlingImpl.movingToNestImpl
 }

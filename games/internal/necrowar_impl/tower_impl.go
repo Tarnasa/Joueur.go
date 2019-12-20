@@ -39,6 +39,8 @@ func (towerImpl *TowerImpl) Job() necrowar.TowerJob {
 }
 
 // Owner returns the player that built / owns this tower.
+//
+// Value can be returned as a nil pointer.
 func (towerImpl *TowerImpl) Owner() necrowar.Player {
 	return towerImpl.ownerImpl
 }

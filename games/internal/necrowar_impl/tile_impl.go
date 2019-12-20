@@ -111,40 +111,54 @@ func (tileImpl *TileImpl) NumZombies() int64 {
 
 // Owner returns which player owns this tile, only applies to grass tiles
 // for workers, NULL otherwise.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Owner() necrowar.Player {
 	return tileImpl.ownerImpl
 }
 
 // TileEast returns the Tile to the 'East' of this one (x+1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileEast() necrowar.Tile {
 	return tileImpl.tileEastImpl
 }
 
 // TileNorth returns the Tile to the 'North' of this one (x, y-1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileNorth() necrowar.Tile {
 	return tileImpl.tileNorthImpl
 }
 
 // TileSouth returns the Tile to the 'South' of this one (x, y+1). Nil if
 // out of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileSouth() necrowar.Tile {
 	return tileImpl.tileSouthImpl
 }
 
 // TileWest returns the Tile to the 'West' of this one (x-1, y). Nil if out
 // of bounds of the map.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) TileWest() necrowar.Tile {
 	return tileImpl.tileWestImpl
 }
 
 // Tower returns the Tower on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Tower() necrowar.Tower {
 	return tileImpl.towerImpl
 }
 
 // Unit returns the Unit on this Tile if present, otherwise nil.
+//
+// Value can be returned as a nil pointer.
 func (tileImpl *TileImpl) Unit() necrowar.Unit {
 	return tileImpl.unitImpl
 }

@@ -21,6 +21,7 @@ type Tile interface {
 	// Direction is the direction of a conveyor belt ('blank',
 	// 'north', 'east', 'south', or 'west'). blank means conveyor
 	// doesn't move.
+//
 	// Literal Values: "blank", "north", "east", "south", or "west"
 	Direction() string
 
@@ -28,10 +29,14 @@ type Tile interface {
 	IsWall() bool
 
 	// Machine is the Machine on this Tile if present, otherwise nil.
+//
+	// Value can be returned as a nil pointer.
 	Machine() Machine
 
 	// Owner is the owner of this Tile, or nil if owned by no-one.
 	// Only for generators and spawn areas.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Redium is the amount of redium on this tile.
@@ -42,26 +47,37 @@ type Tile interface {
 
 	// TileEast is the Tile to the 'East' of this one (x+1, y). Nil if
 	// out of bounds of the map.
+//
+	// Value can be returned as a nil pointer.
 	TileEast() Tile
 
 	// TileNorth is the Tile to the 'North' of this one (x, y-1). Nil
 	// if out of bounds of the map.
+//
+	// Value can be returned as a nil pointer.
 	TileNorth() Tile
 
 	// TileSouth is the Tile to the 'South' of this one (x, y+1). Nil
 	// if out of bounds of the map.
+//
+	// Value can be returned as a nil pointer.
 	TileSouth() Tile
 
 	// TileWest is the Tile to the 'West' of this one (x-1, y). Nil if
 	// out of bounds of the map.
+//
+	// Value can be returned as a nil pointer.
 	TileWest() Tile
 
 	// Type is the type of Tile this is ('normal', 'generator',
 	// 'conveyor', or 'spawn').
+//
 	// Literal Values: "normal", "generator", "conveyor", or "spawn"
 	Type() string
 
 	// Unit is the Unit on this Tile if present, otherwise nil.
+//
+	// Value can be returned as a nil pointer.
 	Unit() Unit
 
 	// X is the x (horizontal) position of this Tile.

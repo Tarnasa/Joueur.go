@@ -38,6 +38,7 @@ func (jobImpl *JobImpl) Moves() int64 {
 }
 
 // Title returns the Job title. 'intern', 'manager', or 'physicist'.
+//
 // Literal Values: "intern", "manager", or "physicist"
 func (jobImpl *JobImpl) Title() string {
 	return jobImpl.titleImpl

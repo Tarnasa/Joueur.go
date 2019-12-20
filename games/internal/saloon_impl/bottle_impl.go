@@ -18,6 +18,7 @@ type BottleImpl struct {
 
 // Direction returns the Direction this Bottle is flying and will move to
 // between turns, can be 'North', 'East', 'South', or 'West'.
+//
 // Literal Values: "North", "East", "South", or "West"
 func (bottleImpl *BottleImpl) Direction() string {
 	return bottleImpl.directionImpl
@@ -25,6 +26,7 @@ func (bottleImpl *BottleImpl) Direction() string {
 
 // DrunkDirection returns the direction any Cowboys hit by this will move,
 // can be 'North', 'East', 'South', or 'West'.
+//
 // Literal Values: "North", "East", "South", or "West"
 func (bottleImpl *BottleImpl) DrunkDirection() string {
 	return bottleImpl.drunkDirectionImpl
@@ -38,6 +40,8 @@ func (bottleImpl *BottleImpl) IsDestroyed() bool {
 }
 
 // Tile returns the Tile this bottle is currently flying over.
+//
+// Value can be returned as a nil pointer.
 func (bottleImpl *BottleImpl) Tile() saloon.Tile {
 	return bottleImpl.tileImpl
 }

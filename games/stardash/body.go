@@ -13,17 +13,21 @@ type Body interface {
 
 	// BodyType is the type of celestial body it is. Either 'planet',
 	// 'asteroid', or 'sun'.
+//
 	// Literal Values: "planet", "asteroid", or "sun"
 	BodyType() string
 
 	// MaterialType is the type of material the celestial body has.
 	// Either 'none', 'genarium', 'rarium', 'legendarium', or
 	// 'mythicite'.
+//
 	// Literal Values: "none", "genarium", "rarium", "legendarium", or
 	// "mythicite"
 	MaterialType() string
 
 	// Owner is the Player that owns and can control this Body.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Radius is the radius of the circle that this body takes up.

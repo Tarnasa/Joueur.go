@@ -52,6 +52,8 @@ func (unitImpl *UnitImpl) Materials() int64 {
 // MovementTarget returns the tile this Unit is moving to. This only
 // applies to neutral fresh humans spawned on the road. Otherwise, the tile
 // this Unit is on.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) MovementTarget() catastrophe.Tile {
 	return unitImpl.movementTargetImpl
 }
@@ -63,6 +65,8 @@ func (unitImpl *UnitImpl) Moves() int64 {
 
 // Owner returns the Player that owns and can control this Unit, or nil if
 // the Unit is neutral.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Owner() catastrophe.Player {
 	return unitImpl.ownerImpl
 }
@@ -80,6 +84,8 @@ func (unitImpl *UnitImpl) Starving() bool {
 }
 
 // Tile returns the Tile this Unit is on.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Tile() catastrophe.Tile {
 	return unitImpl.tileImpl
 }

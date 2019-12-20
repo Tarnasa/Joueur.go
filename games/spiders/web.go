@@ -18,9 +18,13 @@ type Web interface {
 	Load() int64
 
 	// NestA is the first Nest this Web is connected to.
+//
+	// Value can be returned as a nil pointer.
 	NestA() Nest
 
 	// NestB is the second Nest this Web is connected to.
+//
+	// Value can be returned as a nil pointer.
 	NestB() Nest
 
 	// Spiderlings is all the Spiderlings currently moving along this

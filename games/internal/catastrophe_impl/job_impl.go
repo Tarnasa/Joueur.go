@@ -41,6 +41,7 @@ func (jobImpl *JobImpl) RegenRate() float64 {
 }
 
 // Title returns the Job title.
+//
 // Literal Values: "fresh human", "cat overlord", "soldier", "gatherer",
 // "builder", or "missionary"
 func (jobImpl *JobImpl) Title() string {

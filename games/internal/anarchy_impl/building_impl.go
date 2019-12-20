@@ -31,24 +31,32 @@ func (buildingImpl *BuildingImpl) Bribed() bool {
 
 // BuildingEast returns the Building directly to the east of this building,
 // or nil if not present.
+//
+// Value can be returned as a nil pointer.
 func (buildingImpl *BuildingImpl) BuildingEast() anarchy.Building {
 	return buildingImpl.buildingEastImpl
 }
 
 // BuildingNorth returns the Building directly to the north of this
 // building, or nil if not present.
+//
+// Value can be returned as a nil pointer.
 func (buildingImpl *BuildingImpl) BuildingNorth() anarchy.Building {
 	return buildingImpl.buildingNorthImpl
 }
 
 // BuildingSouth returns the Building directly to the south of this
 // building, or nil if not present.
+//
+// Value can be returned as a nil pointer.
 func (buildingImpl *BuildingImpl) BuildingSouth() anarchy.Building {
 	return buildingImpl.buildingSouthImpl
 }
 
 // BuildingWest returns the Building directly to the west of this building,
 // or nil if not present.
+//
+// Value can be returned as a nil pointer.
 func (buildingImpl *BuildingImpl) BuildingWest() anarchy.Building {
 	return buildingImpl.buildingWestImpl
 }

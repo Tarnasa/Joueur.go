@@ -58,6 +58,8 @@ func (unitImpl *UnitImpl) Moves() int64 {
 }
 
 // Owner returns the Player that owns and can control this Unit.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Owner() newtonian.Player {
 	return unitImpl.ownerImpl
 }
@@ -86,6 +88,8 @@ func (unitImpl *UnitImpl) StunTime() int64 {
 }
 
 // Tile returns the Tile this Unit is on.
+//
+// Value can be returned as a nil pointer.
 func (unitImpl *UnitImpl) Tile() newtonian.Tile {
 	return unitImpl.tileImpl
 }

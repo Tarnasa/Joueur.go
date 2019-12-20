@@ -19,6 +19,8 @@ type NestImpl struct {
 
 // ControllingPlayer returns the Player that 'controls' this Nest as they
 // have the most Spiders on this nest.
+//
+// Value can be returned as a nil pointer.
 func (nestImpl *NestImpl) ControllingPlayer() spiders.Player {
 	return nestImpl.controllingPlayerImpl
 }

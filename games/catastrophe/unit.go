@@ -26,6 +26,8 @@ type Unit interface {
 	// MovementTarget is the tile this Unit is moving to. This only
 	// applies to neutral fresh humans spawned on the road. Otherwise,
 	// the tile this Unit is on.
+//
+	// Value can be returned as a nil pointer.
 	MovementTarget() Tile
 
 	// Moves is how many moves this Unit has left this turn.
@@ -33,6 +35,8 @@ type Unit interface {
 
 	// Owner is the Player that owns and can control this Unit, or nil
 	// if the Unit is neutral.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Squad is the Units in the same squad as this Unit. Units in the
@@ -45,6 +49,8 @@ type Unit interface {
 	Starving() bool
 
 	// Tile is the Tile this Unit is on.
+//
+	// Value can be returned as a nil pointer.
 	Tile() Tile
 
 	// TurnsToDie is the number of turns before this Unit dies. This

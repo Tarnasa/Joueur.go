@@ -21,6 +21,8 @@ type Game interface {
 
 	// CheckerMoved is the checker that last moved and must be moved
 	// because only one checker can move during each players turn.
+//
+	// Value can be returned as a nil pointer.
 	CheckerMoved() Checker
 
 	// CheckerMovedJumped is if the last checker that moved jumped,

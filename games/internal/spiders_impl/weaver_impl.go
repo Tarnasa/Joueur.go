@@ -16,12 +16,16 @@ type WeaverImpl struct {
 
 // StrengtheningWeb returns the Web that this Weaver is strengthening. Nil
 // if not strengthening.
+//
+// Value can be returned as a nil pointer.
 func (weaverImpl *WeaverImpl) StrengtheningWeb() spiders.Web {
 	return weaverImpl.strengtheningWebImpl
 }
 
 // WeakeningWeb returns the Web that this Weaver is weakening. Nil if not
 // weakening.
+//
+// Value can be returned as a nil pointer.
 func (weaverImpl *WeaverImpl) WeakeningWeb() spiders.Web {
 	return weaverImpl.weakeningWebImpl
 }

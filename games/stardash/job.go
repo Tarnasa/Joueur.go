@@ -28,6 +28,7 @@ type Job interface {
 
 	// Title is the Job title. 'corvette', 'missileboat', 'martyr',
 	// 'transport', or 'miner'. (in this order from 0-4).
+//
 	// Literal Values: "corvette", "missileboat", "martyr",
 	// "transport", or "miner"
 	Title() string

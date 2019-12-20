@@ -44,10 +44,14 @@ type Unit interface {
 	Mythicite() int64
 
 	// Owner is the Player that owns and can control this Unit.
+//
+	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Protector is the martyr ship that is currently shielding this
 	// ship if any.
+//
+	// Value can be returned as a nil pointer.
 	Protector() Unit
 
 	// Rarium is the amount of Rarium carried by this unit. (0 to job

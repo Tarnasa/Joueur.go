@@ -37,6 +37,8 @@ func (gameImpl *GameImpl) BoardWidth() int64 {
 
 // CheckerMoved returns the checker that last moved and must be moved
 // because only one checker can move during each players turn.
+//
+// Value can be returned as a nil pointer.
 func (gameImpl *GameImpl) CheckerMoved() checkers.Checker {
 	return gameImpl.checkerMovedImpl
 }

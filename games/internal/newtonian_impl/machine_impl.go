@@ -20,6 +20,7 @@ type MachineImpl struct {
 
 // OreType returns what type of ore the machine takes it. Also determines
 // the type of material it outputs. (redium or blueium).
+//
 // Literal Values: "redium" or "blueium"
 func (machineImpl *MachineImpl) OreType() string {
 	return machineImpl.oreTypeImpl

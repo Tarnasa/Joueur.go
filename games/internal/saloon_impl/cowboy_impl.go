@@ -31,6 +31,7 @@ func (cowboyImpl *CowboyImpl) CanMove() bool {
 // DrunkDirection returns the direction this Cowboy is moving while drunk.
 // Will be 'North', 'East', 'South', or 'West' when drunk; or '' (empty
 // string) when not drunk.
+//
 // Literal Values: "", "North", "East", "South", or "West"
 func (cowboyImpl *CowboyImpl) DrunkDirection() string {
 	return cowboyImpl.drunkDirectionImpl
@@ -60,6 +61,7 @@ func (cowboyImpl *CowboyImpl) IsDrunk() bool {
 
 // Job returns the job that this Cowboy does, and dictates how they fight
 // and interact within the Saloon.
+//
 // Literal Values: "Bartender", "Brawler", or "Sharpshooter"
 func (cowboyImpl *CowboyImpl) Job() string {
 	return cowboyImpl.jobImpl
@@ -71,6 +73,8 @@ func (cowboyImpl *CowboyImpl) Owner() saloon.Player {
 }
 
 // Tile returns the Tile that this Cowboy is located on.
+//
+// Value can be returned as a nil pointer.
 func (cowboyImpl *CowboyImpl) Tile() saloon.Tile {
 	return cowboyImpl.tileImpl
 }

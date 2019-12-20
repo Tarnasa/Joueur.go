@@ -15,6 +15,8 @@ type CutterImpl struct {
 
 // CuttingWeb returns the Web that this Cutter is trying to cut. Nil if not
 // cutting.
+//
+// Value can be returned as a nil pointer.
 func (cutterImpl *CutterImpl) CuttingWeb() spiders.Web {
 	return cutterImpl.cuttingWebImpl
 }

@@ -10,16 +10,21 @@ type Spiderling interface {
 	// Busy is when empty string this Spiderling is not busy, and can
 	// act. Otherwise a string representing what it is busy with, e.g.
 	// 'Moving', 'Attacking'.
+//
 	// Literal Values: "", "Moving", "Attacking", "Strengthening",
 	// "Weakening", "Cutting", or "Spitting"
 	Busy() string
 
 	// MovingOnWeb is the Web this Spiderling is using to move. Nil if
 	// it is not moving.
+//
+	// Value can be returned as a nil pointer.
 	MovingOnWeb() Web
 
 	// MovingToNest is the Nest this Spiderling is moving to. Nil if
 	// it is not moving.
+//
+	// Value can be returned as a nil pointer.
 	MovingToNest() Nest
 
 	// NumberOfCoworkers is the number of Spiderlings busy with the
