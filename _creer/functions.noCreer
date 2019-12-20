@@ -83,9 +83,16 @@ if not 'go' in shared:
 
         desc_lines = wrapper.wrap(text)
 
-        if obj and 'type' in obj and obj['type'] and 'literals' in obj['type'] and obj['type']['literals']:
-            literal_lines = wrapper.wrap('Literal Values: {}'.format(human_string_list(['"{}"'.format(s) for s in obj['type']['literals']])))
-            desc_lines.extend(literal_lines)
+        if obj and 'type' in obj and obj['type']:
+            new_lines = []
+            if 'literals' in obj['type'] and obj['type']['literals']:
+                new_lines.append('Literal Values: {}'.format(human_string_list(['"{}"'.format(s) for s in obj['type']['literals']])))
+            if 'nullable' in obj['type'] and obj['type']['nullable']:
+                new_lines.append('Value can be returned as a nil pointer.')
+
+            if new_lines:
+                desc_lines.extend(['//'] + wrapper.wrap('\n'.join(new_lines)))
+
 
         return '\n'.join(desc_lines)
     shared['go']['doc_string'] = go_doc_string

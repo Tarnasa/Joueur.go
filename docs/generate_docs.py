@@ -30,6 +30,24 @@ def package_link_to(game_name):
 def replace_pkg_links(s):
     return s.replace("pkg.1", "")
 
+def template_collapsible_section(header, contents):
+    return """
+<div id="{id}" class="toggleVisible">
+	<div class="collapsed">
+		<h2 class="toggleButton" title="Click to show {header} section">{header} ▹</h2>
+	</div>
+	<div class="expanded">
+		<h2 class="toggleButton" title="Click to hide {header} section">{header} ▾</h2>
+		<div class="{id}-contents">
+			{contents}
+		</div> <!-- .{id}-contents -->
+	</div> <!-- .expanded -->
+</div>""".format(
+    id=header.lower().replace(' ', '-'),
+    header=header,
+    contents=contents,
+)
+
 def update_file(output_path, formatter):
     with open(os.path.join(OUTPUT_DIR, output_path), 'r+') as output_file:
         contents = output_file.read()
@@ -94,29 +112,53 @@ def root_index_update_contents(contents):
 This is the documentation for the Go Cadre client and its various game
 packages.
 
-<h2>Games</h2>
-
+{}
+{}
+""".format(
+    template_collapsible_section(
+        'Games', """
 <p>These are the games that are available to play via the Go Client. Their
  source code is stored in the directory: <code>games/game_name/</code>, where
  <code>game_name</code> is the name of the game.
 </p>
 
 <dl>
-{games_list}
-</dl>
+{}
+</dl>""".format('\n'.join([
+    """
+        <dt><strong><a href="{pkg_link}">{game_name}</a></strong></dt>
+        <dd>{description}</dd>
+    """.format(
+            game_name=game_name,
+            pkg_link=package_link_to(game_name),
+            description=games[game_name]['description']
+        ) for game_name in sorted(games.keys())
+        ]))
+    ),
+    template_collapsible_section(
+        "Coding Your AI", """
+<h3>Interfaces</h3>
+<p>With the exception of your AI being a <code>struct</code>, all of the game
+ components you will interact with are done through Go
+ <code>interfaces</code>. This means that all attributes must be accessed via
+ function calls, e.g:
+<pre>
+player_name := ai.Player().Name()
+</pre>
+</p>
+<br/>
+<p>Unless otherwise noted in the documentation, assume all interfaces are
+populated by an instance of a struct implementing that interface. However some
+attributes, function call, etc will explicitly tell you if the returned value
+can be nullable (<code>nil</code> pointer).
+</p>
 
-<h2>Other Notes</h2>
-</h3>Modifying non AI files</h3>
-
+<h3>Modifying non AI files</h3>
 <p>
 Each interface type inside of <code>games/game_name/</code>, except for your
  <code>ai.go</code> should ideally not be modified.<br />
 They are intended to be read only constructs that hold the state of that
- object at the point in time you are reading its properties. Additionally,
- all attributes must be accessed via function call, e.g:
-<pre>
-player_name := ai.Player().Name()
-</pre>
+ object at the point in time you are reading its properties.
 </p>
 <p>
 With that being is said, if you really wish to add functionality, such as
@@ -125,7 +167,7 @@ With that being is said, if you really wish to add functionality, such as
  client will crash during gameplay with a <code>DELTA_MERGE_FAILURE</code>.
 <p>
 <p>Implimentation logic for the interfaces (except your AI) is all tucked away
- in <pre>games/internal/game_name_impl</pre>. It is highly reccomended not to
+ in <code>games/internal/game_name_impl</code>. It is highly reccomended not to
  modify these files as they are largey written by our <a href="{creer_link}">
  Creer code generation</a> tool and may need to be modified if the game
  structure is tweaked.
@@ -145,27 +187,21 @@ If you wish to get the actual code for a game check in the
  similar to most clients (such as this one).
 <p>
 """.format(
-    cadre_link='https://github.com/siggame/Cadre',
-    cerveau_link='https://github.com/siggame/Cerveau',
-    creer_link='https://github.com/siggame/Creer',
-    games_list='\n'.join(["""
-    <dt><strong><a href="{pkg_link}">{game_name}</a></strong></dt>
-    <dd>{description}</dd>
-""".format(
-        game_name=game_name,
-        pkg_link=package_link_to(game_name),
-        description=games[game_name]['description']
-    ) for game_name in sorted(games.keys())])
+        cadre_link='https://github.com/siggame/Cadre',
+        cerveau_link='https://github.com/siggame/Cerveau',
+        creer_link='https://github.com/siggame/Creer',
+    )),
 ) + contents[i:]
 
 update_file('index.html', root_index_update_contents)
 
 # for each game, add additional text explaining the game
 for game_name, game_docs in games.items():
-    insert_at = '</p>'
     def game_index_update_contents(contents):
-        i = contents.index(insert_at) + len(insert_at)
-        return contents[:i] + """
+        i = contents.index('<div id="pkg-index"')
+        return contents[:i] + template_collapsible_section(
+            game_name + " Game Info",
+            """
 <p>
 {description}
 </p>
@@ -177,13 +213,15 @@ The full game rules for {game_name} can be found on <a href="{github}rules.md">G
 Additional materials, such as the <a href="{github}story.md">story</a> and <a href="{github}creer.yaml">game template</a> can be found on <a href="{github}">GitHub</a> as well.
 </p>
 <p>
-<em>Game version hash</em>: <pre>{game_version}</pre>
+<h3>Game version hash</h3>
+<pre>{game_version}</pre>
 </p>
 """.format(
-        description=game_docs['description'],
-        game_name=game_name,
-        game_version=game_docs['game_version'],
-        github=github_link_to(game_name)
+            description=game_docs['description'],
+            game_name=game_name,
+            game_version=game_docs['game_version'],
+            github=github_link_to(game_name)
+        )
     ) + contents[i:]
 
     update_file(package_link_to(game_name), game_index_update_contents)
