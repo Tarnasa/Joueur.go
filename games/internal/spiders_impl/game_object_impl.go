@@ -12,6 +12,7 @@ type GameObjectImpl struct {
 	base.GameObjectImpl
 
 	game               *GameImpl
+
 	gameObjectNameImpl string
 	logsImpl           []string
 }

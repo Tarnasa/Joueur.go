@@ -10,7 +10,6 @@ import (
 // PoliceDepartment instances in Anarchy.
 type PoliceDepartmentImpl struct {
 	BuildingImpl
-
 }
 
 // Raid runs logic that bribe the police to raid a Warehouse, dealing

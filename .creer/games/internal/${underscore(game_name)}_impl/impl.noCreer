@@ -6,7 +6,11 @@
 		parents.extend(obj['parentClasses'])
 	if obj_name in ['Game', 'GameObject']:
 		parents.append('base.' + obj_name)
-	attr_names_by_len = sorted(list(obj['attribute_names']), key=len)
+	attr_names = list(obj['attribute_names'])
+	if obj_name == 'GameObject':
+		attr_names.remove('id')
+
+	attr_names_by_len = sorted(attr_names, key=len)
 	longest_attr_name_len = len(attr_names_by_len[-1]) if attr_names_by_len else 0
 
 	import_game = False
@@ -37,20 +41,20 @@ type ${obj_name}Impl struct {
 %	for parent in parents:
 	${parent}Impl
 %	endfor
-
 %	if obj_name == 'GameObject':
+
 	game${' ' * (5 + longest_attr_name_len - len('game'))}*GameImpl
 %   endif
-%	for attr_name in obj['attribute_names']:
-%	if not (obj_name == 'GameObject' and attr_name == 'id'):
-<%		attr = obj['attributes'][attr_name]
-		spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
+%	if attr_names:
 
-		combined = ''.join([attr_name, 'Impl', spaces, shared['go']['type'](attr['type'])])
+%		for attr_name in attr_names:
+<%			attr = obj['attributes'][attr_name]
+			spaces = ' ' * (1 + longest_attr_name_len - len(attr_name))
 
+			combined = ''.join([attr_name, 'Impl', spaces, shared['go']['type'](attr['type'])])
 %>	${combined}
+%		endfor
 % 	endif
-%	endfor
 }
 %   if obj_name == 'GameObject':
 
@@ -59,10 +63,8 @@ func (gameObjectImpl *GameObjectImpl) Game() ${shared['go']['package_name']}.Gam
 	return gameObjectImpl.game
 }
 %   endif
-%   for attr_name in obj['attribute_names']:
+%   for attr_name in attr_names:
 <%
-		if obj_name == 'GameObject' and attr_name == 'id':
-			continue
 		attr = obj['attributes'][attr_name]
 		ret_type = shared['go']['type'](attr['type'])
 %>

@@ -9,7 +9,6 @@ import (
 // WeatherStation instances in Anarchy.
 type WeatherStationImpl struct {
 	BuildingImpl
-
 }
 
 // Intensify runs logic that bribe the weathermen to intensity the next
