@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -77,7 +78,7 @@ func (portImpl *PortImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'pirates.impl.DeltaMerge'",
+				"'pirates.impl.DeltaMerge'",
 		)
 	}
 

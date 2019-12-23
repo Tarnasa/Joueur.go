@@ -29,7 +29,7 @@ type Unit interface {
 	Moves() int64
 
 	// Owner is the Player that owns and can control this Unit.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Owner() Player
 
@@ -49,7 +49,7 @@ type Unit interface {
 	StunTime() int64
 
 	// Tile is the Tile this Unit is on.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Tile() Tile
 

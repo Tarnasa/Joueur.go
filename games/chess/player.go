@@ -14,7 +14,7 @@ type Player interface {
 
 	// Color is the color (side) of this player. Either 'white' or
 	// 'black', with the 'white' player having the first move.
-//
+	//
 	// Literal Values: "black" or "white"
 	Color() string
 

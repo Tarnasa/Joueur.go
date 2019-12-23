@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -75,7 +76,7 @@ func (nestImpl *NestImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'spiders.impl.DeltaMerge'",
+				"'spiders.impl.DeltaMerge'",
 		)
 	}
 

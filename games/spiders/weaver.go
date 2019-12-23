@@ -10,13 +10,13 @@ type Weaver interface {
 
 	// StrengtheningWeb is the Web that this Weaver is strengthening.
 	// Nil if not strengthening.
-//
+	//
 	// Value can be returned as a nil pointer.
 	StrengtheningWeb() Web
 
 	// WeakeningWeb is the Web that this Weaver is weakening. Nil if
 	// not weakening.
-//
+	//
 	// Value can be returned as a nil pointer.
 	WeakeningWeb() Web
 

@@ -10,7 +10,7 @@ type Nest interface {
 
 	// ControllingPlayer is the Player that 'controls' this Nest as
 	// they have the most Spiders on this nest.
-//
+	//
 	// Value can be returned as a nil pointer.
 	ControllingPlayer() Player
 

@@ -91,7 +91,7 @@ if not 'go' in shared:
                 new_lines.append('Value can be returned as a nil pointer.')
 
             if new_lines:
-                desc_lines.extend(['//'] + wrapper.wrap('\n'.join(new_lines)))
+                desc_lines.extend([wrapper_prefix[:-1]] + wrapper.wrap('\n'.join(new_lines)))
 
 
         return '\n'.join(desc_lines)

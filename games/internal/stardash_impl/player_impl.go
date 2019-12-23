@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -133,7 +134,7 @@ func (playerImpl *PlayerImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'stardash.impl.DeltaMerge'",
+				"'stardash.impl.DeltaMerge'",
 		)
 	}
 

@@ -16,41 +16,41 @@ type Tile interface {
 	Gold() int64
 
 	// Port is the Port on this Tile if present, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Port() Port
 
 	// TileEast is the Tile to the 'East' of this one (x+1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileEast() Tile
 
 	// TileNorth is the Tile to the 'North' of this one (x, y-1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileNorth() Tile
 
 	// TileSouth is the Tile to the 'South' of this one (x, y+1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileSouth() Tile
 
 	// TileWest is the Tile to the 'West' of this one (x-1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileWest() Tile
 
 	// Type is the type of Tile this is ('water' or 'land').
-//
+	//
 	// Literal Values: "water" or "land"
 	Type() string
 
 	// Unit is the Unit on this Tile if present, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Unit() Unit
 

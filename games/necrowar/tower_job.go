@@ -28,7 +28,7 @@ type TowerJob interface {
 
 	// Title is the type title. 'arrow', 'aoe', 'balarraya',
 	// 'cleansing', or 'castle'.
-//
+	//
 	// Literal Values: "arrow", "aoe", "ballista", "cleansing", or
 	// "castle"
 	Title() string

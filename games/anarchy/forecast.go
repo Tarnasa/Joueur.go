@@ -14,7 +14,7 @@ type Forecast interface {
 
 	// Direction is the direction the wind will blow fires in. Can be
 	// 'north', 'east', 'south', or 'west'.
-//
+	//
 	// Literal Values: "North", "East", "South", or "West"
 	Direction() string
 

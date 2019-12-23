@@ -17,7 +17,8 @@
 			if base_type['is_game_object']:
 				import_game = True
 				break
-%>import (
+%>
+import (
 	"errors"
 	"joueur/base"
 % if import_game:
@@ -134,7 +135,7 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'${shared['go']['package_name']}.impl.DeltaMerge'",
+				"'${shared['go']['package_name']}.impl.DeltaMerge'",
 		)
 	}
 

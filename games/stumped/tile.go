@@ -8,7 +8,7 @@ type Tile interface {
 	// -- Attributes -- \\
 
 	// Beaver is the Beaver on this Tile if present, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Beaver() Beaver
 
@@ -17,7 +17,7 @@ type Tile interface {
 
 	// FlowDirection is the cardinal direction water is flowing on
 	// this Tile ('North', 'East', 'South', 'West').
-//
+	//
 	// Literal Values: "North", "East", "South", "West", or ""
 	FlowDirection() string
 
@@ -26,42 +26,42 @@ type Tile interface {
 
 	// LodgeOwner is the owner of the Beaver lodge on this Tile, if
 	// present, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	LodgeOwner() Player
 
 	// Spawner is the resource Spawner on this Tile if present,
 	// otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Spawner() Spawner
 
 	// TileEast is the Tile to the 'East' of this one (x+1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileEast() Tile
 
 	// TileNorth is the Tile to the 'North' of this one (x, y-1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileNorth() Tile
 
 	// TileSouth is the Tile to the 'South' of this one (x, y+1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileSouth() Tile
 
 	// TileWest is the Tile to the 'West' of this one (x-1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileWest() Tile
 
 	// Type is what type of Tile this is, either 'water' or 'land'.
-//
+	//
 	// Literal Values: "land" or "water"
 	Type() string
 

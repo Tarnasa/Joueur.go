@@ -24,7 +24,7 @@ type Furnishing interface {
 	IsPlaying() bool
 
 	// Tile is the Tile that this Furnishing is located on.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Tile() Tile
 }

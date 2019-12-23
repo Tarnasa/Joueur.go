@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -183,7 +184,7 @@ func (tileImpl *TileImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'newtonian.impl.DeltaMerge'",
+				"'newtonian.impl.DeltaMerge'",
 		)
 	}
 

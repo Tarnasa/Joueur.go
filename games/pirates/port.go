@@ -19,7 +19,7 @@ type Port interface {
 	Investment() int64
 
 	// Owner is the owner of this Port, or nil if owned by merchants.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Owner() Player
 

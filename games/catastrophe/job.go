@@ -23,7 +23,7 @@ type Job interface {
 	RegenRate() float64
 
 	// Title is the Job title.
-//
+	//
 	// Literal Values: "fresh human", "cat overlord", "soldier",
 	// "gatherer", "builder", or "missionary"
 	Title() string

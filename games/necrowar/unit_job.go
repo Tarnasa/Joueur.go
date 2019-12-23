@@ -31,7 +31,7 @@ type UnitJob interface {
 
 	// Title is the type title. 'worker', 'zombie', 'ghoul', 'hound',
 	// 'abomination', 'wraith' or 'horseman'.
-//
+	//
 	// Literal Values: "worker", "zombie", "ghoul", "hound",
 	// "abomination", "wraith", or "horseman"
 	Title() string

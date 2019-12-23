@@ -13,7 +13,7 @@ type Spider interface {
 
 	// Nest is the Nest that this Spider is currently on. Nil when
 	// moving on a Web.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Nest() Nest
 

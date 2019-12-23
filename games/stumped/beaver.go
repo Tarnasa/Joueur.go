@@ -34,7 +34,7 @@ type Beaver interface {
 	Recruited() bool
 
 	// Tile is the Tile this Beaver is on.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Tile() Tile
 

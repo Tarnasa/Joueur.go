@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -97,7 +98,7 @@ func (towerJobImpl *TowerJobImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'necrowar.impl.DeltaMerge'",
+				"'necrowar.impl.DeltaMerge'",
 		)
 	}
 

@@ -17,18 +17,18 @@ type Structure interface {
 	Materials() int64
 
 	// Owner is the owner of this Structure if any, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Owner() Player
 
 	// Tile is the Tile this Structure is on.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Tile() Tile
 
 	// Type is the type of Structure this is ('shelter', 'monument',
 	// 'wall', 'road', 'neutral').
-//
+	//
 	// Literal Values: "neutral", "shelter", "monument", "wall", or
 	// "road"
 	Type() string

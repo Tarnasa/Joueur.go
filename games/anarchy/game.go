@@ -61,7 +61,7 @@ type Game interface {
 	// NextForecast is the next Forecast, which will be applied at the
 	// end of your opponent's turn. This is also the Forecast
 	// WeatherStations can control this turn.
-//
+	//
 	// Value can be returned as a nil pointer.
 	NextForecast() Forecast
 

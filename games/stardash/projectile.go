@@ -15,7 +15,7 @@ type Projectile interface {
 	Fuel() int64
 
 	// Owner is the Player that owns and can control this Projectile.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Owner() Player
 

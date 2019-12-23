@@ -10,7 +10,7 @@ type Spitter interface {
 
 	// SpittingWebToNest is the Nest that this Spitter is creating a
 	// Web to spit at, thus connecting them. Nil if not spitting.
-//
+	//
 	// Value can be returned as a nil pointer.
 	SpittingWebToNest() Nest
 

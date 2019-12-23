@@ -19,31 +19,31 @@ type Tile interface {
 
 	// Structure is the Structure on this Tile if present, otherwise
 	// nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Structure() Structure
 
 	// TileEast is the Tile to the 'East' of this one (x+1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileEast() Tile
 
 	// TileNorth is the Tile to the 'North' of this one (x, y-1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileNorth() Tile
 
 	// TileSouth is the Tile to the 'South' of this one (x, y+1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileSouth() Tile
 
 	// TileWest is the Tile to the 'West' of this one (x-1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileWest() Tile
 
@@ -52,7 +52,7 @@ type Tile interface {
 	TurnsToHarvest() int64
 
 	// Unit is the Unit on this Tile if present, otherwise nil.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Unit() Unit
 

@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -64,7 +65,7 @@ func (forecastImpl *ForecastImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'anarchy.impl.DeltaMerge'",
+				"'anarchy.impl.DeltaMerge'",
 		)
 	}
 

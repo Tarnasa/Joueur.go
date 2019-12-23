@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -69,7 +70,7 @@ func (spawnerImpl *SpawnerImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'stumped.impl.DeltaMerge'",
+				"'stumped.impl.DeltaMerge'",
 		)
 	}
 

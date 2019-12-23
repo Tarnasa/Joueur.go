@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -46,7 +47,7 @@ func (policeDepartmentImpl *PoliceDepartmentImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'anarchy.impl.DeltaMerge'",
+				"'anarchy.impl.DeltaMerge'",
 		)
 	}
 
