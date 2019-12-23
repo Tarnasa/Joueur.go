@@ -5,7 +5,5 @@ package saloon
 // If you need to add code to initialize the ENTIRE Saloon package,
 // do so here
 func init() {
-	// <<-- Creer-Merge: init -->>
 	// package initialization logic can go here
-	// <<-- /Creer-Merge: init -->>
 }

@@ -1,5 +1,0 @@
-{
-	"game_name": "${game_name}",
-	"game_version": "${game_version}",
-	"description": "${game['description']}"
-}

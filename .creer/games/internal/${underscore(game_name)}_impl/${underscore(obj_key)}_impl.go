@@ -1,1 +1,0 @@
-<%include file='impl.noCreer' args="obj_name=obj_key"/>
