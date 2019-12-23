@@ -284,5 +284,5 @@ func (gameImpl *GameImpl) GetTileAt(x int64, y int64) saloon.Tile {
 		return nil
 	}
 
-	return gameImpl.tilesImpl[x + y * gameImpl.mapWidthImpl]
+	return gameImpl.tilesImpl[x+y*gameImpl.mapWidthImpl]
 }

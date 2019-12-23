@@ -1,5 +1,6 @@
 // Package impl contains all the Stumped game implimentation logic.
 package impl
+
 // To start coding your AI please open ./ai.go
 
 import (
