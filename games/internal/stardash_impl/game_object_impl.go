@@ -11,7 +11,7 @@ import (
 type GameObjectImpl struct {
 	base.GameObjectImpl
 
-	game               *GameImpl
+	game *GameImpl
 
 	gameObjectNameImpl string
 	logsImpl           []string

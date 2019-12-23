@@ -43,7 +43,7 @@ type ${obj_name}Impl struct {
 %	endfor
 %	if obj_name == 'GameObject':
 
-	game${' ' * (5 + longest_attr_name_len - len('game'))}*GameImpl
+	game *GameImpl
 %   endif
 %	if attr_names:
 
