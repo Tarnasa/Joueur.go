@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -144,7 +145,7 @@ func (tileImpl *TileImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'saloon.impl.DeltaMerge'",
+				"'saloon.impl.DeltaMerge'",
 		)
 	}
 
@@ -218,7 +219,7 @@ func (tileImpl *TileImpl) GetNeighbors() []saloon.Tile {
 // IsPathable returns if the Tile is pathable for FindPath
 func (tileImpl *TileImpl) IsPathable() bool {
 	// <<-- Creer-Merge: is-pathable -->>
-	return false // TODO: developer add game logic here!
+	return !tileImpl.IsBalcony() && tileImpl.Cowboy() == nil && tileImpl.Furnishing() == nil
 	// <<-- /Creer-Merge: is-pathable -->>
 }
 
