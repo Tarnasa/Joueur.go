@@ -95,7 +95,7 @@ func (unitImpl *UnitImpl) Tile() pirates.Tile {
 // range.
 func (unitImpl *UnitImpl) Attack(tile pirates.Tile, target string) bool {
 	return unitImpl.RunOnServer("attack", map[string]interface{}{
-		"tile": tile,
+		"tile":   tile,
 		"target": target,
 	}).(bool)
 }
@@ -137,17 +137,16 @@ func (unitImpl *UnitImpl) Move(tile pirates.Tile) bool {
 // Rest runs logic that regenerates this Unit's health. Must be used in
 // range of a port.
 func (unitImpl *UnitImpl) Rest() bool {
-	return unitImpl.RunOnServer("rest", map[string]interface{}{
-	}).(bool)
+	return unitImpl.RunOnServer("rest", map[string]interface{}{}).(bool)
 }
 
 // Split runs logic that moves a number of crew from this Unit to the given
 // Tile. This will consume a move from those crew.
 func (unitImpl *UnitImpl) Split(tile pirates.Tile, amount int64, gold int64) bool {
 	return unitImpl.RunOnServer("split", map[string]interface{}{
-		"tile": tile,
+		"tile":   tile,
 		"amount": amount,
-		"gold": gold,
+		"gold":   gold,
 	}).(bool)
 }
 

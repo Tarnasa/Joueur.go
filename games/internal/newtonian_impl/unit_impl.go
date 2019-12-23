@@ -114,8 +114,8 @@ func (unitImpl *UnitImpl) Attack(tile newtonian.Tile) bool {
 // Drop runs logic that drops materials at the units feet or adjacent tile.
 func (unitImpl *UnitImpl) Drop(tile newtonian.Tile, amount int64, material string) bool {
 	return unitImpl.RunOnServer("drop", map[string]interface{}{
-		"tile": tile,
-		"amount": amount,
+		"tile":     tile,
+		"amount":   amount,
 		"material": material,
 	}).(bool)
 }
@@ -132,8 +132,8 @@ func (unitImpl *UnitImpl) Move(tile newtonian.Tile) bool {
 // tile.
 func (unitImpl *UnitImpl) Pickup(tile newtonian.Tile, amount int64, material string) bool {
 	return unitImpl.RunOnServer("pickup", map[string]interface{}{
-		"tile": tile,
-		"amount": amount,
+		"tile":     tile,
+		"amount":   amount,
 		"material": material,
 	}).(bool)
 }

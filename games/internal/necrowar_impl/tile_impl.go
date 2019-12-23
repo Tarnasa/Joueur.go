@@ -190,8 +190,7 @@ func (tileImpl *TileImpl) SpawnUnit(title string) bool {
 
 // SpawnWorker runs logic that spawns a worker on the correct tile.
 func (tileImpl *TileImpl) SpawnWorker() bool {
-	return tileImpl.RunOnServer("spawnWorker", map[string]interface{}{
-	}).(bool)
+	return tileImpl.RunOnServer("spawnWorker", map[string]interface{}{}).(bool)
 }
 
 // InitImplDefaults initializes safe defaults for all fields in Tile.

@@ -172,8 +172,8 @@ func (unitImpl *UnitImpl) Shootdown(missile stardash.Projectile) bool {
 // use a action.
 func (unitImpl *UnitImpl) Transfer(unit stardash.Unit, amount int64, material string) bool {
 	return unitImpl.RunOnServer("transfer", map[string]interface{}{
-		"unit": unit,
-		"amount": amount,
+		"unit":     unit,
+		"amount":   amount,
 		"material": material,
 	}).(bool)
 }

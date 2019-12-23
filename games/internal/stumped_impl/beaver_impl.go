@@ -87,17 +87,16 @@ func (beaverImpl *BeaverImpl) Attack(beaver stumped.Beaver) bool {
 
 // BuildLodge runs logic that builds a lodge on the Beavers current Tile.
 func (beaverImpl *BeaverImpl) BuildLodge() bool {
-	return beaverImpl.RunOnServer("buildLodge", map[string]interface{}{
-	}).(bool)
+	return beaverImpl.RunOnServer("buildLodge", map[string]interface{}{}).(bool)
 }
 
 // Drop runs logic that drops some of the given resource on the beaver's
 // Tile.
 func (beaverImpl *BeaverImpl) Drop(tile stumped.Tile, resource string, amount int64) bool {
 	return beaverImpl.RunOnServer("drop", map[string]interface{}{
-		"tile": tile,
+		"tile":     tile,
 		"resource": resource,
-		"amount": amount,
+		"amount":   amount,
 	}).(bool)
 }
 
@@ -121,9 +120,9 @@ func (beaverImpl *BeaverImpl) Move(tile stumped.Tile) bool {
 // tile.
 func (beaverImpl *BeaverImpl) Pickup(tile stumped.Tile, resource string, amount int64) bool {
 	return beaverImpl.RunOnServer("pickup", map[string]interface{}{
-		"tile": tile,
+		"tile":     tile,
 		"resource": resource,
-		"amount": amount,
+		"amount":   amount,
 	}).(bool)
 }
 

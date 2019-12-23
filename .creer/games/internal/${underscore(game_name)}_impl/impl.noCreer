@@ -10,8 +10,12 @@
 	if obj_name == 'GameObject':
 		attr_names.remove('id')
 
-	attr_names_by_len = sorted(attr_names, key=len)
-	longest_attr_name_len = len(attr_names_by_len[-1]) if attr_names_by_len else 0
+	def longest_str_len(names):
+		names_by_len = sorted(names, key=len)
+		longest_name_len = len(names_by_len[-1]) if names_by_len else 0
+		return longest_name_len
+
+	longest_attr_name_len = longest_str_len(attr_names)
 
 	import_game = False
 	if obj_name in ['Game', 'GameObject']:
@@ -79,15 +83,16 @@ func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(attr_nam
 		ret_type = shared['go']['type'](func['returns']['type'], True) if func['returns'] else ''
 		argify = lambda a : '{} {}'.format(shared['go']['variable_name_safe'](a['name']), shared['go']['type'](a['type']))
 		args = ', '.join([argify(a) for a in func['arguments']])
+		longest_arg_length = longest_str_len([arg['name'] for arg in func['arguments']])
+		return_end = '})' + (('.('+ ret_type +')') if ret_type else '')
 %>
 ${lowercase_first(shared['go']['doc_string'](func_name + ' runs logic that', func))}
 func (${lowercase_first(obj_name)}Impl *${obj_name}Impl) ${upcase_first(func_name)}(${args})${(' '+ret_type) if ret_type else ''} {
-	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{
+	${'return ' if ret_type else ''}${lowercase_first(obj_name)}Impl.RunOnServer("${func_name}", map[string]interface{}{${return_end if not func['arguments'] else ''}
 %		for arg in func['arguments']:
-		"${arg['name']}": ${shared['go']['variable_name_safe'](arg['name'])},
+		"${arg['name']}":${' ' * (1 + longest_arg_length - len(arg['name']))}${shared['go']['variable_name_safe'](arg['name'])},
 %		endfor
-	})${('.('+ret_type+')') if ret_type else ''}
-}
+${('\t' + return_end + '\n') if func['arguments'] else ''}}
 %   endfor
 
 // InitImplDefaults initializes safe defaults for all fields in ${obj_name}.

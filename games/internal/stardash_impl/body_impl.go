@@ -84,8 +84,8 @@ func (bodyImpl *BodyImpl) NextY(num int64) int64 {
 // Spawn runs logic that spawn a unit on some value of this celestial body.
 func (bodyImpl *BodyImpl) Spawn(x float64, y float64, title string) bool {
 	return bodyImpl.RunOnServer("spawn", map[string]interface{}{
-		"x": x,
-		"y": y,
+		"x":     x,
+		"y":     y,
 		"title": title,
 	}).(bool)
 }

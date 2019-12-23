@@ -40,8 +40,7 @@ func (checkerImpl *CheckerImpl) Y() int64 {
 // IsMine runs logic that returns if the checker is owned by your player or
 // not.
 func (checkerImpl *CheckerImpl) IsMine() bool {
-	return checkerImpl.RunOnServer("isMine", map[string]interface{}{
-	}).(bool)
+	return checkerImpl.RunOnServer("isMine", map[string]interface{}{}).(bool)
 }
 
 // Move runs logic that moves the checker from its current location to the

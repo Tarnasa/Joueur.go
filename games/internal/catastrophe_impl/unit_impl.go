@@ -142,9 +142,9 @@ func (unitImpl *UnitImpl) Deconstruct(tile catastrophe.Tile) bool {
 // the Unit's Tile. Does not count as an action.
 func (unitImpl *UnitImpl) Drop(tile catastrophe.Tile, resource string, amount int64) bool {
 	return unitImpl.RunOnServer("drop", map[string]interface{}{
-		"tile": tile,
+		"tile":     tile,
 		"resource": resource,
-		"amount": amount,
+		"amount":   amount,
 	}).(bool)
 }
 
@@ -167,17 +167,16 @@ func (unitImpl *UnitImpl) Move(tile catastrophe.Tile) bool {
 // the Unit's Tile. Does not count as an action.
 func (unitImpl *UnitImpl) Pickup(tile catastrophe.Tile, resource string, amount int64) bool {
 	return unitImpl.RunOnServer("pickup", map[string]interface{}{
-		"tile": tile,
+		"tile":     tile,
 		"resource": resource,
-		"amount": amount,
+		"amount":   amount,
 	}).(bool)
 }
 
 // Rest runs logic that regenerates energy. Must be in range of a friendly
 // shelter to rest. Costs an action. Units cannot move after resting.
 func (unitImpl *UnitImpl) Rest() bool {
-	return unitImpl.RunOnServer("rest", map[string]interface{}{
-	}).(bool)
+	return unitImpl.RunOnServer("rest", map[string]interface{}{}).(bool)
 }
 
 // InitImplDefaults initializes safe defaults for all fields in Unit.
