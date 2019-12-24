@@ -88,7 +88,7 @@ func (ai *AI) RunTurn() bool {
 	// for steps 2, 3, and 4 we will use this cowboy:
 	var activeCowboy Cowboy = nil
 	for _, myCowboy := range ai.Player().Cowboys() {
-		if myCowboy.IsDead() {
+		if !myCowboy.IsDead() {
 			activeCowboy = myCowboy
 			break
 		}
