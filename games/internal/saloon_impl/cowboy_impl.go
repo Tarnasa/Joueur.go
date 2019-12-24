@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -94,7 +95,7 @@ func (cowboyImpl *CowboyImpl) TurnsBusy() int64 {
 // Act runs logic that does their job's action on a Tile.
 func (cowboyImpl *CowboyImpl) Act(tile saloon.Tile, drunkDirection string) bool {
 	return cowboyImpl.RunOnServer("act", map[string]interface{}{
-		"tile": tile,
+		"tile":           tile,
 		"drunkDirection": drunkDirection,
 	}).(bool)
 }
@@ -150,7 +151,7 @@ func (cowboyImpl *CowboyImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'saloon.impl.DeltaMerge'",
+				"'saloon.impl.DeltaMerge'",
 		)
 	}
 

@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -201,7 +202,7 @@ func (gameImpl *GameImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'saloon.impl.DeltaMerge'",
+				"'saloon.impl.DeltaMerge'",
 		)
 	}
 
@@ -283,5 +284,5 @@ func (gameImpl *GameImpl) GetTileAt(x int64, y int64) saloon.Tile {
 		return nil
 	}
 
-	return gameImpl.tilesImpl[x + y * gameImpl.mapWidthImpl]
+	return gameImpl.tilesImpl[x+y*gameImpl.mapWidthImpl]
 }

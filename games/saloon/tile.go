@@ -9,18 +9,18 @@ type Tile interface {
 
 	// Bottle is the beer Bottle currently flying over this Tile, nil
 	// otherwise.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Bottle() Bottle
 
 	// Cowboy is the Cowboy that is on this Tile, nil otherwise.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Cowboy() Cowboy
 
 	// Furnishing is the furnishing that is on this Tile, nil
 	// otherwise.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Furnishing() Furnishing
 
@@ -35,25 +35,25 @@ type Tile interface {
 
 	// TileEast is the Tile to the 'East' of this one (x+1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileEast() Tile
 
 	// TileNorth is the Tile to the 'North' of this one (x, y-1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileNorth() Tile
 
 	// TileSouth is the Tile to the 'South' of this one (x, y+1). Nil
 	// if out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileSouth() Tile
 
 	// TileWest is the Tile to the 'West' of this one (x-1, y). Nil if
 	// out of bounds of the map.
-//
+	//
 	// Value can be returned as a nil pointer.
 	TileWest() Tile
 
@@ -64,7 +64,7 @@ type Tile interface {
 	Y() int64
 
 	// YoungGun is the YoungGun on this tile, nil otherwise.
-//
+	//
 	// Value can be returned as a nil pointer.
 	YoungGun() YoungGun
 

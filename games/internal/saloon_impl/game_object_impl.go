@@ -1,4 +1,5 @@
 package impl
+
 import (
 	"errors"
 	"joueur/base"
@@ -10,7 +11,8 @@ import (
 type GameObjectImpl struct {
 	base.GameObjectImpl
 
-	game               *GameImpl
+	game *GameImpl
+
 	gameObjectNameImpl string
 	logsImpl           []string
 }
@@ -69,7 +71,7 @@ func (gameObjectImpl *GameObjectImpl) DeltaMerge(
 	if !ok {
 		return false, errors.New(
 			"deltaMerge is not the expected type of: " +
-			"'saloon.impl.DeltaMerge'",
+				"'saloon.impl.DeltaMerge'",
 		)
 	}
 

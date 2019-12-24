@@ -14,7 +14,7 @@ type Cowboy interface {
 	// DrunkDirection is the direction this Cowboy is moving while
 	// drunk. Will be 'North', 'East', 'South', or 'West' when drunk;
 	// or '' (empty string) when not drunk.
-//
+	//
 	// Literal Values: "", "North", "East", "South", or "West"
 	DrunkDirection() string
 
@@ -35,7 +35,7 @@ type Cowboy interface {
 
 	// Job is the job that this Cowboy does, and dictates how they
 	// fight and interact within the Saloon.
-//
+	//
 	// Literal Values: "Bartender", "Brawler", or "Sharpshooter"
 	Job() string
 
@@ -43,7 +43,7 @@ type Cowboy interface {
 	Owner() Player
 
 	// Tile is the Tile that this Cowboy is located on.
-//
+	//
 	// Value can be returned as a nil pointer.
 	Tile() Tile
 
