@@ -43,13 +43,13 @@ By default, the binary should output to `joueur`. Just run that binary with
 the appropriate CLI args.
 
 ```bash
-./joueur Game_name -s some.server.io
+./joueur game_name -s some.server.io
 ```
 
 or
 
 ```bash
-./run Game_name
+./run game_name
 ```
 
 ## Dependencies
@@ -57,8 +57,6 @@ or
 By default we include some dependencies in your `go.mod`. You are free to add
 your own. However please don't the ones we included as otherwise your project
 won't build!
-
-[//]: # Links
 
 [Cadre]: https://github.com/siggame/Cadre
 [Go]: https://golang.org/
