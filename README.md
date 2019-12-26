@@ -43,13 +43,13 @@ By default, the binary should output to `joueur`. Just run that binary with
 the appropriate CLI args.
 
 ```bash
-./joueur Game_name -s some.server.io
+./joueur game_name -s some.server.io
 ```
 
 or
 
 ```bash
-./run Game_name
+./run game_name
 ```
 
 ## Dependencies
