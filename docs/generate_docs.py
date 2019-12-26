@@ -73,7 +73,7 @@ godoc_process = subprocess.Popen(gopath + '/bin/godoc', cwd='../')
 
 # wait 3 seconds for the above process to be ready,
 # no easy API to ensure it actually is
-sleep(3)
+sleep(30)
 
 ensure_clean_dir(OUTPUT_DIR)
 print('-> Going to scrape the godoc server, this will take some time...')
