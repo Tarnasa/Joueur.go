@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>test2json - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../pkg.1">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../pkg.1">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Command test2json
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<p>
+Test2json converts go test output to a machine-readable JSON stream.
+</p>
+<p>
+Usage:
+</p>
+<pre>go tool test2json [-p pkg] [-t] [./pkg.test -test.v]
+</pre>
+<p>
+Test2json runs the given test command and converts its output to JSON;
+with no command specified, test2json expects test output on standard input.
+It writes a corresponding stream of JSON events to standard output.
+There is no unnecessary input or output buffering, so that
+the JSON stream can be read for &ldquo;live updates&rdquo; of test status.
+</p>
+<p>
+The -p flag sets the package reported in each test event.
+</p>
+<p>
+The -t flag requests that time stamps be added to each test event.
+</p>
+<p>
+Note that test2json is only intended for converting a single test
+binary&#39;s output. To convert the output of a &#34;go test&#34; command,
+use &#34;go test -json&#34; instead of invoking test2json directly.
+</p>
+<h3 id="hdr-Output_Format">Output Format</h3>
+<p>
+The JSON stream is a newline-separated sequence of TestEvent objects
+corresponding to the Go struct:
+</p>
+<pre>type TestEvent struct {
+	Time    time.Time // encodes as an RFC3339-format string
+	Action  string
+	Package string
+	Test    string
+	Elapsed float64 // seconds
+	Output  string
+}
+</pre>
+<p>
+The Time field holds the time the event happened.
+It is conventionally omitted for cached test results.
+</p>
+<p>
+The Action field is one of a fixed set of action descriptions:
+</p>
+<pre>run    - the test has started running
+pause  - the test has been paused
+cont   - the test has continued running
+pass   - the test passed
+bench  - the benchmark printed log output but did not fail
+fail   - the test or benchmark failed
+output - the test printed output
+skip   - the test was skipped or the package contained no tests
+</pre>
+<p>
+The Package field, if present, specifies the package being tested.
+When the go command runs parallel tests in -json mode, events from
+different tests are interlaced; the Package field allows readers to
+separate them.
+</p>
+<p>
+The Test field, if present, specifies the test, example, or benchmark
+function that caused the event. Events for the overall package test
+do not set Test.
+</p>
+<p>
+The Elapsed field is set for &#34;pass&#34; and &#34;fail&#34; events. It gives the time
+elapsed for the specific test or the overall package test that passed or failed.
+</p>
+<p>
+The Output field is set for Action == &#34;output&#34; and is a portion of the test&#39;s output
+(standard output and standard error merged together). The output is
+unmodified except that invalid UTF-8 output from a test is coerced
+into valid UTF-8 by use of replacement characters. With that one exception,
+the concatenation of the Output fields of all output events is the exact
+output of the test execution.
+</p>
+<p>
+When a benchmark runs, it typically produces a single line of output
+giving timing results. That line is reported in an event with Action == &#34;output&#34;
+and no Test field. If a benchmark logs output or reports a failure
+(for example, by using b.Log or b.Error), that extra output is reported
+as a sequence of events with Test set to the benchmark name, terminated
+by a final event with Action == &#34;bench&#34; or &#34;fail&#34;.
+Benchmarks have no events with Action == &#34;run&#34;, &#34;pause&#34;, or &#34;cont&#34;.
+</p>
+
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../LICENSE">BSD license</a>.<br>
+<a href="../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

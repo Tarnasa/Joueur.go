@@ -1,0 +1,38 @@
+goroutine profile: total 4
+1 @ 0x4326d0 0x4075e8 0x4075be 0x4072ab 0x927b48 0x45fbf1
+#	0x927b47	golang.org/x/tools/godoc.(*Corpus).refreshMetadataLoop+0x37	/home/travis/gopath/pkg/mod/golang.org/x/tools@v0.0.0-20191213221258-04c2e8eff935/godoc/meta.go:140
+
+1 @ 0x4326d0 0x42d46a 0x42ca35 0x492015 0x492f8f 0x492f71 0x6049ff 0x618068 0x732a48 0x45fbf1
+#	0x42ca34	internal/poll.runtime_pollWait+0x54		/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/netpoll.go:184
+#	0x492014	internal/poll.(*pollDesc).wait+0x44		/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_poll_runtime.go:87
+#	0x492f8e	internal/poll.(*pollDesc).waitRead+0x1ce	/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_poll_runtime.go:92
+#	0x492f70	internal/poll.(*FD).Read+0x1b0			/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_unix.go:169
+#	0x6049fe	net.(*netFD).Read+0x4e				/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/fd_unix.go:202
+#	0x618067	net.(*conn).Read+0x67				/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/net.go:184
+#	0x732a47	net/http.(*connReader).backgroundRead+0x57	/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:677
+
+1 @ 0x4326d0 0x42d46a 0x42ca35 0x492015 0x494998 0x494977 0x605372 0x622592 0x621117 0x73d2d6 0x73cff7 0x964cb2 0x964bc3 0x4322fe 0x45fbf1
+#	0x42ca34	internal/poll.runtime_pollWait+0x54		/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/netpoll.go:184
+#	0x492014	internal/poll.(*pollDesc).wait+0x44		/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_poll_runtime.go:87
+#	0x494997	internal/poll.(*pollDesc).waitRead+0x1f7	/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_poll_runtime.go:92
+#	0x494976	internal/poll.(*FD).Accept+0x1d6		/home/travis/.gimme/versions/go1.13.linux.amd64/src/internal/poll/fd_unix.go:384
+#	0x605371	net.(*netFD).accept+0x41			/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/fd_unix.go:238
+#	0x622591	net.(*TCPListener).accept+0x31			/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/tcpsock_posix.go:139
+#	0x621116	net.(*TCPListener).Accept+0x46			/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/tcpsock.go:261
+#	0x73d2d5	net/http.(*Server).Serve+0x285			/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:2896
+#	0x73cff6	net/http.(*Server).ListenAndServe+0xb6		/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:2825
+#	0x964cb1	net/http.ListenAndServe+0xb41			/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:3080
+#	0x964bc2	main.main+0xa52					/home/travis/gopath/pkg/mod/golang.org/x/tools@v0.0.0-20191213221258-04c2e8eff935/cmd/godoc/main.go:364
+#	0x4322fd	runtime.main+0x21d				/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/proc.go:203
+
+1 @ 0x952915 0x952730 0x94f35a 0x95bcca 0x95c6e1 0x739ac4 0x73b99d 0x73cf14 0x7388b5 0x45fbf1
+#	0x952914	runtime/pprof.writeRuntimeProfile+0x94	/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/pprof/pprof.go:708
+#	0x95272f	runtime/pprof.writeGoroutine+0x9f	/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/pprof/pprof.go:670
+#	0x94f359	runtime/pprof.(*Profile).WriteTo+0x3d9	/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/pprof/pprof.go:329
+#	0x95bcc9	net/http/pprof.handler.ServeHTTP+0x339	/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/pprof/pprof.go:245
+#	0x95c6e0	net/http/pprof.Index+0x6f0		/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/pprof/pprof.go:268
+#	0x739ac3	net/http.HandlerFunc.ServeHTTP+0x43	/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:2007
+#	0x73b99c	net/http.(*ServeMux).ServeHTTP+0x1bc	/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:2387
+#	0x73cf13	net/http.serverHandler.ServeHTTP+0xa3	/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:2802
+#	0x7388b4	net/http.(*conn).serve+0x874		/home/travis/.gimme/versions/go1.13.linux.amd64/src/net/http/server.go:1890
+

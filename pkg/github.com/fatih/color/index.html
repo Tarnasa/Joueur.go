@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>color - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../../pkg.1">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../../pkg.1">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package color
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/fatih/color"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package color is an ANSI color package to output colorized or SGR defined
+output to the standard output. The API can be used in several way, pick one
+that suits you.
+</p>
+<p>
+Use simple and default helper functions with predefined foreground colors:
+</p>
+<pre>color.Cyan(&#34;Prints text in cyan.&#34;)
+
+// a newline will be appended automatically
+color.Blue(&#34;Prints %s in blue.&#34;, &#34;text&#34;)
+
+// More default foreground colors..
+color.Red(&#34;We have red&#34;)
+color.Yellow(&#34;Yellow color too!&#34;)
+color.Magenta(&#34;And many others ..&#34;)
+
+// Hi-intensity colors
+color.HiGreen(&#34;Bright green color.&#34;)
+color.HiBlack(&#34;Bright black means gray..&#34;)
+color.HiWhite(&#34;Shiny white color!&#34;)
+</pre>
+<p>
+However there are times where custom color mixes are required. Below are some
+examples to create custom color objects and use the print functions of each
+separate color object.
+</p>
+<pre>// Create a new color object
+c := color.New(color.FgCyan).Add(color.Underline)
+c.Println(&#34;Prints cyan text with an underline.&#34;)
+
+// Or just add them to New()
+d := color.New(color.FgCyan, color.Bold)
+d.Printf(&#34;This prints bold cyan %s\n&#34;, &#34;too!.&#34;)
+
+// Mix up foreground and background colors, create new mixes!
+red := color.New(color.FgRed)
+
+boldRed := red.Add(color.Bold)
+boldRed.Println(&#34;This will print text in bold red.&#34;)
+
+whiteBackground := red.Add(color.BgWhite)
+whiteBackground.Println(&#34;Red text with White background.&#34;)
+
+// Use your own io.Writer output
+color.New(color.FgBlue).Fprintln(myWriter, &#34;blue color!&#34;)
+
+blue := color.New(color.FgBlue)
+blue.Fprint(myWriter, &#34;This will print text in blue.&#34;)
+</pre>
+<p>
+You can create PrintXxx functions to simplify even more:
+</p>
+<pre>// Create a custom print function for convenient
+red := color.New(color.FgRed).PrintfFunc()
+red(&#34;warning&#34;)
+red(&#34;error: %s&#34;, err)
+
+// Mix up multiple attributes
+notice := color.New(color.Bold, color.FgGreen).PrintlnFunc()
+notice(&#34;don&#39;t forget this...&#34;)
+</pre>
+<p>
+You can also FprintXxx functions to pass your own io.Writer:
+</p>
+<pre>blue := color.New(FgBlue).FprintfFunc()
+blue(myWriter, &#34;important notice: %s&#34;, stars)
+
+// Mix up with multiple attributes
+success := color.New(color.Bold, color.FgGreen).FprintlnFunc()
+success(myWriter, don&#39;t forget this...&#34;)
+</pre>
+<p>
+Or create SprintXxx functions to mix strings with other non-colorized strings:
+</p>
+<pre>yellow := New(FgYellow).SprintFunc()
+red := New(FgRed).SprintFunc()
+
+fmt.Printf(&#34;this is a %s and this is %s.\n&#34;, yellow(&#34;warning&#34;), red(&#34;error&#34;))
+
+info := New(FgWhite, BgGreen).SprintFunc()
+fmt.Printf(&#34;this %s rocks!\n&#34;, info(&#34;package&#34;))
+</pre>
+<p>
+Windows support is enabled by default. All Print functions work as intended.
+However only for color.SprintXXX functions, user should use fmt.FprintXXX and
+set the output to color.Output:
+</p>
+<pre>fmt.Fprintf(color.Output, &#34;Windows support: %s&#34;, color.GreenString(&#34;PASS&#34;))
+
+info := New(FgWhite, BgGreen).SprintFunc()
+fmt.Fprintf(color.Output, &#34;this %s rocks!\n&#34;, info(&#34;package&#34;))
+</pre>
+<p>
+Using with existing code is possible. Just use the Set() method to set the
+standard output to the given parameters. That way a rewrite of an existing
+code is not required.
+</p>
+<pre>// Use handy standard colors.
+color.Set(color.FgYellow)
+
+fmt.Println(&#34;Existing text will be now in Yellow&#34;)
+fmt.Printf(&#34;This one %s\n&#34;, &#34;too&#34;)
+
+color.Unset() // don&#39;t forget to unset
+
+// You can mix up parameters
+color.Set(color.FgMagenta, color.Bold)
+defer color.Unset() // use it in your function
+
+fmt.Println(&#34;All text will be now bold magenta.&#34;)
+</pre>
+<p>
+There might be a case where you want to disable color output (for example to
+pipe the standard output of your app to somewhere else). `Color` has support to
+disable colors both globally and for single color definition. For example
+suppose you have a CLI app and a `--no-color` bool flag. You can easily disable
+the color output with:
+</p>
+<pre>var flagNoColor = flag.Bool(&#34;no-color&#34;, false, &#34;Disable color output&#34;)
+
+if *flagNoColor {
+	color.NoColor = true // disables colorized output
+}
+</pre>
+<p>
+It also has support for single color definitions (local). You can
+disable/enable color output on the fly:
+</p>
+<pre>c := color.New(color.FgCyan)
+c.Println(&#34;Prints cyan text&#34;)
+
+c.DisableColor()
+c.Println(&#34;This is printed without any color&#34;)
+
+c.EnableColor()
+c.Println(&#34;This prints again cyan...&#34;)
+</pre>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="index.html#Black">func Black(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#BlackString">func BlackString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Blue">func Blue(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#BlueString">func BlueString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Cyan">func Cyan(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#CyanString">func CyanString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Green">func Green(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#GreenString">func GreenString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiBlack">func HiBlack(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiBlackString">func HiBlackString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiBlue">func HiBlue(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiBlueString">func HiBlueString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiCyan">func HiCyan(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiCyanString">func HiCyanString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiGreen">func HiGreen(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiGreenString">func HiGreenString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiMagenta">func HiMagenta(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiMagentaString">func HiMagentaString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiRed">func HiRed(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiRedString">func HiRedString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiWhite">func HiWhite(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiWhiteString">func HiWhiteString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#HiYellow">func HiYellow(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#HiYellowString">func HiYellowString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Magenta">func Magenta(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#MagentaString">func MagentaString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Red">func Red(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#RedString">func RedString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Unset">func Unset()</a></dd>
+			
+				
+				<dd><a href="index.html#White">func White(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#WhiteString">func WhiteString(format string, a ...interface{}) string</a></dd>
+			
+				
+				<dd><a href="index.html#Yellow">func Yellow(format string, a ...interface{})</a></dd>
+			
+				
+				<dd><a href="index.html#YellowString">func YellowString(format string, a ...interface{}) string</a></dd>
+			
+			
+				
+				<dd><a href="index.html#Attribute">type Attribute</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Color">type Color</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#New">func New(value ...Attribute) *Color</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Set">func Set(p ...Attribute) *Color</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Add">func (c *Color) Add(value ...Attribute) *Color</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.DisableColor">func (c *Color) DisableColor()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.EnableColor">func (c *Color) EnableColor()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Equals">func (c *Color) Equals(c2 *Color) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Fprint">func (c *Color) Fprint(w io.Writer, a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.FprintFunc">func (c *Color) FprintFunc() func(w io.Writer, a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Fprintf">func (c *Color) Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.FprintfFunc">func (c *Color) FprintfFunc() func(w io.Writer, format string, a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Fprintln">func (c *Color) Fprintln(w io.Writer, a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.FprintlnFunc">func (c *Color) FprintlnFunc() func(w io.Writer, a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Print">func (c *Color) Print(a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.PrintFunc">func (c *Color) PrintFunc() func(a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Printf">func (c *Color) Printf(format string, a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.PrintfFunc">func (c *Color) PrintfFunc() func(format string, a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Println">func (c *Color) Println(a ...interface{}) (n int, err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.PrintlnFunc">func (c *Color) PrintlnFunc() func(a ...interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Set">func (c *Color) Set() *Color</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Sprint">func (c *Color) Sprint(a ...interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.SprintFunc">func (c *Color) SprintFunc() func(a ...interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Sprintf">func (c *Color) Sprintf(format string, a ...interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.SprintfFunc">func (c *Color) SprintfFunc() func(format string, a ...interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.Sprintln">func (c *Color) Sprintln(a ...interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Color.SprintlnFunc">func (c *Color) SprintlnFunc() func(a ...interface{}) string</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/github.com/fatih/color/color.go">color.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/fatih/color/doc.go">doc.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				
+				<pre>var (
+    <span class="comment">// NoColor defines if the output is colorized or not. It&#39;s dynamically set to</span>
+    <span class="comment">// false or true based on the stdout&#39;s file descriptor referring to a terminal</span>
+    <span class="comment">// or not. This is a global option and affects all colors. For more control</span>
+    <span class="comment">// over each color block use the methods DisableColor() individually.</span>
+    <span id="NoColor">NoColor</span> = <a href="../../../os/index.html">os</a>.<a href="../../../os/index.html#Getenv">Getenv</a>(&#34;TERM&#34;) == &#34;dumb&#34; ||
+        (!isatty.<a href="index.html#IsTerminal">IsTerminal</a>(<a href="../../../os/index.html">os</a>.<a href="../../../os/index.html#Stdout">Stdout</a>.<a href="index.html#Fd">Fd</a>()) &amp;&amp; !isatty.<a href="index.html#IsCygwinTerminal">IsCygwinTerminal</a>(<a href="../../../os/index.html">os</a>.<a href="../../../os/index.html#Stdout">Stdout</a>.<a href="index.html#Fd">Fd</a>()))
+
+    <span class="comment">// Output defines the standard output of the print functions. By default</span>
+    <span class="comment">// os.Stdout is used.</span>
+    <span id="Output">Output</span> = colorable.<a href="index.html#NewColorableStdout">NewColorableStdout</a>()
+
+    <span class="comment">// Error defines a color supporting writer for os.Stderr.</span>
+    <span id="Error">Error</span> = colorable.<a href="index.html#NewColorableStderr">NewColorableStderr</a>()
+)</pre>
+			
+		
+		
+			
+			
+			<h2 id="Black">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=11764:11807#L457">Black</a>
+				<a class="permalink" href="index.html#Black">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Black(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Black is a convenient helper function to print with black foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="BlackString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=13356:13412#L489">BlackString</a>
+				<a class="permalink" href="index.html#BlackString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func BlackString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+BlackString is a convenient helper function to return a string with black
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Blue">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=12570:12612#L473">Blue</a>
+				<a class="permalink" href="index.html#Blue">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Blue(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Blue is a convenient helper function to print with blue foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="BlueString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=14134:14189#L505">BlueString</a>
+				<a class="permalink" href="index.html#BlueString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func BlueString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+BlueString is a convenient helper function to return a string with blue
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Cyan">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=12980:13022#L481">Cyan</a>
+				<a class="permalink" href="index.html#Cyan">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Cyan(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Cyan is a convenient helper function to print with cyan foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CyanString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=14531:14586#L515">CyanString</a>
+				<a class="permalink" href="index.html#CyanString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CyanString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+CyanString is a convenient helper function to return a string with cyan
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Green">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=12162:12205#L465">Green</a>
+				<a class="permalink" href="index.html#Green">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Green(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Green is a convenient helper function to print with green foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GreenString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=13740:13796#L497">GreenString</a>
+				<a class="permalink" href="index.html#GreenString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GreenString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+GreenString is a convenient helper function to return a string with green
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiBlack">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=14964:15009#L523">HiBlack</a>
+				<a class="permalink" href="index.html#HiBlack">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiBlack(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiBlack is a convenient helper function to print with hi-intensity black foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiBlackString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=16708:16766#L555">HiBlackString</a>
+				<a class="permalink" href="index.html#HiBlackString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiBlackString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiBlackString is a convenient helper function to return a string with hi-intensity black
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiBlue">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=15846:15890#L539">HiBlue</a>
+				<a class="permalink" href="index.html#HiBlue">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiBlue(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiBlue is a convenient helper function to print with hi-intensity blue foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiBlueString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=17565:17622#L577">HiBlueString</a>
+				<a class="permalink" href="index.html#HiBlueString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiBlueString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiBlueString is a convenient helper function to return a string with hi-intensity blue
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiCyan">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=16294:16338#L547">HiCyan</a>
+				<a class="permalink" href="index.html#HiCyan">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiCyan(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiCyan is a convenient helper function to print with hi-intensity cyan foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiCyanString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=18000:18057#L587">HiCyanString</a>
+				<a class="permalink" href="index.html#HiCyanString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiCyanString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiCyanString is a convenient helper function to return a string with hi-intensity cyan
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiGreen">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=15400:15445#L531">HiGreen</a>
+				<a class="permalink" href="index.html#HiGreen">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiGreen(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiGreen is a convenient helper function to print with hi-intensity green foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiGreenString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=17131:17189#L565">HiGreenString</a>
+				<a class="permalink" href="index.html#HiGreenString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiGreenString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiGreenString is a convenient helper function to return a string with hi-intensity green
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiMagenta">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=16070:16117#L543">HiMagenta</a>
+				<a class="permalink" href="index.html#HiMagenta">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiMagenta(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiMagenta is a convenient helper function to print with hi-intensity magenta foreground.
+A newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiMagentaString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=17782:17842#L581">HiMagentaString</a>
+				<a class="permalink" href="index.html#HiMagentaString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiMagentaString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiMagentaString is a convenient helper function to return a string with hi-intensity magenta
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiRed">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=15182:15225#L527">HiRed</a>
+				<a class="permalink" href="index.html#HiRed">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiRed(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiRed is a convenient helper function to print with hi-intensity red foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiRedString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=16920:16976#L561">HiRedString</a>
+				<a class="permalink" href="index.html#HiRedString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiRedString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiRedString is a convenient helper function to return a string with hi-intensity red
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiWhite">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=16514:16559#L551">HiWhite</a>
+				<a class="permalink" href="index.html#HiWhite">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiWhite(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiWhite is a convenient helper function to print with hi-intensity white foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiWhiteString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=18213:18271#L591">HiWhiteString</a>
+				<a class="permalink" href="index.html#HiWhiteString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiWhiteString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiWhiteString is a convenient helper function to return a string with hi-intensity white
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiYellow">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=15624:15670#L535">HiYellow</a>
+				<a class="permalink" href="index.html#HiYellow">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiYellow(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+HiYellow is a convenient helper function to print with hi-intensity yellow foreground.
+A newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HiYellowString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=17349:17408#L571">HiYellowString</a>
+				<a class="permalink" href="index.html#HiYellowString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HiYellowString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+HiYellowString is a convenient helper function to return a string with hi-intensity yellow
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Magenta">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=12775:12820#L477">Magenta</a>
+				<a class="permalink" href="index.html#Magenta">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Magenta(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Magenta is a convenient helper function to print with magenta foreground.
+A newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="MagentaString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=14332:14390#L509">MagentaString</a>
+				<a class="permalink" href="index.html#MagentaString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func MagentaString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+MagentaString is a convenient helper function to return a string with magenta
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Red">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=11963:12004#L461">Red</a>
+				<a class="permalink" href="index.html#Red">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Red(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Red is a convenient helper function to print with red foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="RedString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=13548:13602#L493">RedString</a>
+				<a class="permalink" href="index.html#RedString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func RedString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+RedString is a convenient helper function to return a string with red
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Unset">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=2473:2485#L116">Unset</a>
+				<a class="permalink" href="index.html#Unset">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Unset()</pre>
+			<p>
+Unset resets all escape attributes and clears the output. Usually should
+be called after Set().
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="White">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=13181:13224#L485">White</a>
+				<a class="permalink" href="index.html#White">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func White(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+White is a convenient helper function to print with white foreground. A
+newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="WhiteString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=14725:14781#L519">WhiteString</a>
+				<a class="permalink" href="index.html#WhiteString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func WhiteString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+WhiteString is a convenient helper function to return a string with white
+foreground.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Yellow">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=12367:12411#L469">Yellow</a>
+				<a class="permalink" href="index.html#Yellow">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Yellow(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+			<p>
+Yellow is a convenient helper function to print with yellow foreground.
+A newline is appended to format by default.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="YellowString">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=13938:13995#L501">YellowString</a>
+				<a class="permalink" href="index.html#YellowString">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func YellowString(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+YellowString is a convenient helper function to return a string with yellow
+foreground.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Attribute">type <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=1230:1248#L33">Attribute</a>
+				<a class="permalink" href="index.html#Attribute">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Attribute defines a single SGR Code
+</p>
+
+			<pre>type Attribute <a href="../../../builtin/index.html#int">int</a></pre>
+
+			
+				<p>
+Base attributes
+</p>
+
+				<pre>const (
+    <span id="Reset">Reset</span> <a href="index.html#Attribute">Attribute</a> = <a href="../../../builtin/index.html#iota">iota</a>
+    <span id="Bold">Bold</span>
+    <span id="Faint">Faint</span>
+    <span id="Italic">Italic</span>
+    <span id="Underline">Underline</span>
+    <span id="BlinkSlow">BlinkSlow</span>
+    <span id="BlinkRapid">BlinkRapid</span>
+    <span id="ReverseVideo">ReverseVideo</span>
+    <span id="Concealed">Concealed</span>
+    <span id="CrossedOut">CrossedOut</span>
+)</pre>
+			
+				<p>
+Foreground text colors
+</p>
+
+				<pre>const (
+    <span id="FgBlack">FgBlack</span> <a href="index.html#Attribute">Attribute</a> = <a href="../../../builtin/index.html#iota">iota</a> + 30
+    <span id="FgRed">FgRed</span>
+    <span id="FgGreen">FgGreen</span>
+    <span id="FgYellow">FgYellow</span>
+    <span id="FgBlue">FgBlue</span>
+    <span id="FgMagenta">FgMagenta</span>
+    <span id="FgCyan">FgCyan</span>
+    <span id="FgWhite">FgWhite</span>
+)</pre>
+			
+				<p>
+Foreground Hi-Intensity text colors
+</p>
+
+				<pre>const (
+    <span id="FgHiBlack">FgHiBlack</span> <a href="index.html#Attribute">Attribute</a> = <a href="../../../builtin/index.html#iota">iota</a> + 90
+    <span id="FgHiRed">FgHiRed</span>
+    <span id="FgHiGreen">FgHiGreen</span>
+    <span id="FgHiYellow">FgHiYellow</span>
+    <span id="FgHiBlue">FgHiBlue</span>
+    <span id="FgHiMagenta">FgHiMagenta</span>
+    <span id="FgHiCyan">FgHiCyan</span>
+    <span id="FgHiWhite">FgHiWhite</span>
+)</pre>
+			
+				<p>
+Background text colors
+</p>
+
+				<pre>const (
+    <span id="BgBlack">BgBlack</span> <a href="index.html#Attribute">Attribute</a> = <a href="../../../builtin/index.html#iota">iota</a> + 40
+    <span id="BgRed">BgRed</span>
+    <span id="BgGreen">BgGreen</span>
+    <span id="BgYellow">BgYellow</span>
+    <span id="BgBlue">BgBlue</span>
+    <span id="BgMagenta">BgMagenta</span>
+    <span id="BgCyan">BgCyan</span>
+    <span id="BgWhite">BgWhite</span>
+)</pre>
+			
+				<p>
+Background Hi-Intensity text colors
+</p>
+
+				<pre>const (
+    <span id="BgHiBlack">BgHiBlack</span> <a href="index.html#Attribute">Attribute</a> = <a href="../../../builtin/index.html#iota">iota</a> + 100
+    <span id="BgHiRed">BgHiRed</span>
+    <span id="BgHiGreen">BgHiGreen</span>
+    <span id="BgHiYellow">BgHiYellow</span>
+    <span id="BgHiBlue">BgHiBlue</span>
+    <span id="BgHiMagenta">BgHiMagenta</span>
+    <span id="BgHiCyan">BgHiCyan</span>
+    <span id="BgHiWhite">BgHiWhite</span>
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Color">type <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=1132:1189#L27">Color</a>
+				<a class="permalink" href="index.html#Color">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Color defines a custom color object which is defined by SGR parameters.
+</p>
+
+			<pre>type Color struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="New">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=2043:2078#L100">New</a>
+					<a class="permalink" href="index.html#New">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func New(value ...<a href="index.html#Attribute">Attribute</a>) *<a href="index.html#Color">Color</a></pre>
+				<p>
+New returns a newly created color object.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Set">func <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=2299:2330#L108">Set</a>
+					<a class="permalink" href="index.html#Set">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func Set(p ...<a href="index.html#Attribute">Attribute</a>) *<a href="index.html#Color">Color</a></pre>
+				<p>
+Set sets the given parameters immediately. It will change the color of
+output with the given SGR parameters until color.Unset() is called.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Color.Add">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=3217:3263#L165">Add</a>
+					<a class="permalink" href="index.html#Color.Add">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Add(value ...<a href="index.html#Attribute">Attribute</a>) *<a href="index.html#Color">Color</a></pre>
+				<p>
+Add is used to chain SGR parameters. Use as many as parameters to combine
+and create custom color objects. Example: Add(color.FgRed, color.Underline).
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.DisableColor">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=10119:10149#L369">DisableColor</a>
+					<a class="permalink" href="index.html#Color.DisableColor">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) DisableColor()</pre>
+				<p>
+DisableColor disables the color output. Useful to not change any existing
+code and still being able to output. Can be used for flags like
+&#34;--no-color&#34;. To enable back use EnableColor() method.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.EnableColor">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=10312:10341#L375">EnableColor</a>
+					<a class="permalink" href="index.html#Color.EnableColor">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) EnableColor()</pre>
+				<p>
+EnableColor enables the color output. Use it in conjunction with
+DisableColor(). Otherwise this method has no side effects.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Equals">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=10666:10704#L390">Equals</a>
+					<a class="permalink" href="index.html#Color.Equals">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Equals(c2 *<a href="index.html#Color">Color</a>) <a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+Equals returns a boolean value indicating whether two colors are equal.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Fprint">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=3761:3833#L181">Fprint</a>
+					<a class="permalink" href="index.html#Color.Fprint">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Fprint(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Fprint formats using the default formats for its operands and writes to w.
+Spaces are added between operands when neither is a string.
+It returns the number of bytes written and any write error encountered.
+On Windows, users should wrap w with colorable.NewColorable() if w is of
+type *os.File.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.FprintFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=6589:6653#L261">FprintFunc</a>
+					<a class="permalink" href="index.html#Color.FprintFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) FprintFunc() func(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, a ...interface{})</pre>
+				<p>
+FprintFunc returns a new function that prints the passed arguments as
+colorized with color.Fprint().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Fprintf">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=4574:4662#L204">Fprintf</a>
+					<a class="permalink" href="index.html#Color.Fprintf">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Fprintf(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Fprintf formats according to a format specifier and writes to w.
+It returns the number of bytes written and any write error encountered.
+On Windows, users should wrap w with colorable.NewColorable() if w is of
+type *os.File.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.FprintfFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=7050:7130#L277">FprintfFunc</a>
+					<a class="permalink" href="index.html#Color.FprintfFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) FprintfFunc() func(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+				<p>
+FprintfFunc returns a new function that prints the passed arguments as
+colorized with color.Fprintf().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Fprintln">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=5370:5444#L225">Fprintln</a>
+					<a class="permalink" href="index.html#Color.Fprintln">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Fprintln(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Fprintln formats using the default formats for its operands and writes to w.
+Spaces are always added between operands and a newline is appended.
+On Windows, users should wrap w with colorable.NewColorable() if w is of
+type *os.File.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.FprintlnFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=7595:7661#L293">FprintlnFunc</a>
+					<a class="permalink" href="index.html#Color.FprintlnFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) FprintlnFunc() func(w <a href="../../../io/index.html">io</a>.<a href="../../../io/index.html#Writer">Writer</a>, a ...interface{})</pre>
+				<p>
+FprintlnFunc returns a new function that prints the passed arguments as
+colorized with color.Fprintln().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Print">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=4213:4271#L193">Print</a>
+					<a class="permalink" href="index.html#Color.Print">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Print(a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Print formats using the default formats for its operands and writes to
+standard output. Spaces are added between operands when neither is a
+string. It returns the number of bytes written and any write error
+encountered. This is the standard fmt.Print() method wrapped with the given
+color.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.PrintFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=6833:6883#L269">PrintFunc</a>
+					<a class="permalink" href="index.html#Color.PrintFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) PrintFunc() func(a ...interface{})</pre>
+				<p>
+PrintFunc returns a new function that prints the passed arguments as
+colorized with color.Print().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Printf">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=4976:5050#L214">Printf</a>
+					<a class="permalink" href="index.html#Color.Printf">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Printf(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Printf formats according to a format specifier and writes to standard output.
+It returns the number of bytes written and any write error encountered.
+This is the standard fmt.Printf() method wrapped with the given color.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.PrintfFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=7336:7402#L285">PrintfFunc</a>
+					<a class="permalink" href="index.html#Color.PrintfFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) PrintfFunc() func(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{})</pre>
+				<p>
+PrintfFunc returns a new function that prints the passed arguments as
+colorized with color.Printf().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Println">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=5836:5896#L237">Println</a>
+					<a class="permalink" href="index.html#Color.Println">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Println(a ...interface{}) (n <a href="../../../builtin/index.html#int">int</a>, err <a href="../../../builtin/index.html#error">error</a>)</pre>
+				<p>
+Println formats using the default formats for its operands and writes to
+standard output. Spaces are always added between operands and a newline is
+appended. It returns the number of bytes written and any write error
+encountered. This is the standard fmt.Print() method wrapped with the given
+color.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.PrintlnFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=7847:7899#L301">PrintlnFunc</a>
+					<a class="permalink" href="index.html#Color.PrintlnFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) PrintlnFunc() func(a ...interface{})</pre>
+				<p>
+PrintlnFunc returns a new function that prints the passed arguments as
+colorized with color.Println().
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Set">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=2594:2622#L125">Set</a>
+					<a class="permalink" href="index.html#Color.Set">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Set() *<a href="index.html#Color">Color</a></pre>
+				<p>
+Set sets the SGR sequence.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Sprint">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=6039:6086#L245">Sprint</a>
+					<a class="permalink" href="index.html#Color.Sprint">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Sprint(a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Sprint is just like Print, but returns a string instead of printing it.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.SprintFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=8295:8353#L313">SprintFunc</a>
+					<a class="permalink" href="index.html#Color.SprintFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) SprintFunc() func(a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+SprintFunc returns a new function that returns colorized strings for the
+given arguments with fmt.Sprint(). Useful to put into or mix into other
+string. Windows users should use this in conjunction with color.Output, example:
+</p>
+<pre>put := New(FgYellow).SprintFunc()
+fmt.Fprintf(color.Output, &#34;This is a %s&#34;, put(&#34;warning&#34;))
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Sprintf">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=6371:6434#L255">Sprintf</a>
+					<a class="permalink" href="index.html#Color.Sprintf">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Sprintf(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Sprintf is just like Printf, but returns a string instead of printing it.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.SprintfFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=8664:8738#L322">SprintfFunc</a>
+					<a class="permalink" href="index.html#Color.SprintfFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) SprintfFunc() func(format <a href="../../../builtin/index.html#string">string</a>, a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+SprintfFunc returns a new function that returns colorized strings for the
+given arguments with fmt.Sprintf(). Useful to put into or mix into other
+string. Windows users should use this in conjunction with color.Output.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.Sprintln">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=6204:6253#L250">Sprintln</a>
+					<a class="permalink" href="index.html#Color.Sprintln">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) Sprintln(a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Sprintln is just like Println, but returns a string instead of printing it.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Color.SprintlnFunc">func (*Color) <a href="http://localhost:6060/src/github.com/fatih/color/color.go?s=9075:9135#L331">SprintlnFunc</a>
+					<a class="permalink" href="index.html#Color.SprintlnFunc">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#Color">Color</a>) SprintlnFunc() func(a ...interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+SprintlnFunc returns a new function that returns colorized strings for the
+given arguments with fmt.Sprintln(). Useful to put into or mix into other
+string. Windows users should use this in conjunction with color.Output.
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../../LICENSE">BSD license</a>.<br>
+<a href="../../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>catastrophe - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../../lib/godoc/godocs.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../../../../favicon.ico" /></head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../../">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../../">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package catastrophe
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "joueur/games/catastrophe"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package catastrophe contains all the interfaces and AI
+that are required to represent and play Catastrophe.
+</p>
+
+				
+			</div>
+		</div>
+
+		
+<div id="catastrophe-game-info" class="toggleVisible">
+	<div class="collapsed">
+		<h2 class="toggleButton" title="Click to show Catastrophe Game Info section">Catastrophe Game Info ▹</h2>
+	</div>
+	<div class="expanded">
+		<h2 class="toggleButton" title="Click to hide Catastrophe Game Info section">Catastrophe Game Info ▾</h2>
+		<div class="catastrophe-game-info-contents">
+			
+<p>
+Convert as many humans to as you can to survive in this post-apocalyptic wasteland.
+</p>
+<h3>More Info</h3>
+<p>
+The full game rules for Catastrophe can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Catastrophe/rules.md">GitHub</a>.
+</p>
+<p>
+Additional materials, such as the <a href="https://github.com/siggame/Cadre/blob/master/Games/Catastrophe/story.md">story</a> and <a href="https://github.com/siggame/Cadre/blob/master/Games/Catastrophe/creer.yaml">game template</a> can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Catastrophe/">GitHub</a> as well.
+</p>
+
+		</div> <!-- .catastrophe-game-info-contents -->
+	</div> <!-- .expanded -->
+</div><div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="index.html#PlayerName">func PlayerName() string</a></dd>
+			
+			
+				
+				<dd><a href="index.html#AI">type AI</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Ended">func (ai *AI) Ended(won bool, reason string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Game">func (ai *AI) Game() Game</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.GameUpdated">func (ai *AI) GameUpdated()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Player">func (ai *AI) Player() Player</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.RunTurn">func (ai *AI) RunTurn() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Start">func (ai *AI) Start()</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Game">type Game</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameObject">type GameObject</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Job">type Job</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Player">type Player</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Structure">type Structure</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Tile">type Tile</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Unit">type Unit</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go">ai.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/game.go">game.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/game_object.go">game_object.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/init.go">init.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/job.go">job.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/player.go">player.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/structure.go">structure.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/tile.go">tile.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/catastrophe/unit.go">unit.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<p>
+TileDirections are all the direction strings that Tile&#39;s neighbors can be
+in.
+</p>
+
+				<pre>var <span id="TileDirections">TileDirections</span> = [...]<a href="../../../builtin/index.html#string">string</a>{&#34;North&#34;, &#34;South&#34;, &#34;East&#34;, &#34;West&#34;}</pre>
+			
+		
+		
+			
+			
+			<h2 id="PlayerName">func <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=121:145#L1">PlayerName</a>
+				<a class="permalink" href="index.html#PlayerName">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func PlayerName() <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+PlayerName should return the string name of your Player in games it plays.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="AI">type <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=296:428#L3">AI</a>
+				<a class="permalink" href="index.html#AI">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AI is your personal AI implimentation.
+</p>
+
+			<pre>type AI struct {
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#AIImpl">AIImpl</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="AI.Ended">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=1307:1351#L39">Ended</a>
+					<a class="permalink" href="index.html#AI.Ended">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Ended(won <a href="../../../builtin/index.html#bool">bool</a>, reason <a href="../../../builtin/index.html#string">string</a>)</pre>
+				<p>
+Ended is called when the game ends, you can clean up your data and dump
+files here if need be.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Game">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=501:526#L11">Game</a>
+					<a class="permalink" href="index.html#AI.Game">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Game() <a href="index.html#Game">Game</a></pre>
+				<p>
+Game returns the instance of the Game this AI is currently playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.GameUpdated">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=1083:1110#L31">GameUpdated</a>
+					<a class="permalink" href="index.html#AI.GameUpdated">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) GameUpdated()</pre>
+				<p>
+GameUpdated is called every time the game&#39;s state updates,
+so if you are tracking anything you can update it here.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Player">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=670:699#L17">Player</a>
+					<a class="permalink" href="index.html#AI.Player">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Player() <a href="index.html#Player">Player</a></pre>
+				<p>
+Player returns the instance of the Player this AI is represented by in the
+game this AI is playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.RunTurn">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=1544:1572#L48">RunTurn</a>
+					<a class="permalink" href="index.html#AI.RunTurn">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) RunTurn() <a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+RunTurn this is called every time it is this AI.player&#39;s turn.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Start">func (*AI) <a href="http://localhost:6060/src/joueur/games/catastrophe/ai.go?s=859:880#L23">Start</a>
+					<a class="permalink" href="index.html#AI.Start">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Start()</pre>
+				<p>
+Start is called once the game starts and your AI has a Player and Game.
+You can initialize your AI struct here.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Game">type <a href="http://localhost:6060/src/joueur/games/catastrophe/game.go?s=142:3362#L1">Game</a>
+				<a class="permalink" href="index.html#Game">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Game is convert as many humans to as you can to survive in this post-
+apocalyptic wasteland.
+</p>
+
+			<pre>type Game interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#Game">Game</a>
+
+    <span class="comment">// CatEnergyMult is the multiplier for the amount of energy</span>
+    <span class="comment">// regenerated when resting in a shelter with the cat overlord.</span>
+    CatEnergyMult() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// CurrentPlayer is the player whose turn it is currently. That</span>
+    <span class="comment">// player can send commands. Other players cannot.</span>
+    CurrentPlayer() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// CurrentTurn is the current turn number, starting at 0 for the</span>
+    <span class="comment">// first player&#39;s turn.</span>
+    CurrentTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GameObjects is a mapping of every game object&#39;s ID to the</span>
+    <span class="comment">// actual game object. Primarily used by the server and client to</span>
+    <span class="comment">// easily refer to the game objects via ID.</span>
+    GameObjects() map[<a href="../../../builtin/index.html#string">string</a>]<a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// HarvestCooldown is the amount of turns it takes for a Tile that</span>
+    <span class="comment">// was just harvested to grow food again.</span>
+    HarvestCooldown() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Jobs is all the Jobs that Units can have in the game.</span>
+    Jobs() []<a href="index.html#Job">Job</a>
+
+    <span class="comment">// LowerHarvestAmount is the amount that the harvest rate is</span>
+    <span class="comment">// lowered each season.</span>
+    LowerHarvestAmount() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MapHeight is the number of Tiles in the map along the y</span>
+    <span class="comment">// (vertical) axis.</span>
+    MapHeight() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MapWidth is the number of Tiles in the map along the x</span>
+    <span class="comment">// (horizontal) axis.</span>
+    MapWidth() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MaxTurns is the maximum number of turns before the game will</span>
+    <span class="comment">// automatically end.</span>
+    MaxTurns() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MonumentCostMult is the multiplier for the cost of actions when</span>
+    <span class="comment">// performing them in range of a monument. Does not effect pickup</span>
+    <span class="comment">// cost.</span>
+    MonumentCostMult() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// MonumentMaterials is the number of materials in a monument.</span>
+    MonumentMaterials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// NeutralMaterials is the number of materials in a neutral</span>
+    <span class="comment">// Structure.</span>
+    NeutralMaterials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Players is array of all the players in the game.</span>
+    Players() []<a href="index.html#Player">Player</a>
+
+    <span class="comment">// Session is a unique identifier for the game instance that is</span>
+    <span class="comment">// being played.</span>
+    Session() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// ShelterMaterials is the number of materials in a shelter.</span>
+    ShelterMaterials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// StartingFood is the amount of food Players start with.</span>
+    StartingFood() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// StarvingEnergyMult is the multiplier for the amount of energy</span>
+    <span class="comment">// regenerated when resting while starving.</span>
+    StarvingEnergyMult() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Structures is every Structure in the game.</span>
+    Structures() []<a href="index.html#Structure">Structure</a>
+
+    <span class="comment">// Tiles is all the tiles in the map, stored in Row-major order.</span>
+    <span class="comment">// Use `x + y * mapWidth` to access the correct index.</span>
+    Tiles() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TimeAddedPerTurn is the amount of time (in nano-seconds) added</span>
+    <span class="comment">// after each player performs a turn.</span>
+    TimeAddedPerTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TurnsBetweenHarvests is after a food tile is harvested, the</span>
+    <span class="comment">// number of turns before it can be harvested again.</span>
+    TurnsBetweenHarvests() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TurnsToCreateHuman is the number of turns between fresh humans</span>
+    <span class="comment">// being spawned on the road.</span>
+    TurnsToCreateHuman() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TurnsToLowerHarvest is the number of turns before the harvest</span>
+    <span class="comment">// rate is lowered (length of each season basically).</span>
+    TurnsToLowerHarvest() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Units is every Unit in the game.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// WallMaterials is the number of materials in a wall.</span>
+    WallMaterials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GetTileAt returns the Tile at a give position (x, y).</span>
+    GetTileAt(<a href="../../../builtin/index.html#int64">int64</a>, <a href="../../../builtin/index.html#int64">int64</a>) <a href="index.html#Tile">Tile</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameObject">type <a href="http://localhost:6060/src/joueur/games/catastrophe/game_object.go?s=164:540#L1">GameObject</a>
+				<a class="permalink" href="index.html#GameObject">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameObject is an object in the game. The most basic class that all game
+classes should inherit from automatically.
+</p>
+
+			<pre>type GameObject interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Logs is any strings logged will be stored here. Intended for</span>
+    <span class="comment">// debugging.</span>
+    Logs() []<a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Log adds a message to this GameObject&#39;s logs. Intended for your</span>
+    <span class="comment">// own debugging purposes, as strings stored here are saved in the</span>
+    <span class="comment">// gamelog.</span>
+    Log(<a href="../../../builtin/index.html#string">string</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Job">type <a href="http://localhost:6060/src/joueur/games/catastrophe/job.go?s=63:890#L1">Job</a>
+				<a class="permalink" href="index.html#Job">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Job is information about a Unit&#39;s job.
+</p>
+
+			<pre>type Job interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// ActionCost is the amount of energy this Job normally uses to</span>
+    <span class="comment">// perform its actions.</span>
+    ActionCost() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// CarryLimit is how many combined resources a Unit with this Job</span>
+    <span class="comment">// can hold at once.</span>
+    CarryLimit() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Moves is the number of moves this Job can make per turn.</span>
+    Moves() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RegenRate is the amount of energy normally regenerated when</span>
+    <span class="comment">// resting at a shelter.</span>
+    RegenRate() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Title is the Job title.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;fresh human&#34;, &#34;cat overlord&#34;, &#34;soldier&#34;,</span>
+    <span class="comment">// &#34;gatherer&#34;, &#34;builder&#34;, or &#34;missionary&#34;</span>
+    Title() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Upkeep is the amount of food per turn this Unit consumes. If</span>
+    <span class="comment">// there isn&#39;t enough food for every Unit, all Units become</span>
+    <span class="comment">// starved and do not consume food.</span>
+    Upkeep() <a href="../../../builtin/index.html#int64">int64</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Player">type <a href="http://localhost:6060/src/joueur/games/catastrophe/player.go?s=87:1326#L1">Player</a>
+				<a class="permalink" href="index.html#Player">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Player is a player in this game. Every AI controls one player.
+</p>
+
+			<pre>type Player interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Cat is the overlord cat Unit owned by this Player.</span>
+    Cat() <a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// ClientType is what type of client this is, e.g. &#39;Python&#39;,</span>
+    <span class="comment">// &#39;JavaScript&#39;, or some other language. For potential data mining</span>
+    <span class="comment">// purposes.</span>
+    ClientType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Food is the amount of food owned by this player.</span>
+    Food() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Lost is if the player lost the game or not.</span>
+    Lost() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Name is the name of the player.</span>
+    Name() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Opponent is this player&#39;s opponent in the game.</span>
+    Opponent() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// ReasonLost is the reason why the player lost the game.</span>
+    ReasonLost() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// ReasonWon is the reason why the player won the game.</span>
+    ReasonWon() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Structures is every Structure owned by this Player.</span>
+    Structures() []<a href="index.html#Structure">Structure</a>
+
+    <span class="comment">// TimeRemaining is the amount of time (in ns) remaining for this</span>
+    <span class="comment">// AI to send commands.</span>
+    TimeRemaining() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Units is every Unit owned by this Player.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// Upkeep is the total upkeep of every Unit owned by this Player.</span>
+    <span class="comment">// If there isn&#39;t enough food for every Unit, all Units become</span>
+    <span class="comment">// starved and do not consume food.</span>
+    Upkeep() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Won is if the player won the game or not.</span>
+    Won() <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Structure">type <a href="http://localhost:6060/src/joueur/games/catastrophe/structure.go?s=60:902#L1">Structure</a>
+				<a class="permalink" href="index.html#Structure">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Structure is a structure on a Tile.
+</p>
+
+			<pre>type Structure interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// EffectRadius is the range of this Structure&#39;s effect. For</span>
+    <span class="comment">// example, a radius of 1 means this Structure affects a 3x3</span>
+    <span class="comment">// square centered on this Structure.</span>
+    EffectRadius() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Materials is the number of materials in this Structure. Once</span>
+    <span class="comment">// this number reaches 0, this Structure is destroyed.</span>
+    Materials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Owner is the owner of this Structure if any, otherwise nil.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Tile is the Tile this Structure is on.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Tile() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Type is the type of Structure this is (&#39;shelter&#39;, &#39;monument&#39;,</span>
+    <span class="comment">// &#39;wall&#39;, &#39;road&#39;, &#39;neutral&#39;).</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;neutral&#34;, &#34;shelter&#34;, &#34;monument&#34;, &#34;wall&#34;, or</span>
+    <span class="comment">// &#34;road&#34;</span>
+    Type() <a href="../../../builtin/index.html#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Tile">type <a href="http://localhost:6060/src/joueur/games/catastrophe/tile.go?s=82:1886#L1">Tile</a>
+				<a class="permalink" href="index.html#Tile">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Tile is a Tile in the game that makes up the 2D map grid.
+</p>
+
+			<pre>type Tile interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Food is the number of food dropped on this Tile.</span>
+    Food() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// HarvestRate is the amount of food that can be harvested from</span>
+    <span class="comment">// this Tile per turn.</span>
+    HarvestRate() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Materials is the number of materials dropped on this Tile.</span>
+    Materials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Structure is the Structure on this Tile if present, otherwise</span>
+    <span class="comment">// nil.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Structure() <a href="index.html#Structure">Structure</a>
+
+    <span class="comment">// TileEast is the Tile to the &#39;East&#39; of this one (x+1, y). Nil if</span>
+    <span class="comment">// out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileEast() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileNorth is the Tile to the &#39;North&#39; of this one (x, y-1). Nil</span>
+    <span class="comment">// if out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileNorth() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileSouth is the Tile to the &#39;South&#39; of this one (x, y+1). Nil</span>
+    <span class="comment">// if out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileSouth() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileWest is the Tile to the &#39;West&#39; of this one (x-1, y). Nil if</span>
+    <span class="comment">// out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileWest() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TurnsToHarvest is the amount of turns before this resource can</span>
+    <span class="comment">// be harvested.</span>
+    TurnsToHarvest() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Unit is the Unit on this Tile if present, otherwise nil.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Unit() <a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// X is the x (horizontal) position of this Tile.</span>
+    X() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Y is the y (vertical) position of this Tile.</span>
+    Y() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GetNeighbors returns an array of the neighbors of this Tile.</span>
+    GetNeighbors() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// IsPathable returns if the Tile is pathable for FindPath</span>
+    IsPathable() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// HasNeighbor checks if this Tile has a specific neighboring Tile.</span>
+    HasNeighbor(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Unit">type <a href="http://localhost:6060/src/joueur/games/catastrophe/unit.go?s=52:2872#L1">Unit</a>
+				<a class="permalink" href="index.html#Unit">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Unit is a unit in the game.
+</p>
+
+			<pre>type Unit interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Acted is whether this Unit has performed its action this turn.</span>
+    Acted() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Energy is the amount of energy this Unit has (from 0.0 to</span>
+    <span class="comment">// 100.0).</span>
+    Energy() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Food is the amount of food this Unit is holding.</span>
+    Food() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Job is the Job this Unit was recruited to do.</span>
+    Job() <a href="index.html#Job">Job</a>
+
+    <span class="comment">// Materials is the amount of materials this Unit is holding.</span>
+    Materials() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MovementTarget is the tile this Unit is moving to. This only</span>
+    <span class="comment">// applies to neutral fresh humans spawned on the road. Otherwise,</span>
+    <span class="comment">// the tile this Unit is on.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    MovementTarget() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Moves is how many moves this Unit has left this turn.</span>
+    Moves() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Owner is the Player that owns and can control this Unit, or nil</span>
+    <span class="comment">// if the Unit is neutral.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Squad is the Units in the same squad as this Unit. Units in the</span>
+    <span class="comment">// same squad attack and defend together.</span>
+    Squad() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// Starving is whether this Unit is starving. Starving Units</span>
+    <span class="comment">// regenerate energy at half the rate they normally would while</span>
+    <span class="comment">// resting.</span>
+    Starving() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Tile is the Tile this Unit is on.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Tile() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TurnsToDie is the number of turns before this Unit dies. This</span>
+    <span class="comment">// only applies to neutral fresh humans created from combat.</span>
+    <span class="comment">// Otherwise, 0.</span>
+    TurnsToDie() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Attack attacks an adjacent Tile. Costs an action for each Unit</span>
+    <span class="comment">// in this Unit&#39;s squad. Units in the squad without an action</span>
+    <span class="comment">// don&#39;t participate in combat. Units in combat cannot move</span>
+    <span class="comment">// afterwards. Attacking structures will not give materials.</span>
+    Attack(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// ChangeJob changes this Unit&#39;s Job. Must be at max energy</span>
+    <span class="comment">// (100.0) to change Jobs.</span>
+    ChangeJob(<a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Construct constructs a Structure on an adjacent Tile.</span>
+    Construct(<a href="index.html#Tile">Tile</a>, <a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Convert converts an adjacent Unit to your side.</span>
+    Convert(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Deconstruct removes materials from an adjacent Tile&#39;s</span>
+    <span class="comment">// Structure. You cannot deconstruct friendly structures (see</span>
+    <span class="comment">// Unit.attack).</span>
+    Deconstruct(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Drop drops some of the given resource on or adjacent to the</span>
+    <span class="comment">// Unit&#39;s Tile. Does not count as an action.</span>
+    Drop(<a href="index.html#Tile">Tile</a>, <a href="../../../builtin/index.html#string">string</a>, <a href="../../../builtin/index.html#int64">int64</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Harvest harvests the food on an adjacent Tile.</span>
+    Harvest(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Move moves this Unit from its current Tile to an adjacent Tile.</span>
+    Move(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Pickup picks up some materials or food on or adjacent to the</span>
+    <span class="comment">// Unit&#39;s Tile. Does not count as an action.</span>
+    Pickup(<a href="index.html#Tile">Tile</a>, <a href="../../../builtin/index.html#string">string</a>, <a href="../../../builtin/index.html#int64">int64</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Rest regenerates energy. Must be in range of a friendly shelter</span>
+    <span class="comment">// to rest. Costs an action. Units cannot move after resting.</span>
+    Rest() <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../../LICENSE">BSD license</a>.<br>
+<a href="../../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

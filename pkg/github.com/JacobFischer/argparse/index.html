@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>argparse - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../../pkg.1">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../../pkg.1">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package argparse
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/JacobFischer/argparse"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+				<dd><a href="index.html#pkg-examples" class="examplesLink">Examples</a></dd>
+			
+			
+				<dd><a href="index.html#pkg-subdirectories">Subdirectories</a></dd>
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package argparse provides users with more flexible and configurable option for command line arguments parsing.
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="index.html#pkg-constants">Constants</a></dd>
+			
+			
+			
+			
+				
+				<dd><a href="index.html#Arg">type Arg</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Command">type Command</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.File">func (o *Command) File(short string, long string, flag int, perm os.FileMode, opts *Options) *os.File</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Flag">func (o *Command) Flag(short string, long string, opts *Options) *bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Float">func (o *Command) Float(short string, long string, opts *Options) *float64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.GetArgs">func (o Command) GetArgs() (args []Arg)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.GetCommands">func (o Command) GetCommands() []*Command</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.GetDescription">func (o Command) GetDescription() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.GetName">func (o Command) GetName() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.GetParent">func (o Command) GetParent() *Command</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Happened">func (o *Command) Happened() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Help">func (o *Command) Help(msg interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Int">func (o *Command) Int(short string, long string, opts *Options) *int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.List">func (o *Command) List(short string, long string, opts *Options) *[]string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.NewCommand">func (o *Command) NewCommand(name string, description string) *Command</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.PosString">func (o *Command) PosString(name string, opts *Options) *PosStringResult</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Selector">func (o *Command) Selector(short string, long string, options []string, opts *Options) *string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.String">func (o *Command) String(short string, long string, opts *Options) *string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Command.Usage">func (o *Command) Usage(msg interface{}) string</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Options">type Options</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Parser">type Parser</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#NewParser">func NewParser(name string, description string) *Parser</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#Parser.Parse">func (o *Parser) Parse(args []string) error</a></dd>
+				
+			
+				
+				<dd><a href="index.html#PosStringResult">type PosStringResult</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+		<div id="pkg-examples">
+			<h3>Examples</h3>
+			<div class="js-expandAll expandAll collapsed">(Expand All)</div>
+			<dl>
+			
+			<dd><a class="exampleLink" href="index.html#example_Command_Help">Command.Help</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Command_Help_subcommandDefaulting">Command.Help (SubcommandDefaulting)</a></dd>
+			
+			<dd><a class="exampleLink" href="index.html#example_Command_Help_subcommandHelpFuncs">Command.Help (SubcommandHelpFuncs)</a></dd>
+			
+			</dl>
+		</div>
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go">argparse.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argument.go">argument.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/JacobFischer/argparse/command.go">command.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/JacobFischer/argparse/errors.go">errors.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/JacobFischer/argparse/extras.go">extras.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				<p>
+DisableDescription can be assigned as a command or arguments description to hide it from the Usage output
+</p>
+
+				<pre>const <span id="DisableDescription">DisableDescription</span> = &#34;DISABLEDDESCRIPTIONWILLNOTSHOWUP&#34;</pre>
+			
+		
+		
+		
+		
+			
+			
+			<h2 id="Arg">type <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argument.go?s=983:1063#L16">Arg</a>
+				<a class="permalink" href="index.html#Arg">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Arg interface provides exporting of arg structure, while exposing it
+</p>
+
+			<pre>type Arg interface {
+    GetOpts() *<a href="index.html#Options">Options</a>
+    GetSname() <a href="../../../builtin/index.html#string">string</a>
+    GetLname() <a href="../../../builtin/index.html#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Command">type <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=683:902#L7">Command</a>
+				<a class="permalink" href="index.html#Command">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Command is a basic type for this package. It represents top level Parser as well as any commands and sub-commands
+Command MUST NOT ever be created manually. Instead one should call NewCommand method of Parser or Command,
+which will setup appropriate fields and call methods that have to be called when creating new command.
+</p>
+
+			<pre>type Command struct {
+<span id="Command.HelpFunc"></span>    HelpFunc func(c *<a href="index.html#Command">Command</a>, msg interface{}) <a href="../../../builtin/index.html#string">string</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="Command.File">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=7385:7486#L226">File</a>
+					<a class="permalink" href="index.html#Command.File">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) File(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, flag <a href="../../../builtin/index.html#int">int</a>, perm <a href="../../../os/index.html">os</a>.<a href="../../../os/index.html#FileMode">FileMode</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../os/index.html">os</a>.<a href="../../../os/index.html#File">File</a></pre>
+				<p>
+File creates new file argument, which is when provided will check if file exists or attempt to create it
+depending on provided flags (same as for os.OpenFile).
+It takes same as all other arguments short and long names, additionally it takes flags that specify
+in which mode the file should be open (see os.OpenFile for details on that), file permissions that
+will be applied to a file and argument options.
+Returns a pointer to os.File which will be set to opened file on success. On error the Parser.Parse
+will return error and the pointer might be nil.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Flag">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=5111:5181#L140">Flag</a>
+					<a class="permalink" href="index.html#Command.Flag">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Flag(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+Flag Creates new flag type of argument, which is boolean value showing if argument was provided or not.
+Takes short name, long name and pointer to options (optional).
+Short name must be single character, but can be omitted by giving empty string.
+Long name is required.
+Returns pointer to boolean with starting value `false`. If Parser finds the flag
+provided on Command line arguments, then the value is changed to true.
+Only for Flag shorthand arguments can be combined together such as `rm -rf`
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Float">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=6565:6639#L202">Float</a>
+					<a class="permalink" href="index.html#Command.Float">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Float(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../builtin/index.html#float64">float64</a></pre>
+				<p>
+Float creates new float argument, which will attempt to parse following argument as float64.
+Takes as arguments short name (must be single character or an empty string)
+long name and (optional) options.
+If parsing fails parser.Parse() will return an error.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.GetArgs">func (Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=1160:1199#L29">GetArgs</a>
+					<a class="permalink" href="index.html#Command.GetArgs">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o <a href="index.html#Command">Command</a>) GetArgs() (args []<a href="index.html#Arg">Arg</a>)</pre>
+				<p>
+GetArgs exposes Command&#39;s args field
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.GetCommands">func (Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=1321:1362#L37">GetCommands</a>
+					<a class="permalink" href="index.html#Command.GetCommands">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o <a href="index.html#Command">Command</a>) GetCommands() []*<a href="index.html#Command">Command</a></pre>
+				<p>
+GetCommands exposes Command&#39;s commands field
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.GetDescription">func (Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=1052:1092#L24">GetDescription</a>
+					<a class="permalink" href="index.html#Command.GetDescription">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o <a href="index.html#Command">Command</a>) GetDescription() <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+GetDescription exposes Command&#39;s description field
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.GetName">func (Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=944:977#L19">GetName</a>
+					<a class="permalink" href="index.html#Command.GetName">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o <a href="index.html#Command">Command</a>) GetName() <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+GetName exposes Command&#39;s name field
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.GetParent">func (Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=1431:1468#L42">GetParent</a>
+					<a class="permalink" href="index.html#Command.GetParent">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o <a href="index.html#Command">Command</a>) GetParent() *<a href="index.html#Command">Command</a></pre>
+				<p>
+GetParent exposes Command&#39;s parent field
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Happened">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=10108:10141#L320">Happened</a>
+					<a class="permalink" href="index.html#Command.Happened">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Happened() <a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+Happened shows whether Command was specified on CLI arguments or not. If Command did not &#34;happen&#34;, then
+all its descendant commands and arguments are not parsed. Returns a boolean value.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Help">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=1610:1656#L48">Help</a>
+					<a class="permalink" href="index.html#Command.Help">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Help(msg interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Help calls the overriddable Command.HelpFunc on itself,
+called when the help argument strings are passed via CLI
+</p>
+
+				
+				<div id="example_Command_Help" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">parser := NewParser(&#34;parser&#34;, &#34;&#34;)
+parser.HelpFunc = func(c *Command, msg interface{}) string {
+    return fmt.Sprintf(&#34;Name: %s\n&#34;, c.GetName())
+}
+fmt.Println(parser.Help(nil))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Name: parser
+</pre>
+			
+		
+	</div>
+</div>
+<div id="example_Command_Help_subcommandDefaulting" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example (SubcommandDefaulting)</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example (SubcommandDefaulting)</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">parser := NewParser(&#34;parser&#34;, &#34;&#34;)
+parser.HelpFunc = func(c *Command, msg interface{}) string {
+    helpString := fmt.Sprintf(&#34;Name: %s\n&#34;, c.GetName())
+    for _, com := range c.GetCommands() {
+        <span class="comment">// Calls parser.HelpFunc, because command.HelpFuncs are nil</span>
+        helpString += com.Help(nil)
+    }
+    return helpString
+}
+parser.NewCommand(&#34;subcommand1&#34;, &#34;&#34;)
+parser.NewCommand(&#34;subcommand2&#34;, &#34;&#34;)
+fmt.Println(parser.Help(nil))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Name: parser
+Name: subcommand1
+Name: subcommand2
+</pre>
+			
+		
+	</div>
+</div>
+<div id="example_Command_Help_subcommandHelpFuncs" class="toggle">
+	<div class="collapsed">
+		<p class="exampleHeading toggleButton">▹ <span class="text">Example (SubcommandHelpFuncs)</span></p>
+	</div>
+	<div class="expanded">
+		<p class="exampleHeading toggleButton">▾ <span class="text">Example (SubcommandHelpFuncs)</span></p>
+		
+		
+		
+			<p>Code:</p>
+			<pre class="code">parser := NewParser(&#34;parser&#34;, &#34;&#34;)
+parser.HelpFunc = func(c *Command, msg interface{}) string {
+    helpString := fmt.Sprintf(&#34;Name: %s\n&#34;, c.GetName())
+    for _, com := range c.GetCommands() {
+        <span class="comment">// Calls command.HelpFunc, because command.HelpFuncs are not nil</span>
+        helpString += com.Help(nil)
+    }
+    return helpString
+}
+com1 := parser.NewCommand(&#34;subcommand1&#34;, &#34;Test description&#34;)
+com1.HelpFunc = func(c *Command, msg interface{}) string {
+    helpString := fmt.Sprintf(&#34;Name: %s, Description: %s\n&#34;, c.GetName(), c.GetDescription())
+    return helpString
+}
+com2 := parser.NewCommand(&#34;subcommand2&#34;, &#34;&#34;)
+com2.String(&#34;s&#34;, &#34;string&#34;, &amp;Options{Required: false})
+com2.String(&#34;i&#34;, &#34;integer&#34;, &amp;Options{Required: true})
+com2.HelpFunc = func(c *Command, msg interface{}) string {
+    helpString := fmt.Sprintf(&#34;Name: %s\n&#34;, c.GetName())
+    for _, arg := range c.GetArgs() {
+        helpString += fmt.Sprintf(&#34;\tLname: %s, Required: %t\n&#34;, arg.GetLname(), arg.GetOpts().Required)
+    }
+    return helpString
+}
+fmt.Print(parser.Help(nil))
+fmt.Print(com1.Help(nil))
+fmt.Print(com2.Help(nil))
+
+<span class="comment"></pre>
+			
+			<p>Output:</p>
+			<pre class="output">Name: parser
+Name: subcommand1, Description: Test description
+Name: subcommand2
+	Lname: string, Required: false
+	Lname: integer, Required: true
+Name: subcommand1, Description: Test description
+Name: subcommand2
+	Lname: string, Required: false
+	Lname: integer, Required: true
+</pre>
+			
+		
+	</div>
+</div>
+
+				
+			
+				
+				<h3 id="Command.Int">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=6062:6130#L181">Int</a>
+					<a class="permalink" href="index.html#Command.Int">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Int(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../builtin/index.html#int">int</a></pre>
+				<p>
+Int creates new int argument, which will attempt to parse following argument as int.
+Takes as arguments short name (must be single character or an empty string)
+long name and (optional) options.
+If parsing fails parser.Parse() will return an error.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.List">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=8029:8103#L249">List</a>
+					<a class="permalink" href="index.html#Command.List">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) List(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *[]<a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+List creates new list argument. This is the argument that is allowed to be present multiple times on CLI.
+All appearances of this argument on CLI will be collected into the list of strings. If no argument
+provided, then the list is empty. Takes same parameters as String
+Returns a pointer to the list of strings.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.NewCommand">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=4299:4369#L115">NewCommand</a>
+					<a class="permalink" href="index.html#Command.NewCommand">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) NewCommand(name <a href="../../../builtin/index.html#string">string</a>, description <a href="../../../builtin/index.html#string">string</a>) *<a href="index.html#Command">Command</a></pre>
+				<p>
+NewCommand will create a sub-command and propagate all necessary fields.
+All commands are always at the beginning of the arguments.
+Parser can have commands and those commands can have sub-commands,
+which allows for very flexible workflow.
+All commands are considered as required and all commands can have their own argument set.
+Commands are processed Parser -&gt; Command -&gt; sub-Command.
+Arguments will be processed in order of sub-Command -&gt; Command -&gt; Parser.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.PosString">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=8889:8961#L278">PosString</a>
+					<a class="permalink" href="index.html#Command.PosString">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) PosString(name <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="index.html#PosStringResult">PosStringResult</a></pre>
+				<p>
+PosString creates an argument which collects any strings remaining
+after parsing all other flags.  The strings will be stored in the
+results array.  We use a custom type for PosStringResult in order
+to enable correct rendering of the help text in the usage() switch
+statement.  The &#39;name&#39; parameter value is provided in the
+user-visible help text; see examples/positionals/positionals.go.
+</p>
+<p>
+Any unparsed strings which start with &#39;-&#39; are indistinguishable from
+an erroneous flag, so will trigger an error message and halt
+parsing.
+</p>
+<p>
+Returns a pointer to the list of strings.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Selector">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=9618:9712#L300">Selector</a>
+					<a class="permalink" href="index.html#Command.Selector">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Selector(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, options []<a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Selector creates a selector argument. Selector argument works in the same way as String argument, with
+the difference that the string value must be from the list of options provided by the program.
+Takes short and long names, argument options and a slice of strings which are allowed values
+for CLI argument.
+Returns a pointer to a string. If argument is not required (as in argparse.Options.Required),
+and argument was not provided, then the string is empty.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.String">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=5558:5632#L160">String</a>
+					<a class="permalink" href="index.html#Command.String">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) String(short <a href="../../../builtin/index.html#string">string</a>, long <a href="../../../builtin/index.html#string">string</a>, opts *<a href="index.html#Options">Options</a>) *<a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+String creates new string argument, which will return whatever follows the argument on CLI.
+Takes as arguments short name (must be single character or an empty string)
+long name and (optional) options
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="Command.Usage">func (*Command) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=10707:10754#L331">Usage</a>
+					<a class="permalink" href="index.html#Command.Usage">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Command">Command</a>) Usage(msg interface{}) <a href="../../../builtin/index.html#string">string</a></pre>
+				<p>
+Usage returns a multiline string that is the same as a help message for this Parser or Command.
+Since Parser is a Command as well, they work in exactly same way. Meaning that usage string
+can be retrieved for any level of commands. It will only include information about this Command,
+its sub-commands, current Command arguments and arguments of all preceding commands (if any)
+</p>
+<p>
+Accepts an interface that can be error, string or fmt.Stringer that will be prepended to a message.
+All other interface types will be ignored
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Options">type <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=3262:3375#L83">Options</a>
+				<a class="permalink" href="index.html#Options">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Options are specific options for every argument. They can be provided if necessary.
+Possible fields are:
+</p>
+<p>
+Options.Required - tells Parser that this argument is required to be provided.
+useful when specific Command requires some data provided.
+</p>
+<p>
+Options.Validate - is a validation function. Using this field anyone can implement a custom validation for argument.
+If provided and argument is present, then function is called. If argument also consumes any following values
+(e.g. as String does), then these are provided as args to function. If validation fails the error must be returned,
+which will be the output of `Parser.Parse` method.
+</p>
+<p>
+Options.Help - A help message to be displayed in Usage output. Can be of any length as the message will be
+formatted to fit max screen width of 100 characters.
+</p>
+<p>
+Options.Default - A default value for an argument. This value will be assigned to the argument at the end of parsing
+in case if this argument was not supplied on command line. File default value is a string which it will be open with
+provided options. In case if provided value type does not match expected, the error will be returned on run-time.
+</p>
+
+			<pre>type Options struct {
+<span id="Options.Required"></span>    Required <a href="../../../builtin/index.html#bool">bool</a>
+<span id="Options.Validate"></span>    Validate func(args []<a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#error">error</a>
+<span id="Options.Help"></span>    Help     <a href="../../../builtin/index.html#string">string</a>
+<span id="Options.Default"></span>    Default  interface{}
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Parser">type <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=2035:2066#L62">Parser</a>
+				<a class="permalink" href="index.html#Parser">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Parser is a top level object of argparse. It MUST NOT ever be created manually. Instead one should use
+argparse.NewParser() method that will create new parser, propagate necessary private fields and call needed
+functions.
+</p>
+
+			<pre>type Parser struct {
+    <a href="index.html#Command">Command</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewParser">func <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=3581:3636#L93">NewParser</a>
+					<a class="permalink" href="index.html#NewParser">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func NewParser(name <a href="../../../builtin/index.html#string">string</a>, description <a href="../../../builtin/index.html#string">string</a>) *<a href="index.html#Parser">Parser</a></pre>
+				<p>
+NewParser creates new Parser object that will allow to add arguments for parsing
+It takes program name and description which will be used as part of Usage output
+Returns pointer to Parser object
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="Parser.Parse">func (*Parser) <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argparse.go?s=15211:15254#L483">Parse</a>
+					<a class="permalink" href="index.html#Parser.Parse">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (o *<a href="index.html#Parser">Parser</a>) Parse(args []<a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#error">error</a></pre>
+				<p>
+Parse method can be applied only on Parser. It takes a slice of strings (as in os.Args)
+and it will process this slice as arguments of CLI (the original slice is not modified).
+Returns error on any failure. In case of failure recommended course of action is to
+print received error alongside with usage information (might want to check which Command
+was active when error happened and print that specific Command usage).
+In case no error returned all arguments should be safe to use. Safety of using arguments
+before Parse operation is complete is not guaranteed.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="PosStringResult">type <a href="http://localhost:6060/src/github.com/JacobFischer/argparse/argument.go?s=1241:1270#L36">PosStringResult</a>
+				<a class="permalink" href="index.html#PosStringResult">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type PosStringResult []<a href="../../../builtin/index.html#string">string</a></pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+	
+	
+		<h2 id="pkg-subdirectories">Subdirectories</h2>
+	
+	<div class="pkg-dir">
+		<table>
+			<tr>
+				<th class="pkg-name">Name</th>
+				<th class="pkg-synopsis">Synopsis</th>
+			</tr>
+
+			
+			<tr>
+				<td colspan="2"><a href="http://localhost:6060/pkg/github.com/JacobFischer/">..</a></td>
+			</tr>
+			
+
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 0px;">
+						<a href="examples/index.html">examples</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/command-help/index.html">command-help</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/commands/index.html">commands</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/commands-advanced/index.html">commands-advanced</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 40px;">
+						<a href="examples/commands-advanced/zoo/index.html">zoo</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/default/index.html">default</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/flags/index.html">flags</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/help/index.html">help</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/positionals/index.html">positionals</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/print/index.html">print</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/required-args/index.html">required-args</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+				<tr>
+				
+					<td class="pkg-name" style="padding-left: 20px;">
+						<a href="examples/sleep/index.html">sleep</a>
+					</td>
+				
+					<td class="pkg-synopsis">
+						
+					</td>
+				</tr>
+			
+		</table>
+	</div>
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../../LICENSE">BSD license</a>.<br>
+<a href="../../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

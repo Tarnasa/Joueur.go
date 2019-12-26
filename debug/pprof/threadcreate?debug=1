@@ -1,0 +1,10 @@
+threadcreate profile: total 9
+8 @
+#	0x0
+
+1 @ 0x435920 0x436079 0x4323a3 0x4323a4 0x45fbf1
+#	0x43591f	runtime.allocm+0x14f			/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/proc.go:1489
+#	0x436078	runtime.newm+0x38			/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/proc.go:1804
+#	0x4323a2	runtime.startTemplateThread+0x2c2	/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/proc.go:1868
+#	0x4323a3	runtime.main+0x2c3			/home/travis/.gimme/versions/go1.13.linux.amd64/src/runtime/proc.go:186
+

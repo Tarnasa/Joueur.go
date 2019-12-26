@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>base - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../pkg.1">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../pkg.1">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package base
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "joueur/base"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package base implements the shared logic and structures between all games.
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="index.html#InitImplDefaults">func InitImplDefaults()</a></dd>
+			
+				
+				<dd><a href="index.html#InjectIntoAI">func InjectIntoAI(ai *AIImpl, game Game, player Player)</a></dd>
+			
+			
+				
+				<dd><a href="index.html#AI">type AI</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#AIImpl">type AIImpl</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.Ended">func (ai AIImpl) Ended(won bool, reason string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.Game">func (ai *AIImpl) Game() Game</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.GameUpdated">func (ai AIImpl) GameUpdated()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.GetSetting">func (ai AIImpl) GetSetting(key string) ([]string, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.Invalid">func (ai AIImpl) Invalid(message string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.Player">func (ai *AIImpl) Player() Player</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AIImpl.Start">func (ai AIImpl) Start()</a></dd>
+				
+			
+				
+				<dd><a href="index.html#DeltaMerge">type DeltaMerge</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#DeltaMergeImpl">type DeltaMergeImpl</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.BaseGameObject">func (deltaMergeImpl *DeltaMergeImpl) BaseGameObject(delta interface{}) GameObject</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.Boolean">func (deltaMergeImpl *DeltaMergeImpl) Boolean(delta interface{}) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.CannotConvertDeltaTo">func (deltaMergeImpl *DeltaMergeImpl) CannotConvertDeltaTo(strName string, delta interface{})</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.Float">func (deltaMergeImpl *DeltaMergeImpl) Float(delta interface{}) float64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.Int">func (deltaMergeImpl *DeltaMergeImpl) Int(delta interface{}) int64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.IsDeltaRemoved">func (deltaMergeImpl *DeltaMergeImpl) IsDeltaRemoved(delta interface{}) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.String">func (deltaMergeImpl *DeltaMergeImpl) String(delta interface{}) string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.ToDeltaArray">func (deltaMergeImpl *DeltaMergeImpl) ToDeltaArray(delta interface{}) (map[int]interface{}, int)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeImpl.ToDeltaMap">func (deltaMergeImpl *DeltaMergeImpl) ToDeltaMap(delta interface{}) map[string]interface{}</a></dd>
+				
+			
+				
+				<dd><a href="index.html#DeltaMergeable">type DeltaMergeable</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#DeltaMergeableGame">type DeltaMergeableGame</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#DeltaMergeableGameObject">type DeltaMergeableGameObject</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#DeltaMergeableImpl">type DeltaMergeableImpl</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#DeltaMergeableImpl.DeltaMerge">func (DeltaMergeableImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) (bool, error)</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Game">type Game</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameImpl">type GameImpl</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameImpl.AddGameObject">func (gameImpl *GameImpl) AddGameObject(id string, gameObject GameObject) error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameImpl.GetGameObject">func (gameImpl *GameImpl) GetGameObject(id string) (GameObject, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameImpl.InitImplDefaults">func (gameImpl *GameImpl) InitImplDefaults()</a></dd>
+				
+			
+				
+				<dd><a href="index.html#GameNamespace">type GameNamespace</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameObject">type GameObject</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameObjectImpl">type GameObjectImpl</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.DeltaMerge">func (gameObjectImpl *GameObjectImpl) DeltaMerge(deltaMerge DeltaMerge, attribute string, delta interface{}) (bool, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.GameObjectName">func (gameObjectImpl *GameObjectImpl) GameObjectName() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.ID">func (gameObjectImpl *GameObjectImpl) ID() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.InitImplDefaults">func (gameObjectImpl *GameObjectImpl) InitImplDefaults()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.RunOnServer">func (gameObjectImpl *GameObjectImpl) RunOnServer(functionName string, args map[string]interface{}) interface{}</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#GameObjectImpl.String">func (gameObjectImpl *GameObjectImpl) String() string</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Player">type Player</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/joueur/base/base_ai.go">base_ai.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/base_delta_mergeable.go">base_delta_mergeable.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/base_game.go">base_game.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/base_game_object.go">base_game_object.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/base_player.go">base_player.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/delta_merge.go">delta_merge.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/base/game_namespace.go">game_namespace.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<p>
+AISettings is kind of hacky; basically exposing a global for all AI structs,
+however only 1 AI should ever be constructed per game so should be an ok assumption
+</p>
+
+				<pre>var <span id="AISettings">AISettings</span> map[<a href="../../builtin/index.html#string">string</a>]([]<a href="../../builtin/index.html#string">string</a>)</pre>
+			
+				<p>
+RunOnServerCallback is the callback function for the game manager to hook
+into so RunOnServer works once the client is connected
+</p>
+
+				<pre>var <span id="RunOnServerCallback">RunOnServerCallback</span> func(<a href="index.html#GameObject">GameObject</a>, <a href="../../builtin/index.html#string">string</a>, map[<a href="../../builtin/index.html#string">string</a>]interface{}) interface{}</pre>
+			
+		
+		
+			
+			
+			<h2 id="InitImplDefaults">func <a href="http://localhost:6060/src/joueur/base/base_delta_mergeable.go?s=697:720#L10">InitImplDefaults</a>
+				<a class="permalink" href="index.html#InitImplDefaults">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func InitImplDefaults()</pre>
+			<p>
+InitImplDefaults should initialize any defaults for delta mergable fields.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="InjectIntoAI">func <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=1798:1853#L58">InjectIntoAI</a>
+				<a class="permalink" href="index.html#InjectIntoAI">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func InjectIntoAI(ai *<a href="index.html#AIImpl">AIImpl</a>, game <a href="index.html#Game">Game</a>, player <a href="index.html#Player">Player</a>)</pre>
+			<p>
+InjectIntoAI injects into an AI its &#34;private&#34; player and game
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="AI">type <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=362:445#L3">AI</a>
+				<a class="permalink" href="index.html#AI">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AI is the base interface all game AIs should implement to correctly
+interface and play their game.
+</p>
+
+			<pre>type AI interface {
+    Start()
+    Ended(<a href="../../builtin/index.html#bool">bool</a>, <a href="../../builtin/index.html#string">string</a>)
+    GameUpdated()
+    Invalid(<a href="../../builtin/index.html#string">string</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="AIImpl">type <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=507:557#L11">AIImpl</a>
+				<a class="permalink" href="index.html#AIImpl">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AIImpl is the implimentation struct for the AI interface
+</p>
+
+			<pre>type AIImpl struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="AIImpl.Ended">func (AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=1016:1063#L34">Ended</a>
+					<a class="permalink" href="index.html#AIImpl.Ended">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai <a href="index.html#AIImpl">AIImpl</a>) Ended(won <a href="../../builtin/index.html#bool">bool</a>, reason <a href="../../builtin/index.html#string">string</a>)</pre>
+				<p>
+Ended is called when the game ends.
+You can clean up your data and dump files here if need be.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.Game">func (*AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=605:634#L17">Game</a>
+					<a class="permalink" href="index.html#AIImpl.Game">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AIImpl">AIImpl</a>) Game() <a href="index.html#Game">Game</a></pre>
+				<p>
+Game returns the game this [base] AI is in
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.GameUpdated">func (AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=1199:1229#L40">GameUpdated</a>
+					<a class="permalink" href="index.html#AIImpl.GameUpdated">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai <a href="index.html#AIImpl">AIImpl</a>) GameUpdated()</pre>
+				<p>
+GameUpdated is called every time the game&#39;s state updates,
+so if you are tracking anything you can update it here.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.GetSetting">func (AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=1619:1675#L52">GetSetting</a>
+					<a class="permalink" href="index.html#AIImpl.GetSetting">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai <a href="index.html#AIImpl">AIImpl</a>) GetSetting(key <a href="../../builtin/index.html#string">string</a>) ([]<a href="../../builtin/index.html#string">string</a>, <a href="../../builtin/index.html#bool">bool</a>)</pre>
+				<p>
+GetSetting gets an AI setting passed to the program via the --aiSettings
+flag. If the flag was set it will be returned as a string value, undefined otherwise.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.Invalid">func (AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=1371:1411#L46">Invalid</a>
+					<a class="permalink" href="index.html#AIImpl.Invalid">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai <a href="index.html#AIImpl">AIImpl</a>) Invalid(message <a href="../../builtin/index.html#string">string</a>)</pre>
+				<p>
+Invalid is automatically called after this AI sends some run that is
+has arguments that are invalidated for some reason.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.Player">func (*AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=704:737#L22">Player</a>
+					<a class="permalink" href="index.html#AIImpl.Player">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AIImpl">AIImpl</a>) Player() <a href="index.html#Player">Player</a></pre>
+				<p>
+Player returns the game this [base] AI is in
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AIImpl.Start">func (AIImpl) <a href="http://localhost:6060/src/joueur/base/base_ai.go?s=876:900#L28">Start</a>
+					<a class="permalink" href="index.html#AIImpl.Start">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai <a href="index.html#AIImpl">AIImpl</a>) Start()</pre>
+				<p>
+Start is called once the game starts and your AI knows its Player and
+Game. You can initialize your AI here.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="DeltaMerge">type <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=166:524#L1">DeltaMerge</a>
+				<a class="permalink" href="index.html#DeltaMerge">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMerge is a container of functions to facilitate type safe delta merging
+</p>
+
+			<pre>type DeltaMerge interface {
+    CannotConvertDeltaTo(<a href="../../builtin/index.html#string">string</a>, interface{})
+
+    String(interface{}) <a href="../../builtin/index.html#string">string</a>
+    Int(interface{}) <a href="../../builtin/index.html#int64">int64</a>
+    Float(interface{}) <a href="../../builtin/index.html#float64">float64</a>
+    Boolean(interface{}) <a href="../../builtin/index.html#bool">bool</a>
+
+    BaseGameObject(interface{}) <a href="index.html#GameObject">GameObject</a>
+    ToDeltaMap(interface{}) map[<a href="../../builtin/index.html#string">string</a>]interface{}
+    ToDeltaArray(interface{}) (map[<a href="../../builtin/index.html#int">int</a>]interface{}, <a href="../../builtin/index.html#int">int</a>)
+
+    IsDeltaRemoved(interface{}) <a href="../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="DeltaMergeImpl">type <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=584:690#L17">DeltaMergeImpl</a>
+				<a class="permalink" href="index.html#DeltaMergeImpl">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMergeImpl is the base logic for primitive merging
+</p>
+
+			<pre>type DeltaMergeImpl struct {
+<span id="DeltaMergeImpl.Game"></span>    Game              <a href="index.html#Game">Game</a>
+<span id="DeltaMergeImpl.DeltaRemovedValue"></span>    DeltaRemovedValue <a href="../../builtin/index.html#string">string</a>
+<span id="DeltaMergeImpl.DeltaLengthKey"></span>    DeltaLengthKey    <a href="../../builtin/index.html#string">string</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="DeltaMergeImpl.BaseGameObject">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=2211:2293#L77">BaseGameObject</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.BaseGameObject">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) BaseGameObject(delta interface{}) <a href="index.html#GameObject">GameObject</a></pre>
+				<p>
+BaseGameObject attempts to extract a base.GameObject from a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.Boolean">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=1939:2008#L66">Boolean</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.Boolean">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) Boolean(delta interface{}) <a href="../../builtin/index.html#bool">bool</a></pre>
+				<p>
+Boolean attempts to extract a boolean from a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.CannotConvertDeltaTo">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=840:933#L25">CannotConvertDeltaTo</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.CannotConvertDeltaTo">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) CannotConvertDeltaTo(strName <a href="../../builtin/index.html#string">string</a>, delta interface{})</pre>
+				<p>
+CannotConvertDeltaTo takes a string about why and a delta to explain why
+it&#39;s going to crash the program because a delta could not be merged.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.Float">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=1671:1741#L55">Float</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.Float">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) Float(delta interface{}) <a href="../../builtin/index.html#float64">float64</a></pre>
+				<p>
+Float attempts to extract a float from a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.Int">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=1406:1472#L44">Int</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.Int">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) Int(delta interface{}) <a href="../../builtin/index.html#int64">int64</a></pre>
+				<p>
+Int attempts to extract an int from a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.IsDeltaRemoved">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=4109:4185#L139">IsDeltaRemoved</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.IsDeltaRemoved">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) IsDeltaRemoved(delta interface{}) <a href="../../builtin/index.html#bool">bool</a></pre>
+				<p>
+IsDeltaRemoved checks if a given delta is the special DeltaRemoved token.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.String">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=1143:1213#L33">String</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.String">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) String(delta interface{}) <a href="../../builtin/index.html#string">string</a></pre>
+				<p>
+String attempts to extract a string from a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.ToDeltaArray">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=3296:3392#L115">ToDeltaArray</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.ToDeltaArray">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) ToDeltaArray(delta interface{}) (map[<a href="../../builtin/index.html#int">int</a>]interface{}, <a href="../../builtin/index.html#int">int</a>)</pre>
+				<p>
+ToDeltaArray attempts to extract a data for merging a list delta from
+a generic delta.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="DeltaMergeImpl.ToDeltaMap">func (*DeltaMergeImpl) <a href="http://localhost:6060/src/joueur/base/delta_merge.go?s=2956:3046#L103">ToDeltaMap</a>
+					<a class="permalink" href="index.html#DeltaMergeImpl.ToDeltaMap">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (deltaMergeImpl *<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) ToDeltaMap(delta interface{}) map[<a href="../../builtin/index.html#string">string</a>]interface{}</pre>
+				<p>
+ToDeltaMap attempts to extract a map of string to more generics from
+a generic delta.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="DeltaMergeable">type <a href="http://localhost:6060/src/joueur/base/base_delta_mergeable.go?s=114:226#L1">DeltaMergeable</a>
+				<a class="permalink" href="index.html#DeltaMergeable">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMergeable is an interface to something in the game that will receive and merge delta states
+</p>
+
+			<pre>type DeltaMergeable interface {
+    DeltaMerge(<a href="index.html#DeltaMerge">DeltaMerge</a>, <a href="../../builtin/index.html#string">string</a>, interface{}) (<a href="../../builtin/index.html#bool">bool</a>, <a href="../../builtin/index.html#error">error</a>)
+    InitImplDefaults()
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="DeltaMergeableGame">type <a href="http://localhost:6060/src/joueur/base/base_game.go?s=328:429#L5">DeltaMergeableGame</a>
+				<a class="permalink" href="index.html#DeltaMergeableGame">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMergeableGame is a Game that is also DeltaMergeable
+</p>
+
+			<pre>type DeltaMergeableGame interface {
+    <a href="index.html#DeltaMergeable">DeltaMergeable</a>
+    <a href="index.html#Game">Game</a>
+
+    AddGameObject(<a href="../../builtin/index.html#string">string</a>, <a href="index.html#GameObject">GameObject</a>) <a href="../../builtin/index.html#error">error</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="DeltaMergeableGameObject">type <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=512:583#L9">DeltaMergeableGameObject</a>
+				<a class="permalink" href="index.html#DeltaMergeableGameObject">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMergeableGameObject is a GameObject that is also DeltaMergeable
+</p>
+
+			<pre>type DeltaMergeableGameObject interface {
+    <a href="index.html#DeltaMergeable">DeltaMergeable</a>
+    <a href="index.html#GameObject">GameObject</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="DeltaMergeableImpl">type <a href="http://localhost:6060/src/joueur/base/base_delta_mergeable.go?s=312:344#L1">DeltaMergeableImpl</a>
+				<a class="permalink" href="index.html#DeltaMergeableImpl">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+DeltaMergeableImpl is the implimentation of a struct that can be
+delta merged
+</p>
+
+			<pre>type DeltaMergeableImpl struct{}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="DeltaMergeableImpl.DeltaMerge">func (DeltaMergeableImpl) <a href="http://localhost:6060/src/joueur/base/base_delta_mergeable.go?s=399:509#L4">DeltaMerge</a>
+					<a class="permalink" href="index.html#DeltaMergeableImpl.DeltaMerge">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (<a href="index.html#DeltaMergeableImpl">DeltaMergeableImpl</a>) DeltaMerge(deltaMerge <a href="index.html#DeltaMerge">DeltaMerge</a>, attribute <a href="../../builtin/index.html#string">string</a>, delta interface{}) (<a href="../../builtin/index.html#bool">bool</a>, <a href="../../builtin/index.html#error">error</a>)</pre>
+				<p>
+DeltaMerge will merge the given delta into itself
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Game">type <a href="http://localhost:6060/src/joueur/base/base_game.go?s=201:266#L1">Game</a>
+				<a class="permalink" href="index.html#Game">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Game is the base interface all games should implement for their Game
+interfaces.
+</p>
+
+			<pre>type Game interface {
+    GetGameObject(<a href="../../builtin/index.html#string">string</a>) (<a href="index.html#GameObject">GameObject</a>, <a href="../../builtin/index.html#bool">bool</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameImpl">type <a href="http://localhost:6060/src/joueur/base/base_game.go?s=496:580#L13">GameImpl</a>
+				<a class="permalink" href="index.html#GameImpl">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameImpl is the implimentation struct for the Game interface.
+</p>
+
+			<pre>type GameImpl struct {
+    <a href="index.html#DeltaMergeableImpl">DeltaMergeableImpl</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="GameImpl.AddGameObject">func (*GameImpl) <a href="http://localhost:6060/src/joueur/base/base_game.go?s=945:1024#L28">AddGameObject</a>
+					<a class="permalink" href="index.html#GameImpl.AddGameObject">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameImpl *<a href="index.html#GameImpl">GameImpl</a>) AddGameObject(id <a href="../../builtin/index.html#string">string</a>, gameObject <a href="index.html#GameObject">GameObject</a>) <a href="../../builtin/index.html#error">error</a></pre>
+				<p>
+AddGameObject adds a new gae object to the game.
+However if the GameObject is already present it returns an error.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameImpl.GetGameObject">func (*GameImpl) <a href="http://localhost:6060/src/joueur/base/base_game.go?s=672:741#L21">GetGameObject</a>
+					<a class="permalink" href="index.html#GameImpl.GetGameObject">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameImpl *<a href="index.html#GameImpl">GameImpl</a>) GetGameObject(id <a href="../../builtin/index.html#string">string</a>) (<a href="index.html#GameObject">GameObject</a>, <a href="../../builtin/index.html#bool">bool</a>)</pre>
+				<p>
+GetGameObject simply attempts to get a game object from inside its
+gameObjects map.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameImpl.InitImplDefaults">func (*GameImpl) <a href="http://localhost:6060/src/joueur/base/base_game.go?s=1330:1374#L38">InitImplDefaults</a>
+					<a class="permalink" href="index.html#GameImpl.InitImplDefaults">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameImpl *<a href="index.html#GameImpl">GameImpl</a>) InitImplDefaults()</pre>
+				<p>
+InitImplDefaults initializes safe defaults for all fields in Game.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="GameNamespace">type <a href="http://localhost:6060/src/joueur/base/game_namespace.go?s=124:432#L1">GameNamespace</a>
+				<a class="permalink" href="index.html#GameNamespace">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameNamespace is the base interface all games must implement to be able to
+play via our soft reflection
+</p>
+
+			<pre>type GameNamespace interface {
+    Name() <a href="../../builtin/index.html#string">string</a>
+    Version() <a href="../../builtin/index.html#string">string</a>
+    PlayerName() <a href="../../builtin/index.html#string">string</a>
+    CreateAI() (<a href="index.html#AI">AI</a>, *<a href="index.html#AIImpl">AIImpl</a>)
+    CreateDeltaMerge(*<a href="index.html#DeltaMergeImpl">DeltaMergeImpl</a>) <a href="index.html#DeltaMerge">DeltaMerge</a>
+    CreateGame() <a href="index.html#DeltaMergeableGame">DeltaMergeableGame</a>
+    CreateGameObject(<a href="../../builtin/index.html#string">string</a>) (<a href="index.html#DeltaMergeableGameObject">DeltaMergeableGameObject</a>, <a href="../../builtin/index.html#error">error</a>)
+    OrderAI(<a href="index.html#AI">AI</a>, <a href="../../builtin/index.html#string">string</a>, []interface{}) (interface{}, <a href="../../builtin/index.html#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameObject">type <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=371:438#L3">GameObject</a>
+				<a class="permalink" href="index.html#GameObject">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameObject is the base interface all GameObjects in all games should implement
+</p>
+
+			<pre>type GameObject interface {
+    GameObjectName() <a href="../../builtin/index.html#string">string</a>
+    ID() <a href="../../builtin/index.html#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameObjectImpl">type <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=651:781#L15">GameObjectImpl</a>
+				<a class="permalink" href="index.html#GameObjectImpl">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameObjectImpl is the implimentation struct for BaseGameObject
+</p>
+
+			<pre>type GameObjectImpl struct {
+    <a href="index.html#DeltaMergeableImpl">DeltaMergeableImpl</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="GameObjectImpl.DeltaMerge">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=2087:2209#L56">DeltaMerge</a>
+					<a class="permalink" href="index.html#GameObjectImpl.DeltaMerge">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) DeltaMerge(deltaMerge <a href="index.html#DeltaMerge">DeltaMerge</a>, attribute <a href="../../builtin/index.html#string">string</a>, delta interface{}) (<a href="../../builtin/index.html#bool">bool</a>, <a href="../../builtin/index.html#error">error</a>)</pre>
+				<p>
+DeltaMerge merges the delta for a given attribute in GameObject.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameObjectImpl.GameObjectName">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=1495:1556#L40">GameObjectName</a>
+					<a class="permalink" href="index.html#GameObjectImpl.GameObjectName">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) GameObjectName() <a href="../../builtin/index.html#string">string</a></pre>
+				<p>
+GameObjectName returns string representing the top level Class that this
+game object is an instance of. Used for reflection to create new
+instances on clients, but exposed for convenience should AIs want this
+data.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameObjectImpl.ID">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=1768:1817#L46">ID</a>
+					<a class="permalink" href="index.html#GameObjectImpl.ID">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) ID() <a href="../../builtin/index.html#string">string</a></pre>
+				<p>
+ID returns a unique id for each instance of a GameObject or a sub class.
+Used for client and server communication. Should never change value after being set.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameObjectImpl.InitImplDefaults">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=1929:1985#L51">InitImplDefaults</a>
+					<a class="permalink" href="index.html#GameObjectImpl.InitImplDefaults">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) InitImplDefaults()</pre>
+				<p>
+InitImplDefaults initializes safe defaults for all fields in GameObject.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameObjectImpl.RunOnServer">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=895:1006#L25">RunOnServer</a>
+					<a class="permalink" href="index.html#GameObjectImpl.RunOnServer">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) RunOnServer(functionName <a href="../../builtin/index.html#string">string</a>, args map[<a href="../../builtin/index.html#string">string</a>]interface{}) interface{}</pre>
+				<p>
+RunOnServer is a slim wrapper that attempts to run game logic on behalf
+of this gameObject on the server.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="GameObjectImpl.String">func (*GameObjectImpl) <a href="http://localhost:6060/src/joueur/base/base_game_object.go?s=2519:2572#L70">String</a>
+					<a class="permalink" href="index.html#GameObjectImpl.String">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (gameObjectImpl *<a href="index.html#GameObjectImpl">GameObjectImpl</a>) String() <a href="../../builtin/index.html#string">string</a></pre>
+				<p>
+String returns the string friendly representation of this game object
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Player">type <a href="http://localhost:6060/src/joueur/base/base_player.go?s=101:392#L1">Player</a>
+				<a class="permalink" href="index.html#Player">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Player is the base interface all Player GameObjects within the game must implement.
+</p>
+
+			<pre>type Player interface {
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">/** If the player won the game or not. */</span>
+    Won() <a href="../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">/** If the player lost the game or not. */</span>
+    Lost() <a href="../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">/** The reason why the player won the game. */</span>
+    ReasonWon() <a href="../../builtin/index.html#string">string</a>
+
+    <span class="comment">/** The reason why the player lost the game. */</span>
+    ReasonLost() <a href="../../builtin/index.html#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../LICENSE">BSD license</a>.<br>
+<a href="../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

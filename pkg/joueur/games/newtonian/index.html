@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>newtonian - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../../lib/godoc/godocs.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../../../../favicon.ico" /></head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../../">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../../">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package newtonian
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "joueur/games/newtonian"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package newtonian contains all the interfaces and AI
+that are required to represent and play Newtonian.
+</p>
+
+				
+			</div>
+		</div>
+
+		
+<div id="newtonian-game-info" class="toggleVisible">
+	<div class="collapsed">
+		<h2 class="toggleButton" title="Click to show Newtonian Game Info section">Newtonian Game Info ▹</h2>
+	</div>
+	<div class="expanded">
+		<h2 class="toggleButton" title="Click to hide Newtonian Game Info section">Newtonian Game Info ▾</h2>
+		<div class="newtonian-game-info-contents">
+			
+<p>
+Combine elements and be the first scientists to create fusion.
+</p>
+<h3>More Info</h3>
+<p>
+The full game rules for Newtonian can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Newtonian/rules.md">GitHub</a>.
+</p>
+<p>
+Additional materials, such as the <a href="https://github.com/siggame/Cadre/blob/master/Games/Newtonian/story.md">story</a> and <a href="https://github.com/siggame/Cadre/blob/master/Games/Newtonian/creer.yaml">game template</a> can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Newtonian/">GitHub</a> as well.
+</p>
+
+		</div> <!-- .newtonian-game-info-contents -->
+	</div> <!-- .expanded -->
+</div><div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="index.html#PlayerName">func PlayerName() string</a></dd>
+			
+			
+				
+				<dd><a href="index.html#AI">type AI</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Ended">func (ai *AI) Ended(won bool, reason string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Game">func (ai *AI) Game() Game</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.GameUpdated">func (ai *AI) GameUpdated()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Player">func (ai *AI) Player() Player</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.RunTurn">func (ai *AI) RunTurn() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Start">func (ai *AI) Start()</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Game">type Game</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameObject">type GameObject</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Job">type Job</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Machine">type Machine</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Player">type Player</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Tile">type Tile</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Unit">type Unit</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/ai.go">ai.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/game.go">game.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/game_object.go">game_object.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/init.go">init.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/job.go">job.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/machine.go">machine.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/player.go">player.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/tile.go">tile.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/newtonian/unit.go">unit.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<p>
+TileDirections are all the direction strings that Tile&#39;s neighbors can be
+in.
+</p>
+
+				<pre>var <span id="TileDirections">TileDirections</span> = [...]<a href="../../../builtin/index.html#string">string</a>{&#34;North&#34;, &#34;South&#34;, &#34;East&#34;, &#34;West&#34;}</pre>
+			
+		
+		
+			
+			
+			<h2 id="PlayerName">func <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=119:143#L1">PlayerName</a>
+				<a class="permalink" href="index.html#PlayerName">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func PlayerName() <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+PlayerName should return the string name of your Player in games it plays.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="AI">type <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=292:424#L3">AI</a>
+				<a class="permalink" href="index.html#AI">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AI is your personal AI implimentation.
+</p>
+
+			<pre>type AI struct {
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#AIImpl">AIImpl</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="AI.Ended">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=1303:1347#L39">Ended</a>
+					<a class="permalink" href="index.html#AI.Ended">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Ended(won <a href="../../../builtin/index.html#bool">bool</a>, reason <a href="../../../builtin/index.html#string">string</a>)</pre>
+				<p>
+Ended is called when the game ends, you can clean up your data and dump
+files here if need be.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Game">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=497:522#L11">Game</a>
+					<a class="permalink" href="index.html#AI.Game">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Game() <a href="index.html#Game">Game</a></pre>
+				<p>
+Game returns the instance of the Game this AI is currently playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.GameUpdated">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=1079:1106#L31">GameUpdated</a>
+					<a class="permalink" href="index.html#AI.GameUpdated">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) GameUpdated()</pre>
+				<p>
+GameUpdated is called every time the game&#39;s state updates,
+so if you are tracking anything you can update it here.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Player">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=666:695#L17">Player</a>
+					<a class="permalink" href="index.html#AI.Player">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Player() <a href="index.html#Player">Player</a></pre>
+				<p>
+Player returns the instance of the Player this AI is represented by in the
+game this AI is playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.RunTurn">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=1538:1566#L48">RunTurn</a>
+					<a class="permalink" href="index.html#AI.RunTurn">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) RunTurn() <a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+RunTurn this is called every time it is this AI.player&#39;s turn.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Start">func (*AI) <a href="http://localhost:6060/src/joueur/games/newtonian/ai.go?s=855:876#L23">Start</a>
+					<a class="permalink" href="index.html#AI.Start">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Start()</pre>
+				<p>
+Start is called once the game starts and your AI has a Player and Game.
+You can initialize your AI struct here.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Game">type <a href="http://localhost:6060/src/joueur/games/newtonian/game.go?s=115:2818#L1">Game</a>
+				<a class="permalink" href="index.html#Game">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Game is combine elements and be the first scientists to create fusion.
+</p>
+
+			<pre>type Game interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#Game">Game</a>
+
+    <span class="comment">// CurrentPlayer is the player whose turn it is currently. That</span>
+    <span class="comment">// player can send commands. Other players cannot.</span>
+    CurrentPlayer() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// CurrentTurn is the current turn number, starting at 0 for the</span>
+    <span class="comment">// first player&#39;s turn.</span>
+    CurrentTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GameObjects is a mapping of every game object&#39;s ID to the</span>
+    <span class="comment">// actual game object. Primarily used by the server and client to</span>
+    <span class="comment">// easily refer to the game objects via ID.</span>
+    GameObjects() map[<a href="../../../builtin/index.html#string">string</a>]<a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// InternCap is the maximum number of interns a player can have.</span>
+    InternCap() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Jobs is an array of all jobs. first item is intern, second is</span>
+    <span class="comment">// physicists, and third is manager.</span>
+    Jobs() []<a href="index.html#Job">Job</a>
+
+    <span class="comment">// Machines is every Machine in the game.</span>
+    Machines() []<a href="index.html#Machine">Machine</a>
+
+    <span class="comment">// ManagerCap is the maximum number of managers a player can have.</span>
+    ManagerCap() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MapHeight is the number of Tiles in the map along the y</span>
+    <span class="comment">// (vertical) axis.</span>
+    MapHeight() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MapWidth is the number of Tiles in the map along the x</span>
+    <span class="comment">// (horizontal) axis.</span>
+    MapWidth() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MaterialSpawn is the number of materials that spawn per spawn</span>
+    <span class="comment">// cycle.</span>
+    MaterialSpawn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MaxTurns is the maximum number of turns before the game will</span>
+    <span class="comment">// automatically end.</span>
+    MaxTurns() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// PhysicistCap is the maximum number of physicists a player can</span>
+    <span class="comment">// have.</span>
+    PhysicistCap() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Players is array of all the players in the game.</span>
+    Players() []<a href="index.html#Player">Player</a>
+
+    <span class="comment">// RefinedValue is the amount of victory points added when a</span>
+    <span class="comment">// refined ore is consumed by the generator.</span>
+    RefinedValue() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RegenerateRate is the percent of max HP regained when a unit</span>
+    <span class="comment">// end their turn on a tile owned by their player.</span>
+    RegenerateRate() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Session is a unique identifier for the game instance that is</span>
+    <span class="comment">// being played.</span>
+    Session() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// SpawnTime is the amount of turns it takes a unit to spawn.</span>
+    SpawnTime() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// StunTime is the amount of turns a unit cannot do anything when</span>
+    <span class="comment">// stunned.</span>
+    StunTime() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Tiles is all the tiles in the map, stored in Row-major order.</span>
+    <span class="comment">// Use `x + y * mapWidth` to access the correct index.</span>
+    Tiles() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TimeAddedPerTurn is the amount of time (in nano-seconds) added</span>
+    <span class="comment">// after each player performs a turn.</span>
+    TimeAddedPerTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TimeImmune is the number turns a unit is immune to being</span>
+    <span class="comment">// stunned.</span>
+    TimeImmune() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Units is every Unit in the game.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// VictoryAmount is the amount of combined heat and pressure that</span>
+    <span class="comment">// you need to win.</span>
+    VictoryAmount() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GetTileAt returns the Tile at a give position (x, y).</span>
+    GetTileAt(<a href="../../../builtin/index.html#int64">int64</a>, <a href="../../../builtin/index.html#int64">int64</a>) <a href="index.html#Tile">Tile</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameObject">type <a href="http://localhost:6060/src/joueur/games/newtonian/game_object.go?s=162:538#L1">GameObject</a>
+				<a class="permalink" href="index.html#GameObject">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameObject is an object in the game. The most basic class that all game
+classes should inherit from automatically.
+</p>
+
+			<pre>type GameObject interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Logs is any strings logged will be stored here. Intended for</span>
+    <span class="comment">// debugging.</span>
+    Logs() []<a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Log adds a message to this GameObject&#39;s logs. Intended for your</span>
+    <span class="comment">// own debugging purposes, as strings stored here are saved in the</span>
+    <span class="comment">// gamelog.</span>
+    Log(<a href="../../../builtin/index.html#string">string</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Job">type <a href="http://localhost:6060/src/joueur/games/newtonian/job.go?s=61:624#L1">Job</a>
+				<a class="permalink" href="index.html#Job">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Job is information about a unit&#39;s job.
+</p>
+
+			<pre>type Job interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// CarryLimit is how many combined resources a unit with this Job</span>
+    <span class="comment">// can hold at once.</span>
+    CarryLimit() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Damage is the amount of damage this Job does per attack.</span>
+    Damage() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Health is the amount of starting health this Job has.</span>
+    Health() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Moves is the number of moves this Job can make per turn.</span>
+    Moves() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Title is the Job title. &#39;intern&#39;, &#39;manager&#39;, or &#39;physicist&#39;.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;intern&#34;, &#34;manager&#34;, or &#34;physicist&#34;</span>
+    Title() <a href="../../../builtin/index.html#string">string</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Machine">type <a href="http://localhost:6060/src/joueur/games/newtonian/machine.go?s=76:887#L1">Machine</a>
+				<a class="permalink" href="index.html#Machine">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Machine is a machine in the game. Used to refine ore.
+</p>
+
+			<pre>type Machine interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// OreType is what type of ore the machine takes it. Also</span>
+    <span class="comment">// determines the type of material it outputs. (redium or</span>
+    <span class="comment">// blueium).</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;redium&#34; or &#34;blueium&#34;</span>
+    OreType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// RefineInput is the amount of ore that needs to be inputted into</span>
+    <span class="comment">// the machine for it to be worked.</span>
+    RefineInput() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RefineOutput is the amount of refined ore that is returned</span>
+    <span class="comment">// after the machine has been fully worked.</span>
+    RefineOutput() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RefineTime is the number of times this machine needs to be</span>
+    <span class="comment">// worked to refine ore.</span>
+    RefineTime() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Tile is the Tile this Machine is on.</span>
+    Tile() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Worked is tracks how many times this machine has been worked.</span>
+    <span class="comment">// (0 to refineTime).</span>
+    Worked() <a href="../../../builtin/index.html#int64">int64</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Player">type <a href="http://localhost:6060/src/joueur/games/newtonian/player.go?s=85:1672#L1">Player</a>
+				<a class="permalink" href="index.html#Player">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Player is a player in this game. Every AI controls one player.
+</p>
+
+			<pre>type Player interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// ClientType is what type of client this is, e.g. &#39;Python&#39;,</span>
+    <span class="comment">// &#39;JavaScript&#39;, or some other language. For potential data mining</span>
+    <span class="comment">// purposes.</span>
+    ClientType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// GeneratorTiles is every generator Tile owned by this Player.</span>
+    <span class="comment">// (arrayed from the outer edges inward, from top to bottom).</span>
+    GeneratorTiles() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Heat is the amount of heat this Player has.</span>
+    Heat() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// InternSpawn is the time left till a intern spawns. (0 to</span>
+    <span class="comment">// spawnTime).</span>
+    InternSpawn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Lost is if the player lost the game or not.</span>
+    Lost() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// ManagerSpawn is the time left till a manager spawns. (0 to</span>
+    <span class="comment">// spawnTime).</span>
+    ManagerSpawn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Name is the name of the player.</span>
+    Name() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Opponent is this player&#39;s opponent in the game.</span>
+    Opponent() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// PhysicistSpawn is the time left till a physicist spawns. (0 to</span>
+    <span class="comment">// spawnTime).</span>
+    PhysicistSpawn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Pressure is the amount of pressure this Player has.</span>
+    Pressure() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// ReasonLost is the reason why the player lost the game.</span>
+    ReasonLost() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// ReasonWon is the reason why the player won the game.</span>
+    ReasonWon() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// SpawnTiles is all the tiles this Player&#39;s units can spawn on.</span>
+    <span class="comment">// (arrayed from the outer edges inward, from top to bottom).</span>
+    SpawnTiles() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TimeRemaining is the amount of time (in ns) remaining for this</span>
+    <span class="comment">// AI to send commands.</span>
+    TimeRemaining() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Units is every Unit owned by this Player.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// Won is if the player won the game or not.</span>
+    Won() <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Tile">type <a href="http://localhost:6060/src/joueur/games/newtonian/tile.go?s=80:2618#L1">Tile</a>
+				<a class="permalink" href="index.html#Tile">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Tile is a Tile in the game that makes up the 2D map grid.
+</p>
+
+			<pre>type Tile interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Blueium is the amount of blueium on this tile.</span>
+    Blueium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// BlueiumOre is the amount of blueium ore on this tile.</span>
+    BlueiumOre() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Decoration is (Visualizer only) Different tile types, cracked,</span>
+    <span class="comment">// slightly dirty, etc. This has no effect on gameplay, but feel</span>
+    <span class="comment">// free to use it if you want.</span>
+    Decoration() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Direction is the direction of a conveyor belt (&#39;blank&#39;,</span>
+    <span class="comment">// &#39;north&#39;, &#39;east&#39;, &#39;south&#39;, or &#39;west&#39;). blank means conveyor</span>
+    <span class="comment">// doesn&#39;t move.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;blank&#34;, &#34;north&#34;, &#34;east&#34;, &#34;south&#34;, or &#34;west&#34;</span>
+    Direction() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// IsWall is whether or not the tile is a wall.</span>
+    IsWall() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Machine is the Machine on this Tile if present, otherwise nil.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Machine() <a href="index.html#Machine">Machine</a>
+
+    <span class="comment">// Owner is the owner of this Tile, or nil if owned by no-one.</span>
+    <span class="comment">// Only for generators and spawn areas.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Redium is the amount of redium on this tile.</span>
+    Redium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RediumOre is the amount of redium ore on this tile.</span>
+    RediumOre() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TileEast is the Tile to the &#39;East&#39; of this one (x+1, y). Nil if</span>
+    <span class="comment">// out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileEast() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileNorth is the Tile to the &#39;North&#39; of this one (x, y-1). Nil</span>
+    <span class="comment">// if out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileNorth() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileSouth is the Tile to the &#39;South&#39; of this one (x, y+1). Nil</span>
+    <span class="comment">// if out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileSouth() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// TileWest is the Tile to the &#39;West&#39; of this one (x-1, y). Nil if</span>
+    <span class="comment">// out of bounds of the map.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    TileWest() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Type is the type of Tile this is (&#39;normal&#39;, &#39;generator&#39;,</span>
+    <span class="comment">// &#39;conveyor&#39;, or &#39;spawn&#39;).</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;normal&#34;, &#34;generator&#34;, &#34;conveyor&#34;, or &#34;spawn&#34;</span>
+    Type() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Unit is the Unit on this Tile if present, otherwise nil.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Unit() <a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// X is the x (horizontal) position of this Tile.</span>
+    X() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Y is the y (vertical) position of this Tile.</span>
+    Y() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GetNeighbors returns an array of the neighbors of this Tile.</span>
+    GetNeighbors() []<a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// IsPathable returns if the Tile is pathable for FindPath</span>
+    IsPathable() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// HasNeighbor checks if this Tile has a specific neighboring Tile.</span>
+    HasNeighbor(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Unit">type <a href="http://localhost:6060/src/joueur/games/newtonian/unit.go?s=90:1981#L1">Unit</a>
+				<a class="permalink" href="index.html#Unit">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Unit is a unit in the game. May be a manager, intern, or physicist.
+</p>
+
+			<pre>type Unit interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Acted is whether or not this Unit has performed its action this</span>
+    <span class="comment">// turn.</span>
+    Acted() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Blueium is the amount of blueium carried by this unit. (0 to</span>
+    <span class="comment">// job carry capacity - other carried items).</span>
+    Blueium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// BlueiumOre is the amount of blueium ore carried by this unit.</span>
+    <span class="comment">// (0 to job carry capacity - other carried items).</span>
+    BlueiumOre() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Health is the remaining health of a unit.</span>
+    Health() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Job is the Job this Unit has.</span>
+    Job() <a href="index.html#Job">Job</a>
+
+    <span class="comment">// Moves is the number of moves this unit has left this turn.</span>
+    Moves() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Owner is the Player that owns and can control this Unit.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Redium is the amount of redium carried by this unit. (0 to job</span>
+    <span class="comment">// carry capacity - other carried items).</span>
+    Redium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// RediumOre is the amount of redium ore carried by this unit. (0</span>
+    <span class="comment">// to job carry capacity - other carried items).</span>
+    RediumOre() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// StunImmune is duration of stun immunity. (0 to timeImmune).</span>
+    StunImmune() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// StunTime is duration the unit is stunned. (0 to the game</span>
+    <span class="comment">// constant stunTime).</span>
+    StunTime() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Tile is the Tile this Unit is on.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Tile() <a href="index.html#Tile">Tile</a>
+
+    <span class="comment">// Act makes the unit do something to a machine or unit adjacent</span>
+    <span class="comment">// to its tile. Interns sabotage, physicists work. Interns stun</span>
+    <span class="comment">// physicist, physicist stuns manager, manager stuns intern.</span>
+    Act(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Attack attacks a unit on an adjacent tile.</span>
+    Attack(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Drop drops materials at the units feet or adjacent tile.</span>
+    Drop(<a href="index.html#Tile">Tile</a>, <a href="../../../builtin/index.html#int64">int64</a>, <a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Move moves this Unit from its current Tile to an adjacent Tile.</span>
+    Move(<a href="index.html#Tile">Tile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Pickup picks up material at the units feet or adjacent tile.</span>
+    Pickup(<a href="index.html#Tile">Tile</a>, <a href="../../../builtin/index.html#int64">int64</a>, <a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../../LICENSE">BSD license</a>.<br>
+<a href="../../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

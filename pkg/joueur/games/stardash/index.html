@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>stardash - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.13";</script>
+<script src="../../../../lib/godoc/godocs.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../../../../favicon.ico" /></head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="../../../../">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="../../../../">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package stardash
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "joueur/games/stardash"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package stardash contains all the interfaces and AI
+that are required to represent and play Stardash.
+</p>
+
+				
+			</div>
+		</div>
+
+		
+<div id="stardash-game-info" class="toggleVisible">
+	<div class="collapsed">
+		<h2 class="toggleButton" title="Click to show Stardash Game Info section">Stardash Game Info ▹</h2>
+	</div>
+	<div class="expanded">
+		<h2 class="toggleButton" title="Click to hide Stardash Game Info section">Stardash Game Info ▾</h2>
+		<div class="stardash-game-info-contents">
+			
+<p>
+Collect of the most of the rarest mineral orbiting aroung the sun and outcompete your competetor.
+</p>
+<h3>More Info</h3>
+<p>
+The full game rules for Stardash can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Stardash/rules.md">GitHub</a>.
+</p>
+<p>
+Additional materials, such as the <a href="https://github.com/siggame/Cadre/blob/master/Games/Stardash/story.md">story</a> and <a href="https://github.com/siggame/Cadre/blob/master/Games/Stardash/creer.yaml">game template</a> can be found on <a href="https://github.com/siggame/Cadre/blob/master/Games/Stardash/">GitHub</a> as well.
+</p>
+
+		</div> <!-- .stardash-game-info-contents -->
+	</div> <!-- .expanded -->
+</div><div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="index.html#PlayerName">func PlayerName() string</a></dd>
+			
+			
+				
+				<dd><a href="index.html#AI">type AI</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Ended">func (ai *AI) Ended(won bool, reason string)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Game">func (ai *AI) Game() Game</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.GameUpdated">func (ai *AI) GameUpdated()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Player">func (ai *AI) Player() Player</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.RunTurn">func (ai *AI) RunTurn() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#AI.Start">func (ai *AI) Start()</a></dd>
+				
+			
+				
+				<dd><a href="index.html#Body">type Body</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Game">type Game</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#GameObject">type GameObject</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Job">type Job</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Player">type Player</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Projectile">type Projectile</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Unit">type Unit</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/ai.go">ai.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/body.go">body.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/game.go">game.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/game_object.go">game_object.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/init.go">init.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/job.go">job.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/player.go">player.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/projectile.go">projectile.go</a>
+			
+				<a href="http://localhost:6060/src/joueur/games/stardash/unit.go">unit.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="PlayerName">func <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=118:142#L1">PlayerName</a>
+				<a class="permalink" href="index.html#PlayerName">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func PlayerName() <a href="../../../builtin/index.html#string">string</a></pre>
+			<p>
+PlayerName should return the string name of your Player in games it plays.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="AI">type <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=290:422#L3">AI</a>
+				<a class="permalink" href="index.html#AI">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+AI is your personal AI implimentation.
+</p>
+
+			<pre>type AI struct {
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#AIImpl">AIImpl</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="AI.Ended">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=1301:1345#L39">Ended</a>
+					<a class="permalink" href="index.html#AI.Ended">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Ended(won <a href="../../../builtin/index.html#bool">bool</a>, reason <a href="../../../builtin/index.html#string">string</a>)</pre>
+				<p>
+Ended is called when the game ends, you can clean up your data and dump
+files here if need be.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Game">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=495:520#L11">Game</a>
+					<a class="permalink" href="index.html#AI.Game">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Game() <a href="index.html#Game">Game</a></pre>
+				<p>
+Game returns the instance of the Game this AI is currently playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.GameUpdated">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=1077:1104#L31">GameUpdated</a>
+					<a class="permalink" href="index.html#AI.GameUpdated">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) GameUpdated()</pre>
+				<p>
+GameUpdated is called every time the game&#39;s state updates,
+so if you are tracking anything you can update it here.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Player">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=664:693#L17">Player</a>
+					<a class="permalink" href="index.html#AI.Player">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Player() <a href="index.html#Player">Player</a></pre>
+				<p>
+Player returns the instance of the Player this AI is represented by in the
+game this AI is playing.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.RunTurn">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=1535:1563#L48">RunTurn</a>
+					<a class="permalink" href="index.html#AI.RunTurn">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) RunTurn() <a href="../../../builtin/index.html#bool">bool</a></pre>
+				<p>
+RunTurn this is called every time it is this AI.player&#39;s turn.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="AI.Start">func (*AI) <a href="http://localhost:6060/src/joueur/games/stardash/ai.go?s=853:874#L23">Start</a>
+					<a class="permalink" href="index.html#AI.Start">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (ai *<a href="index.html#AI">AI</a>) Start()</pre>
+				<p>
+Start is called once the game starts and your AI has a Player and Game.
+You can initialize your AI struct here.
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Body">type <a href="http://localhost:6060/src/joueur/games/stardash/body.go?s=71:1354#L1">Body</a>
+				<a class="permalink" href="index.html#Body">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Body is a celestial body located within the game.
+</p>
+
+			<pre>type Body interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Amount is the amount of material the object has, or energy if</span>
+    <span class="comment">// it is a planet.</span>
+    Amount() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// BodyType is the type of celestial body it is. Either &#39;planet&#39;,</span>
+    <span class="comment">// &#39;asteroid&#39;, or &#39;sun&#39;.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;planet&#34;, &#34;asteroid&#34;, or &#34;sun&#34;</span>
+    BodyType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// MaterialType is the type of material the celestial body has.</span>
+    <span class="comment">// Either &#39;none&#39;, &#39;genarium&#39;, &#39;rarium&#39;, &#39;legendarium&#39;, or</span>
+    <span class="comment">// &#39;mythicite&#39;.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;none&#34;, &#34;genarium&#34;, &#34;rarium&#34;, &#34;legendarium&#34;, or</span>
+    <span class="comment">// &#34;mythicite&#34;</span>
+    MaterialType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Owner is the Player that owns and can control this Body.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Radius is the radius of the circle that this body takes up.</span>
+    Radius() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// X is the x value this celestial body is on.</span>
+    X() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Y is the y value this celestial body is on.</span>
+    Y() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// NextX the x value of this body a number of turns from now.</span>
+    <span class="comment">// (0-how many you want).</span>
+    NextX(<a href="../../../builtin/index.html#int64">int64</a>) <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// NextY the x value of this body a number of turns from now.</span>
+    <span class="comment">// (0-how many you want).</span>
+    NextY(<a href="../../../builtin/index.html#int64">int64</a>) <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Spawn spawn a unit on some value of this celestial body.</span>
+    Spawn(<a href="../../../builtin/index.html#float64">float64</a>, <a href="../../../builtin/index.html#float64">float64</a>, <a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Game">type <a href="http://localhost:6060/src/joueur/games/stardash/game.go?s=152:3794#L1">Game</a>
+				<a class="permalink" href="index.html#Game">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Game is collect of the most of the rarest mineral orbiting aroung the
+sun and outcompete your competetor.
+</p>
+
+			<pre>type Game interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#Game">Game</a>
+
+    <span class="comment">// Bodies is all the celestial bodies in the game. The first two</span>
+    <span class="comment">// are planets and the third is the sun. The fourth is the VP</span>
+    <span class="comment">// asteroid. Everything else is normal asteroids.</span>
+    Bodies() []<a href="index.html#Body">Body</a>
+
+    <span class="comment">// CurrentPlayer is the player whose turn it is currently. That</span>
+    <span class="comment">// player can send commands. Other players cannot.</span>
+    CurrentPlayer() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// CurrentTurn is the current turn number, starting at 0 for the</span>
+    <span class="comment">// first player&#39;s turn.</span>
+    CurrentTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// DashCost is the cost of dashing.</span>
+    DashCost() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// DashDistance is the distance traveled each turn by dashing.</span>
+    DashDistance() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// GameObjects is a mapping of every game object&#39;s ID to the</span>
+    <span class="comment">// actual game object. Primarily used by the server and client to</span>
+    <span class="comment">// easily refer to the game objects via ID.</span>
+    GameObjects() map[<a href="../../../builtin/index.html#string">string</a>]<a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// GenariumValue is the value of every unit of genarium.</span>
+    GenariumValue() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Jobs is an array of all jobs. first item is corvette, second is</span>
+    <span class="comment">// missileboat, third is martyr, fourth is transport, and fifth is</span>
+    <span class="comment">// miner.</span>
+    Jobs() []<a href="index.html#Job">Job</a>
+
+    <span class="comment">// LegendariumValue is the value of every unit of legendarium.</span>
+    LegendariumValue() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// MaxAsteroid is the highest amount of material, that can be in a</span>
+    <span class="comment">// asteroid.</span>
+    MaxAsteroid() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MaxTurns is the maximum number of turns before the game will</span>
+    <span class="comment">// automatically end.</span>
+    MaxTurns() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MinAsteroid is the smallest amount of material, that can be in</span>
+    <span class="comment">// a asteroid.</span>
+    MinAsteroid() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MiningSpeed is the rate at which miners grab minerals from</span>
+    <span class="comment">// asteroids.</span>
+    MiningSpeed() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// MythiciteAmount is the amount of mythicite that spawns at the</span>
+    <span class="comment">// start of the game.</span>
+    MythiciteAmount() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// OrbitsProtected is the number of orbit updates you cannot mine</span>
+    <span class="comment">// the mithicite asteroid.</span>
+    OrbitsProtected() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// OreRarityGenarium is the rarity modifier of the most common</span>
+    <span class="comment">// ore. This controls how much spawns.</span>
+    OreRarityGenarium() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// OreRarityLegendarium is the rarity modifier of the rarest ore.</span>
+    <span class="comment">// This controls how much spawns.</span>
+    OreRarityLegendarium() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// OreRarityRarium is the rarity modifier of the second rarest</span>
+    <span class="comment">// ore. This controls how much spawns.</span>
+    OreRarityRarium() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// PlanetEnergyCap is the amount of energy a planet can hold at</span>
+    <span class="comment">// once.</span>
+    PlanetEnergyCap() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// PlanetRechargeRate is the amount of energy the planets restore</span>
+    <span class="comment">// each round.</span>
+    PlanetRechargeRate() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Players is array of all the players in the game.</span>
+    Players() []<a href="index.html#Player">Player</a>
+
+    <span class="comment">// ProjectileRadius is the standard size of ships.</span>
+    ProjectileRadius() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// ProjectileSpeed is the amount of distance missiles travel</span>
+    <span class="comment">// through space.</span>
+    ProjectileSpeed() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Projectiles is every projectile in the game.</span>
+    Projectiles() []<a href="index.html#Projectile">Projectile</a>
+
+    <span class="comment">// RariumValue is the value of every unit of rarium.</span>
+    RariumValue() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// RegenerateRate is the regeneration rate of asteroids.</span>
+    RegenerateRate() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Session is a unique identifier for the game instance that is</span>
+    <span class="comment">// being played.</span>
+    Session() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// ShipRadius is the standard size of ships.</span>
+    ShipRadius() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// SizeX is the size of the map in the X direction.</span>
+    SizeX() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// SizeY is the size of the map in the Y direction.</span>
+    SizeY() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TimeAddedPerTurn is the amount of time (in nano-seconds) added</span>
+    <span class="comment">// after each player performs a turn.</span>
+    TimeAddedPerTurn() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// TurnsToOrbit is the number of turns it takes for a asteroid to</span>
+    <span class="comment">// orbit the sun. (Asteroids move after each players turn).</span>
+    TurnsToOrbit() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Units is every Unit in the game.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="GameObject">type <a href="http://localhost:6060/src/joueur/games/stardash/game_object.go?s=161:537#L1">GameObject</a>
+				<a class="permalink" href="index.html#GameObject">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+GameObject is an object in the game. The most basic class that all game
+classes should inherit from automatically.
+</p>
+
+			<pre>type GameObject interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="../../base/index.html">base</a>.<a href="../../base/index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Logs is any strings logged will be stored here. Intended for</span>
+    <span class="comment">// debugging.</span>
+    Logs() []<a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Log adds a message to this GameObject&#39;s logs. Intended for your</span>
+    <span class="comment">// own debugging purposes, as strings stored here are saved in the</span>
+    <span class="comment">// gamelog.</span>
+    Log(<a href="../../../builtin/index.html#string">string</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Job">type <a href="http://localhost:6060/src/joueur/games/stardash/job.go?s=60:932#L1">Job</a>
+				<a class="permalink" href="index.html#Job">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Job is information about a unit&#39;s job.
+</p>
+
+			<pre>type Job interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// CarryLimit is how many combined resources a unit with this Job</span>
+    <span class="comment">// can hold at once.</span>
+    CarryLimit() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Damage is the amount of damage this Job does per attack.</span>
+    Damage() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Energy is the amount of starting health this Job has.</span>
+    Energy() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Moves is the distance this job can move per turn.</span>
+    Moves() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Range is the distance at which this job can effect things.</span>
+    Range() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Shield is the reserve the martyr use to protect allies.</span>
+    Shield() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Title is the Job title. &#39;corvette&#39;, &#39;missileboat&#39;, &#39;martyr&#39;,</span>
+    <span class="comment">// &#39;transport&#39;, or &#39;miner&#39;. (in this order from 0-4).</span>
+    <span class="comment">//</span>
+    <span class="comment">// Literal Values: &#34;corvette&#34;, &#34;missileboat&#34;, &#34;martyr&#34;,</span>
+    <span class="comment">// &#34;transport&#34;, or &#34;miner&#34;</span>
+    Title() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// UnitCost is how much money it costs to spawn a unit.</span>
+    UnitCost() <a href="../../../builtin/index.html#int64">int64</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Player">type <a href="http://localhost:6060/src/joueur/games/stardash/player.go?s=84:1323#L1">Player</a>
+				<a class="permalink" href="index.html#Player">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Player is a player in this game. Every AI controls one player.
+</p>
+
+			<pre>type Player interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// ClientType is what type of client this is, e.g. &#39;Python&#39;,</span>
+    <span class="comment">// &#39;JavaScript&#39;, or some other language. For potential data mining</span>
+    <span class="comment">// purposes.</span>
+    ClientType() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// HomeBase is the home base of the player.</span>
+    HomeBase() <a href="index.html#Body">Body</a>
+
+    <span class="comment">// Lost is if the player lost the game or not.</span>
+    Lost() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Money is the amount of money this Player has.</span>
+    Money() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Name is the name of the player.</span>
+    Name() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// Opponent is this player&#39;s opponent in the game.</span>
+    Opponent() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Projectiles is every Projectile owned by this Player. The</span>
+    <span class="comment">// earlier in the array the older they are.</span>
+    Projectiles() []<a href="index.html#Projectile">Projectile</a>
+
+    <span class="comment">// ReasonLost is the reason why the player lost the game.</span>
+    ReasonLost() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// ReasonWon is the reason why the player won the game.</span>
+    ReasonWon() <a href="../../../builtin/index.html#string">string</a>
+
+    <span class="comment">// TimeRemaining is the amount of time (in ns) remaining for this</span>
+    <span class="comment">// AI to send commands.</span>
+    TimeRemaining() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Units is every Unit owned by this Player. The earlier in the</span>
+    <span class="comment">// array the older they are.</span>
+    Units() []<a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// VictoryPoints is the number of victory points the player has.</span>
+    VictoryPoints() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Won is if the player won the game or not.</span>
+    Won() <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Projectile">type <a href="http://localhost:6060/src/joueur/games/stardash/projectile.go?s=80:658#L1">Projectile</a>
+				<a class="permalink" href="index.html#Projectile">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Projectile is tracks any projectiles moving through space.
+</p>
+
+			<pre>type Projectile interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Energy is the remaining health of the projectile.</span>
+    Energy() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Fuel is the amount of remaining distance the projectile can</span>
+    <span class="comment">// move.</span>
+    Fuel() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Owner is the Player that owns and can control this Projectile.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Target is the unit that is being attacked by this projectile.</span>
+    Target() <a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// X is the x value this projectile is on.</span>
+    X() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Y is the y value this projectile is on.</span>
+    Y() <a href="../../../builtin/index.html#float64">float64</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Unit">type <a href="http://localhost:6060/src/joueur/games/stardash/unit.go?s=109:2403#L1">Unit</a>
+				<a class="permalink" href="index.html#Unit">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Unit is a unit in the game. May be a corvette, missleboat, martyr,
+transport, miner.
+</p>
+
+			<pre>type Unit interface {
+    <span class="comment">// Parent interfaces</span>
+    <a href="index.html#GameObject">GameObject</a>
+
+    <span class="comment">// Acted is whether or not this Unit has performed its action this</span>
+    <span class="comment">// turn.</span>
+    Acted() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// DashX is the x value this unit is dashing to.</span>
+    DashX() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// DashY is the y value this unit is dashing to.</span>
+    DashY() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Energy is the remaining health of the unit.</span>
+    Energy() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Genarium is the amount of Genarium ore carried by this unit. (0</span>
+    <span class="comment">// to job carry capacity - other carried items).</span>
+    Genarium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// IsBusy is tracks wheither or not the ship is dashing or Mining.</span>
+    <span class="comment">// If true, it cannot do anything else.</span>
+    IsBusy() <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Job is the Job this Unit has.</span>
+    Job() <a href="index.html#Job">Job</a>
+
+    <span class="comment">// Legendarium is the amount of Legendarium ore carried by this</span>
+    <span class="comment">// unit. (0 to job carry capacity - other carried items).</span>
+    Legendarium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Moves is the distance this unit can still move.</span>
+    Moves() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Mythicite is the amount of Mythicite carried by this unit. (0</span>
+    <span class="comment">// to job carry capacity - other carried items).</span>
+    Mythicite() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Owner is the Player that owns and can control this Unit.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Owner() <a href="index.html#Player">Player</a>
+
+    <span class="comment">// Protector is the martyr ship that is currently shielding this</span>
+    <span class="comment">// ship if any.</span>
+    <span class="comment">//</span>
+    <span class="comment">// Value can be returned as a nil pointer.</span>
+    Protector() <a href="index.html#Unit">Unit</a>
+
+    <span class="comment">// Rarium is the amount of Rarium carried by this unit. (0 to job</span>
+    <span class="comment">// carry capacity - other carried items).</span>
+    Rarium() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// Shield is the sheild that a martyr ship has.</span>
+    Shield() <a href="../../../builtin/index.html#int64">int64</a>
+
+    <span class="comment">// X is the x value this unit is on.</span>
+    X() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Y is the y value this unit is on.</span>
+    Y() <a href="../../../builtin/index.html#float64">float64</a>
+
+    <span class="comment">// Attack attacks the specified unit.</span>
+    Attack(<a href="index.html#Unit">Unit</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Dash causes the unit to dash towards the designated</span>
+    <span class="comment">// destination.</span>
+    Dash(<a href="../../../builtin/index.html#float64">float64</a>, <a href="../../../builtin/index.html#float64">float64</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Mine allows a miner to mine a asteroid</span>
+    Mine(<a href="index.html#Body">Body</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Move moves this Unit from its current location to the new</span>
+    <span class="comment">// location specified.</span>
+    Move(<a href="../../../builtin/index.html#float64">float64</a>, <a href="../../../builtin/index.html#float64">float64</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Safe tells you if your ship can move to that location from were</span>
+    <span class="comment">// it is without clipping the sun.</span>
+    Safe(<a href="../../../builtin/index.html#float64">float64</a>, <a href="../../../builtin/index.html#float64">float64</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Shootdown attacks the specified projectile.</span>
+    Shootdown(<a href="index.html#Projectile">Projectile</a>) <a href="../../../builtin/index.html#bool">bool</a>
+
+    <span class="comment">// Transfer grab materials from a friendly unit. Doesn&#39;t use a</span>
+    <span class="comment">// action.</span>
+    Transfer(<a href="index.html#Unit">Unit</a>, <a href="../../../builtin/index.html#int64">int64</a>, <a href="../../../builtin/index.html#string">string</a>) <a href="../../../builtin/index.html#bool">bool</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="../../../../LICENSE">BSD license</a>.<br>
+<a href="../../../../doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>
