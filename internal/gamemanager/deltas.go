@@ -10,25 +10,24 @@ import (
 // structs within the game it is managing.
 func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 	gameObjectsRaw, gameObjectsExist := delta["gameObjects"]
-	gameObjectsDeltaRaw, gameObjectsAreMapRaw := gameObjectsRaw.(map[string]interface{})
-	if !gameObjectsAreMapRaw {
-		errorhandler.HandleError(
-			errorhandler.DeltaMergeFailure,
-			errors.New("cannot merge delta when 'gameObjects' property is not a map: "+fmt.Sprintf("%v", gameObjectsRaw)),
-		)
-	}
-
-	gameObjectsDeltas := make(map[string]map[string]interface{})
-	for id, rawGameObjectDelta := range gameObjectsDeltaRaw {
-		gameObjectsDeltas[id] = gameManager.deltaMerge.ToDeltaMap(rawGameObjectDelta)
-	}
-
 	if gameObjectsExist {
+		gameObjectsDeltaRaw, gameObjectsAreMapRaw := gameObjectsRaw.(map[string]interface{})
+		if !gameObjectsAreMapRaw {
+			errorhandler.HandleError(
+				errorhandler.DeltaMergeFailure,
+				errors.New("cannot merge delta when 'gameObjects' property is not a map: "+fmt.Sprintf("%v", gameObjectsRaw)),
+			)
+		}
+
+		gameObjectsDeltas := make(map[string]map[string]interface{})
+		for id, rawGameObjectDelta := range gameObjectsDeltaRaw {
+			gameObjectsDeltas[id] = gameManager.deltaMerge.ToDeltaMap(rawGameObjectDelta)
+		}
+
+		// game objects delta looks solid, create all new game objects we have not seen yet before meging
 		gameManager.initGameObjects(&gameObjectsDeltas)
-	}
 
-	// now all new game objects should be initialize so we can delta merge as normal
-	if gameObjectsExist {
+		// now all new game objects should be initialize so we can delta merge as normal
 		for id, gameObjectDelta := range gameObjectsDeltas {
 			gameObject, gameObjectExists := gameManager.gameObjects[id]
 			if !gameObjectExists {
@@ -49,7 +48,8 @@ func (gameManager *GameManager) applyDeltaState(delta map[string]interface{}) {
 			}
 		}
 	}
-	// now all game objects should be delta merged, only thing remaining is the game itself's delta state
+
+	// now all new game objects should be delta merged, only thing remaining is the game itself's delta state
 	for gameAttribute, gameAttributeDelta := range delta {
 		if gameAttribute == "gameObjects" {
 			continue // we already updated gameObject above
