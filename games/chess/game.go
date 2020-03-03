@@ -19,8 +19,9 @@ type Game interface {
 	GameObjects() map[string]GameObject
 
 	// History is the array of [known] moves that have occurred in the
-	// game, in Standard Algebraic Notation (SAN) format. The first
-	// element is the first move, with the last being the most recent.
+	// game, in Universal Chess Inferface (UCI) format. The first
+	// element is the first move, with the last element being the most
+	// recent.
 	History() []string
 
 	// Players is array of all the players in the game.
