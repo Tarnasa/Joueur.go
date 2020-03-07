@@ -1,11 +1,10 @@
 # Go Joueur Client
 
-This is the client for the [Cadre] AI framework. It can play multiple
+This is the [Go] client for the [Cadre] AI framework. It can play multiple
 different games, though you will probably only be interested in one at a time.
 
-In general, try to stay out of the `base/`, `runtime/`, and
-`games/game_name/impl/` directories; they do most of the heavy lifting to play
-on our game servers.
+In general, try to stay out of the `internal` directories; they do most of the
+heavy lifting to play on our game servers.
 
 Each AI, and the game objects it manipulates are all in `games/game_name/`,
 with your very own AI living in `games/game_name/ai.go` for you to make
@@ -13,7 +12,8 @@ smarter.
 
 The interfaces for all the game objects also live in `games/game_name/`. The
 implimentation logic for the game client ⮂ server communications live in the
-`games/game_name/impl/` directory and are especially important to leave alone.
+`games/internal/game_name/` directory and are especially important to leave
+alone.
 
 ## How to Run
 
@@ -55,8 +55,8 @@ or
 ## Dependencies
 
 By default we include some dependencies in your `go.mod`. You are free to add
-your own. However please don't the ones we included as otherwise your project
-won't build!
+your own. However please don't remove the ones we included as otherwise your
+project won't build!
 
 [Cadre]: https://github.com/siggame/Cadre
 [Go]: https://golang.org/
