@@ -8,7 +8,7 @@ type WeatherStation interface {
 	// -- Methods -- \\
 
 	// Intensify bribe the weathermen to intensity the next Forecast
-	// by 1 or -1
+	// by 1 or -1.
 	Intensify(bool) bool
 
 	// Rotate bribe the weathermen to change the direction of the next

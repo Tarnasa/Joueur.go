@@ -30,7 +30,7 @@ func (warehouseImpl *WarehouseImpl) FireAdded() int64 {
 
 // Ignite runs logic that bribes the Warehouse to light a Building on fire.
 // This adds this building's fireAdded to their fire, and then this
-// building's exposure is increased based on the Manhatten distance between
+// building's exposure is increased based on the Manhattan distance between
 // the two buildings.
 func (warehouseImpl *WarehouseImpl) Ignite(building anarchy.Building) int64 {
 	return warehouseImpl.RunOnServer("ignite", map[string]interface{}{

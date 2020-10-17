@@ -32,12 +32,12 @@ type Spiderling interface {
 	NumberOfCoworkers() int64
 
 	// WorkRemaining is how much work needs to be done for this
-	// Spiderling to finish being busy. See docs for the Work forumla.
+	// Spiderling to finish being busy. See docs for the Work formula.
 	WorkRemaining() float64
 
 	// -- Methods -- \\
 
-	// Attack attacks another Spiderling
+	// Attack attacks another Spiderling.
 	Attack(Spiderling) bool
 
 	// Move starts moving the Spiderling across a Web to another Nest.

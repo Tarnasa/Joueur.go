@@ -48,7 +48,7 @@ func (tileImpl *TileImpl) Decoration() int64 {
 }
 
 // Direction returns the direction of a conveyor belt ('blank', 'north',
-// 'east', 'south', or 'west'). blank means conveyor doesn't move.
+// 'east', 'south', or 'west'). Blank means conveyor doesn't move.
 //
 // Literal Values: "blank", "north", "east", "south", or "west"
 func (tileImpl *TileImpl) Direction() string {

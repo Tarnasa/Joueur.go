@@ -19,7 +19,7 @@ type Game interface {
 	GameObjects() map[string]GameObject
 
 	// History is the array of [known] moves that have occurred in the
-	// game, in Universal Chess Inferface (UCI) format. The first
+	// game, in Universal Chess Interface (UCI) format. The first
 	// element is the first move, with the last element being the most
 	// recent.
 	History() []string

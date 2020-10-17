@@ -12,7 +12,7 @@ type WeatherStationImpl struct {
 }
 
 // Intensify runs logic that bribe the weathermen to intensity the next
-// Forecast by 1 or -1
+// Forecast by 1 or -1.
 func (weatherStationImpl *WeatherStationImpl) Intensify(negative bool) bool {
 	return weatherStationImpl.RunOnServer("intensify", map[string]interface{}{
 		"negative": negative,

@@ -56,7 +56,7 @@ func (unitImpl *UnitImpl) Genarium() int64 {
 	return unitImpl.genariumImpl
 }
 
-// IsBusy returns tracks wheither or not the ship is dashing or Mining. If
+// IsBusy returns tracks whether or not the ship is dashing or Mining. If
 // true, it cannot do anything else.
 func (unitImpl *UnitImpl) IsBusy() bool {
 	return unitImpl.isBusyImpl
@@ -105,7 +105,7 @@ func (unitImpl *UnitImpl) Rarium() int64 {
 	return unitImpl.rariumImpl
 }
 
-// Shield returns the sheild that a martyr ship has.
+// Shield returns the shield that a martyr ship has.
 func (unitImpl *UnitImpl) Shield() int64 {
 	return unitImpl.shieldImpl
 }
@@ -136,7 +136,7 @@ func (unitImpl *UnitImpl) Dash(x float64, y float64) bool {
 	}).(bool)
 }
 
-// Mine runs logic that allows a miner to mine a asteroid
+// Mine runs logic that allows a miner to mine a asteroid.
 func (unitImpl *UnitImpl) Mine(body stardash.Body) bool {
 	return unitImpl.RunOnServer("mine", map[string]interface{}{
 		"body": body,

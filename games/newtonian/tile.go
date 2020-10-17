@@ -19,7 +19,7 @@ type Tile interface {
 	Decoration() int64
 
 	// Direction is the direction of a conveyor belt ('blank',
-	// 'north', 'east', 'south', or 'west'). blank means conveyor
+	// 'north', 'east', 'south', or 'west'). Blank means conveyor
 	// doesn't move.
 	//
 	// Literal Values: "blank", "north", "east", "south", or "west"

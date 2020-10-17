@@ -81,7 +81,7 @@ func (cowboyImpl *CowboyImpl) Tile() saloon.Tile {
 }
 
 // Tolerance returns how many times this unit has been drunk before taking
-// their siesta and reseting this to 0.
+// their siesta and resetting this to 0.
 func (cowboyImpl *CowboyImpl) Tolerance() int64 {
 	return cowboyImpl.toleranceImpl
 }

@@ -32,7 +32,7 @@ func (forecastImpl *ForecastImpl) Direction() string {
 
 // Intensity returns how much of a Building's fire that can be blown in the
 // direction of this Forecast. Fire is duplicated (copied), not moved
-// (transfered).
+// (transferred).
 func (forecastImpl *ForecastImpl) Intensity() int64 {
 	return forecastImpl.intensityImpl
 }

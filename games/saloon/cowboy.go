@@ -48,7 +48,7 @@ type Cowboy interface {
 	Tile() Tile
 
 	// Tolerance is how many times this unit has been drunk before
-	// taking their siesta and reseting this to 0.
+	// taking their siesta and resetting this to 0.
 	Tolerance() int64
 
 	// TurnsBusy is how many turns this unit has remaining before it

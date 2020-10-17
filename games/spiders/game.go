@@ -3,7 +3,7 @@ package spiders
 import "joueur/base"
 
 // Game is there's an infestation of enemy spiders challenging your queen
-// broodmother spider! Protect her and attack the other broodmother in this
+// BroodMother spider! Protect her and attack the other BroodMother in this
 // turn based, node based, game.
 type Game interface {
 	// Parent interfaces

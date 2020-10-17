@@ -25,7 +25,7 @@ type Unit interface {
 	// to job carry capacity - other carried items).
 	Genarium() int64
 
-	// IsBusy is tracks wheither or not the ship is dashing or Mining.
+	// IsBusy is tracks whether or not the ship is dashing or Mining.
 	// If true, it cannot do anything else.
 	IsBusy() bool
 
@@ -58,7 +58,7 @@ type Unit interface {
 	// carry capacity - other carried items).
 	Rarium() int64
 
-	// Shield is the sheild that a martyr ship has.
+	// Shield is the shield that a martyr ship has.
 	Shield() int64
 
 	// X is the x value this unit is on.
@@ -76,7 +76,7 @@ type Unit interface {
 	// destination.
 	Dash(float64, float64) bool
 
-	// Mine allows a miner to mine a asteroid
+	// Mine allows a miner to mine a asteroid.
 	Mine(Body) bool
 
 	// Move moves this Unit from its current location to the new

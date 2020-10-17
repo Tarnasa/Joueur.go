@@ -66,8 +66,8 @@ type Unit interface {
 	// afterwards. Attacking structures will not give materials.
 	Attack(Tile) bool
 
-	// ChangeJob changes this Unit's Job. Must be at max energy
-	// (100.0) to change Jobs.
+	// ChangeJob changes this Unit's Job. Must be at max energy (100)
+	// to change Jobs.
 	ChangeJob(string) bool
 
 	// Construct constructs a Structure on an adjacent Tile.
@@ -78,7 +78,7 @@ type Unit interface {
 
 	// Deconstruct removes materials from an adjacent Tile's
 	// Structure. You cannot deconstruct friendly structures (see
-	// Unit.attack).
+	// `Unit.attack`).
 	Deconstruct(Tile) bool
 
 	// Drop drops some of the given resource on or adjacent to the

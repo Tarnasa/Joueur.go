@@ -20,6 +20,6 @@ type Forecast interface {
 
 	// Intensity is how much of a Building's fire that can be blown in
 	// the direction of this Forecast. Fire is duplicated (copied),
-	// not moved (transfered).
+	// not moved (transferred).
 	Intensity() int64
 }

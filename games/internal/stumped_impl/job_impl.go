@@ -75,7 +75,7 @@ func (jobImpl *JobImpl) Title() string {
 	return jobImpl.titleImpl
 }
 
-// Recruit runs logic that recruits a Beaver of this Job to a lodge
+// Recruit runs logic that recruits a Beaver of this Job to a lodge.
 func (jobImpl *JobImpl) Recruit(tile stumped.Tile) stumped.Beaver {
 	return jobImpl.RunOnServer("recruit", map[string]interface{}{
 		"tile": tile,

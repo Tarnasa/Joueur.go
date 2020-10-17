@@ -108,7 +108,7 @@ func (unitImpl *UnitImpl) Attack(tile catastrophe.Tile) bool {
 }
 
 // ChangeJob runs logic that changes this Unit's Job. Must be at max energy
-// (100.0) to change Jobs.
+// (100) to change Jobs.
 func (unitImpl *UnitImpl) ChangeJob(job string) bool {
 	return unitImpl.RunOnServer("changeJob", map[string]interface{}{
 		"job": job,
@@ -131,7 +131,8 @@ func (unitImpl *UnitImpl) Convert(tile catastrophe.Tile) bool {
 }
 
 // Deconstruct runs logic that removes materials from an adjacent Tile's
-// Structure. You cannot deconstruct friendly structures (see Unit.attack).
+// Structure. You cannot deconstruct friendly structures (see
+// `Unit.attack`).
 func (unitImpl *UnitImpl) Deconstruct(tile catastrophe.Tile) bool {
 	return unitImpl.RunOnServer("deconstruct", map[string]interface{}{
 		"tile": tile,

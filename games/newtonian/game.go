@@ -25,8 +25,8 @@ type Game interface {
 	// InternCap is the maximum number of interns a player can have.
 	InternCap() int64
 
-	// Jobs is an array of all jobs. first item is intern, second is
-	// physicists, and third is manager.
+	// Jobs is an array of all jobs. The first element is intern,
+	// second is physicists, and third is manager.
 	Jobs() []Job
 
 	// Machines is every Machine in the game.

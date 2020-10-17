@@ -2,8 +2,8 @@ package stardash
 
 import "joueur/base"
 
-// Game is collect of the most of the rarest mineral orbiting aroung the
-// sun and outcompete your competetor.
+// Game is collect of the most of the rarest mineral orbiting around the
+// sun and out-compete your competitor.
 type Game interface {
 	// Parent interfaces
 	base.Game
@@ -37,9 +37,9 @@ type Game interface {
 	// GenariumValue is the value of every unit of genarium.
 	GenariumValue() float64
 
-	// Jobs is an array of all jobs. first item is corvette, second is
-	// missileboat, third is martyr, fourth is transport, and fifth is
-	// miner.
+	// Jobs is an array of all jobs. The first element is corvette,
+	// second is missileboat, third is martyr, fourth is transport,
+	// and fifth is miner.
 	Jobs() []Job
 
 	// LegendariumValue is the value of every unit of legendarium.

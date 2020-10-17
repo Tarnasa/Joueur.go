@@ -42,6 +42,6 @@ type Job interface {
 
 	// -- Methods -- \\
 
-	// Recruit recruits a Beaver of this Job to a lodge
+	// Recruit recruits a Beaver of this Job to a lodge.
 	Recruit(Tile) Beaver
 }

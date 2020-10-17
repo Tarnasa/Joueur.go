@@ -87,8 +87,9 @@ func (gameImpl *GameImpl) GenariumValue() float64 {
 	return gameImpl.genariumValueImpl
 }
 
-// Jobs returns an array of all jobs. first item is corvette, second is
-// missileboat, third is martyr, fourth is transport, and fifth is miner.
+// Jobs returns an array of all jobs. The first element is corvette, second
+// is missileboat, third is martyr, fourth is transport, and fifth is
+// miner.
 func (gameImpl *GameImpl) Jobs() []stardash.Job {
 	return gameImpl.jobsImpl
 }

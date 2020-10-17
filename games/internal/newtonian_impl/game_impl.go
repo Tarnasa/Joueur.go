@@ -60,8 +60,8 @@ func (gameImpl *GameImpl) InternCap() int64 {
 	return gameImpl.internCapImpl
 }
 
-// Jobs returns an array of all jobs. first item is intern, second is
-// physicists, and third is manager.
+// Jobs returns an array of all jobs. The first element is intern, second
+// is physicists, and third is manager.
 func (gameImpl *GameImpl) Jobs() []newtonian.Job {
 	return gameImpl.jobsImpl
 }

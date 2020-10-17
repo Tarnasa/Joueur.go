@@ -1,7 +1,7 @@
 package anarchy
 
-// Warehouse is a typical abandoned warehouse... that anarchists hang out
-// in and can be bribed to burn down Buildings.
+// Warehouse is a typical abandoned warehouse that anarchists hang out in
+// and can be bribed to burn down Buildings.
 type Warehouse interface {
 	// Parent interfaces
 	Building
@@ -22,7 +22,7 @@ type Warehouse interface {
 
 	// Ignite bribes the Warehouse to light a Building on fire. This
 	// adds this building's fireAdded to their fire, and then this
-	// building's exposure is increased based on the Manhatten
+	// building's exposure is increased based on the Manhattan
 	// distance between the two buildings.
 	Ignite(Building) int64
 }

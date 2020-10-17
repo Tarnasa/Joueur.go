@@ -51,12 +51,12 @@ func (spiderlingImpl *SpiderlingImpl) NumberOfCoworkers() int64 {
 }
 
 // WorkRemaining returns how much work needs to be done for this Spiderling
-// to finish being busy. See docs for the Work forumla.
+// to finish being busy. See docs for the Work formula.
 func (spiderlingImpl *SpiderlingImpl) WorkRemaining() float64 {
 	return spiderlingImpl.workRemainingImpl
 }
 
-// Attack runs logic that attacks another Spiderling
+// Attack runs logic that attacks another Spiderling.
 func (spiderlingImpl *SpiderlingImpl) Attack(spiderling spiders.Spiderling) bool {
 	return spiderlingImpl.RunOnServer("attack", map[string]interface{}{
 		"spiderling": spiderling,

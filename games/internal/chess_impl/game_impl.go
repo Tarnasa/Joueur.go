@@ -32,7 +32,7 @@ func (gameImpl *GameImpl) GameObjects() map[string]chess.GameObject {
 }
 
 // History returns the array of [known] moves that have occurred in the
-// game, in Universal Chess Inferface (UCI) format. The first element is
+// game, in Universal Chess Interface (UCI) format. The first element is
 // the first move, with the last element being the most recent.
 func (gameImpl *GameImpl) History() []string {
 	return gameImpl.historyImpl
