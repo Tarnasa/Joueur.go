@@ -131,7 +131,7 @@ type Game interface {
 
 	// TimeAddedPerTurn is the amount of time (in nano-seconds) added
 	// after each player performs a turn.
-	TimeAddedPerTurn() int64
+	TimeAddedPerTurn() float64
 
 	// UpgradePrice is the cost to upgrade a Miner.
 	UpgradePrice() int64

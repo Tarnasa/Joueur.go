@@ -43,7 +43,7 @@ type GameImpl struct {
 	supportCostImpl             int64
 	supportHealthImpl           int64
 	tilesImpl                   []coreminer.Tile
-	timeAddedPerTurnImpl        int64
+	timeAddedPerTurnImpl        float64
 	upgradePriceImpl            int64
 	upgradesImpl                []coreminer.Upgrade
 	victoryAmountImpl           int64
@@ -233,7 +233,7 @@ func (gameImpl *GameImpl) Tiles() []coreminer.Tile {
 
 // TimeAddedPerTurn returns the amount of time (in nano-seconds) added
 // after each player performs a turn.
-func (gameImpl *GameImpl) TimeAddedPerTurn() int64 {
+func (gameImpl *GameImpl) TimeAddedPerTurn() float64 {
 	return gameImpl.timeAddedPerTurnImpl
 }
 
@@ -416,7 +416,7 @@ func (gameImpl *GameImpl) DeltaMerge(
 		gameImpl.tilesImpl = coreminerDeltaMerge.ArrayOfTile(&gameImpl.tilesImpl, delta)
 		return true, nil
 	case "timeAddedPerTurn":
-		gameImpl.timeAddedPerTurnImpl = coreminerDeltaMerge.Int(delta)
+		gameImpl.timeAddedPerTurnImpl = coreminerDeltaMerge.Float(delta)
 		return true, nil
 	case "upgradePrice":
 		gameImpl.upgradePriceImpl = coreminerDeltaMerge.Int(delta)
