@@ -15,14 +15,14 @@ type BombImpl struct {
 	timerImpl int64
 }
 
-// Tile returns the Tile this Miner is on.
+// Tile returns the Tile this Bomb is on.
 //
 // Value can be returned as a nil pointer.
 func (bombImpl *BombImpl) Tile() coreminer.Tile {
 	return bombImpl.tileImpl
 }
 
-// Timer returns the number of turns before this Bomb explodes. Zero means
+// Timer returns the number of turns before this Bomb explodes. One means
 // it will explode after the current turn.
 func (bombImpl *BombImpl) Timer() int64 {
 	return bombImpl.timerImpl
