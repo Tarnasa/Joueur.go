@@ -75,7 +75,7 @@ func Run(args RunArgs) error {
 	playerIndex := -1
 	if args.Index != "" {
 		i, err := strconv.Atoi(args.Index)
-		if err == nil {
+		if err != nil {
 			errorhandler.HandleError(
 				errorhandler.InvalidArgs,
 				err,
